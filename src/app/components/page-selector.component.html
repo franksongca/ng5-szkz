@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <div class="col-xs-12 col-12">
+    <pagination [totalItems]="paginationSettings.bigTotalItems"
+                [(ngModel)]="paginationSettings.bigCurrentPage"
+                [maxSize]="paginationSettings.maxSize"
+                [itemsPerPage]="paginationSettings.itemsPerPage"
+                class="pagination-sm"
+                [boundaryLinks]="true"
+                [rotate]="false"
+                [firstText]="paginationSettings.firstText"
+                [lastText]="paginationSettings.lastText"
+                [previousText]="paginationSettings.previousText"
+                [nextText]="paginationSettings.nextText"
+                (numPages)="paginationSettings.numPages = $event"></pagination>
+  </div>
+</div>
+<!--div class="row page-text center-block">{{pageText}}</div-->
