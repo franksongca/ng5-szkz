@@ -1,7 +1,11 @@
-<div class="container-fluid">
-  <div class="col-xs-12 col-12">
+<div class="page-selector-container container">
+  <div class="row page-text center-block" [ngStyle]="{'z-index': showPageText ? 500 : 0, 'opacity': showPageText ? 1 : 0}">
+    <div class="page-info"><span><b>{{articleInfo.title}}</b></span> -- <label>第 {{paginationSettings.currentPage}} 页 (共 {{paginationSettings.numPages}} 页)</label></div>
+    <p>{{articleInfo.pageText}}</p>
+  </div>
+  <div class="col-xs-12 col-12 pagination-element" [ngStyle]="{'opacity': showPageText ? 0 : 1}">
     <pagination [totalItems]="paginationSettings.bigTotalItems"
-                [(ngModel)]="paginationSettings.bigCurrentPage"
+                [(ngModel)]="paginationSettings.currentPage"
                 [maxSize]="paginationSettings.maxSize"
                 [itemsPerPage]="paginationSettings.itemsPerPage"
                 class="pagination-sm"
@@ -11,7 +15,9 @@
                 [lastText]="paginationSettings.lastText"
                 [previousText]="paginationSettings.previousText"
                 [nextText]="paginationSettings.nextText"
-                (numPages)="paginationSettings.numPages = $event"></pagination>
+                (numPages)="paginationSettings.numPages = $event"
+                (pageChanged)="pageChanged($event)"
+    ></pagination>
   </div>
 </div>
-<!--div class="row page-text center-block">{{pageText}}</div-->
+

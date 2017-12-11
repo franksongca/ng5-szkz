@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { ProcessInterface, DeviceTimerService } from './../services/device-timer.service';
 
 @Component({
   selector: 'app-page-selector',
@@ -16,14 +17,30 @@ export class PageSelectorComponent implements OnInit {
     firstText: '首页',
     lastText: '尾页',
     previousText: '前一页',
-    nextText: '后一页'
+    nextText: '后一页',
+    currentPage: 1
   };
-  pageText = '人之初，性本善。性相近，习相远。';
+  articleInfo = {
+    title: '《三字经》',
+    pageText: '人之初，性本善。性相近，习相远。'
+  };
+
+  showPageText = false;
 
 
   pageChanged(event: any): void {
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
+
+    this.showPageText = true;
+
+    DeviceTimerService.register({
+      renderFunc: () => {
+        this.showPageText = false;
+      },
+      totalLoops: 1,
+      interval: 100
+    });
   }
   constructor() { }
 
