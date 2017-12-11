@@ -1,0 +1,9 @@
+{
+  "HELLO": "hello",
+  "FIRST_PAGE": "First Page",
+  "LAST_PAGE": "Last Page",
+  "PREVIOUS_PAGE": "Prev Page",
+  "NEXT_PAGE": "Next Page",
+  "PAGE_N": "Page {{value}}",
+  "TOTAL_PAGE": "Total Pages {{value}}"
+}

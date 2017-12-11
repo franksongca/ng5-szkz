@@ -1,10 +1,12 @@
 import { BrowserModule,  } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CommonService } from './services/common.service';
 import { DeviceTimerService } from './services/device-timer.service';
@@ -27,6 +29,11 @@ import { FillInTheColorComponent } from './games/fill-in-the-color/template/fill
 import { TytsMenuComponent } from './games/fill-in-the-color/games-menu/tyts-menu.component';
 import { PageSelectorComponent } from './components/page-selector.component';
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
 @NgModule({
   declarations: [
     FillInTheColorComponent,
@@ -39,7 +46,14 @@ import { PageSelectorComponent } from './components/page-selector.component';
     PaginationModule.forRoot(),
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     CommonService,

@@ -1,5 +1,9 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { ProcessInterface, DeviceTimerService } from './../services/device-timer.service';
+import { TranslateService } from '@ngx-translate/core';
+
+import { DeviceTimerService } from './../services/device-timer.service';
+import { ArticleService } from './../services/sz/article.service';
+import { CommonService } from './../services/common.service';
 
 @Component({
   selector: 'app-page-selector',
@@ -9,29 +13,28 @@ import { ProcessInterface, DeviceTimerService } from './../services/device-timer
 })
 export class PageSelectorComponent implements OnInit {
   paginationSettings = {
-    bigTotalItems: 93,
-    bigCurrentPage: 1,
+    bigTotalItems: 0,
+    currentPage: 1,
     maxSize: 5,
     itemsPerPage: 1,
     numPages: 0,
-    firstText: '首页',
-    lastText: '尾页',
-    previousText: '前一页',
-    nextText: '后一页',
-    currentPage: 1
+    translation: {}
   };
   articleInfo = {
-    title: '《三字经》',
-    pageText: '人之初，性本善。性相近，习相远。'
+    title: '',
+    pageText: ''
   };
 
   showPageText = false;
-
 
   pageChanged(event: any): void {
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
 
+    CommonService.setBookmark(event.page);
+    this.paginationSettings.currentPage = event.page;
+
+    this.articleInfo.pageText = this.articleService.getPageText(this.paginationSettings.currentPage - 1);
     this.showPageText = true;
 
     DeviceTimerService.register({
@@ -42,9 +45,35 @@ export class PageSelectorComponent implements OnInit {
       interval: 100
     });
   }
-  constructor() { }
+
+  constructor(private articleService: ArticleService, private translate: TranslateService) {
+    this.translate.get(['FIRST_PAGE', 'LAST_PAGE', 'PREVIOUS_PAGE', 'NEXT_PAGE']).subscribe((res) => {
+      this.paginationSettings.translation = res;
+    });
+  }
+
+  initData() {
+    DeviceTimerService.register({
+      renderFunc: () => {
+        this.paginationSettings.currentPage = CommonService.getBookmark();
+      },
+      totalLoops: 1,
+      interval: 1
+    });
+
+    this.paginationSettings.bigTotalItems = this.articleService.getTotalPages();
+    this.articleInfo.title = '《' + this.articleService.getArticleInfo().title.hz + '》'; /// TODO: lang
+    this.articleInfo.pageText = this.articleService.getPageText(this.paginationSettings.currentPage - 1);
+  }
 
   ngOnInit() {
+    if (this.articleService.isLoaded()) {
+      this.initData();
+    } else {
+      this.articleService.onArticleLoaded.subscribe(() => {
+        this.initData.apply(this);
+      });
+    }
   }
 
 }

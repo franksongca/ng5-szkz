@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CommonService } from './../common.service';
 import { PinyinService } from './pinyin.service';
 import { ArticleListService } from './article-list.service';
-import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -15,6 +15,8 @@ export class ArticleService {
   // player = document.getElementById('audio-player'),
   // sourceMP3 = document.getElementById('audio-src-mp3'),
   audioURL = 'http://sz-abc.com/ng/audio/';
+
+  onArticleLoaded: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient) {
   }
@@ -179,6 +181,8 @@ export class ArticleService {
 
         this.currentArticle = currentArticle;
         this.totalPage = currentArticle.pages.length;
+
+        this.onArticleLoaded.emit();
       },
       (error) => {
         console.log('error occurs when loading content-list.json');
@@ -261,10 +265,22 @@ export class ArticleService {
       article[1] + '/' + (audioFormat === undefined ? '' : (audioFormat + '/'));
   }
 
-
+  isLoaded() {
+    return !!this.currentArticle;
+  }
 
   getPage(n) {
-    return this.currentArticle[n];
+    return this.currentArticle.pages[n];
   }
+
+  getPageText(n) {
+    let t = '';
+    this.currentArticle.pages[n].characters.forEach((c) => {
+      t += c.hanZi;
+    });
+    return t;
+  }
+
+
 
 }
