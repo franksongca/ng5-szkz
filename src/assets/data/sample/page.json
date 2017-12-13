@@ -1,0 +1,487 @@
+[
+  {
+    "hanZi": "人",
+    "shengDiao": "2",
+    "pinYin": "ren",
+    "characterIndex": "character-1",
+    "ori_id": "649",
+    "mistakes": "0",
+    "times": "0",
+    "index": "0",
+    "pinyinObj": [
+      {
+        "letter": "r",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "r",
+        "read": "r"
+      },
+      {
+        "letter": "é",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "e",
+        "read": "en"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "en"
+      }
+    ]
+  },
+  {
+    "hanZi": "之",
+    "shengDiao": "1",
+    "pinYin": "zhi",
+    "characterIndex": "character-2",
+    "ori_id": "308",
+    "mistakes": "0",
+    "times": "0",
+    "index": "1",
+    "pinyinObj": [
+      {
+        "letter": "z",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "z",
+        "read": "zh"
+      },
+      {
+        "letter": "h",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "h",
+        "read": "zh"
+      },
+      {
+        "letter": "ī",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "i",
+        "read": "i"
+      }
+    ]
+  },
+  {
+    "hanZi": "初",
+    "shengDiao": "1",
+    "pinYin": "chu",
+    "characterIndex": "character-3",
+    "ori_id": "543",
+    "mistakes": "0",
+    "times": "0",
+    "index": "2",
+    "pinyinObj": [
+      {
+        "letter": "c",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "c",
+        "read": "ch"
+      },
+      {
+        "letter": "h",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "h",
+        "read": "ch"
+      },
+      {
+        "letter": "ū",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "u",
+        "read": "u"
+      }
+    ]
+  },
+  {
+    "hanZi": "，",
+    "shengDiao": "",
+    "pinYin": "",
+    "characterIndex": "",
+    "ori_id": "",
+    "mistakes": "0",
+    "times": "0",
+    "index": "3"
+  },
+  {
+    "hanZi": "性",
+    "shengDiao": "4",
+    "pinYin": "xing",
+    "characterIndex": "character-4",
+    "ori_id": "734",
+    "mistakes": "0",
+    "times": "0",
+    "index": "4",
+    "pinyinObj": [
+      {
+        "letter": "x",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "x",
+        "read": "x"
+      },
+      {
+        "letter": "ì",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "i",
+        "read": "ing"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "ing"
+      },
+      {
+        "letter": "g",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "g",
+        "read": "ing"
+      }
+    ]
+  },
+  {
+    "hanZi": "本",
+    "shengDiao": "3",
+    "pinYin": "ben",
+    "characterIndex": "character-5",
+    "ori_id": "1972",
+    "mistakes": "0",
+    "times": "0",
+    "index": "5",
+    "pinyinObj": [
+      {
+        "letter": "b",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "b",
+        "read": "b"
+      },
+      {
+        "letter": "ě",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "e",
+        "read": "en"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "en"
+      }
+    ]
+  },
+  {
+    "hanZi": "善",
+    "shengDiao": "4",
+    "pinYin": "shan",
+    "characterIndex": "character-6",
+    "ori_id": "1973",
+    "mistakes": "0",
+    "times": "0",
+    "index": "6",
+    "pinyinObj": [
+      {
+        "letter": "s",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "s",
+        "read": "sh"
+      },
+      {
+        "letter": "h",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "h",
+        "read": "sh"
+      },
+      {
+        "letter": "à",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "a",
+        "read": "an"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "an"
+      }
+    ]
+  },
+  {
+    "hanZi": "。",
+    "shengDiao": "",
+    "pinYin": "",
+    "characterIndex": "",
+    "ori_id": "",
+    "mistakes": "0",
+    "times": "0",
+    "index": "7"
+  },
+  {
+    "hanZi": "性",
+    "shengDiao": "4",
+    "pinYin": "xing",
+    "characterIndex": "character-7",
+    "ori_id": "734",
+    "mistakes": "0",
+    "times": "0",
+    "index": "8",
+    "pinyinObj": [
+      {
+        "letter": "x",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "x",
+        "read": "x"
+      },
+      {
+        "letter": "ì",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "i",
+        "read": "ing"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "ing"
+      },
+      {
+        "letter": "g",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "g",
+        "read": "ing"
+      }
+    ]
+  },
+  {
+    "hanZi": "相",
+    "shengDiao": "1",
+    "pinYin": "xiang",
+    "characterIndex": "character-8",
+    "ori_id": "1242",
+    "mistakes": "0",
+    "times": "0",
+    "index": "9",
+    "pinyinObj": [
+      {
+        "letter": "x",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "x",
+        "read": "x"
+      },
+      {
+        "letter": "i",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "i",
+        "read": "iang"
+      },
+      {
+        "letter": "ā",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "a",
+        "read": "iang"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "iang"
+      },
+      {
+        "letter": "g",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "g",
+        "read": "iang"
+      }
+    ]
+  },
+  {
+    "hanZi": "近",
+    "shengDiao": "4",
+    "pinYin": "jin",
+    "characterIndex": "character-9",
+    "ori_id": "1213",
+    "mistakes": "0",
+    "times": "0",
+    "index": "10",
+    "pinyinObj": [
+      {
+        "letter": "j",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "j",
+        "read": "j"
+      },
+      {
+        "letter": "ì",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "i",
+        "read": "in"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "in"
+      }
+    ]
+  },
+  {
+    "hanZi": "，",
+    "shengDiao": "",
+    "pinYin": "",
+    "characterIndex": "",
+    "ori_id": "",
+    "mistakes": "0",
+    "times": "0",
+    "index": "11"
+  },
+  {
+    "hanZi": "习",
+    "shengDiao": "2",
+    "pinYin": "xi",
+    "characterIndex": "character-10",
+    "ori_id": "1878",
+    "mistakes": "0",
+    "times": "0",
+    "index": "12",
+    "pinyinObj": [
+      {
+        "letter": "x",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "x",
+        "read": "x"
+      },
+      {
+        "letter": "í",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "i",
+        "read": "i"
+      }
+    ]
+  },
+  {
+    "hanZi": "相",
+    "shengDiao": "1",
+    "pinYin": "xiang",
+    "characterIndex": "character-11",
+    "ori_id": "1242",
+    "mistakes": "0",
+    "times": "0",
+    "index": "13",
+    "pinyinObj": [
+      {
+        "letter": "x",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "x",
+        "read": "x"
+      },
+      {
+        "letter": "i",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "i",
+        "read": "iang"
+      },
+      {
+        "letter": "ā",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "a",
+        "read": "iang"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "iang"
+      },
+      {
+        "letter": "g",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "g",
+        "read": "iang"
+      }
+    ]
+  },
+  {
+    "hanZi": "远",
+    "shengDiao": "3",
+    "pinYin": "yvan",
+    "characterIndex": "character-12",
+    "ori_id": "63",
+    "mistakes": "0",
+    "times": "0",
+    "index": "14",
+    "pinyinObj": [
+      {
+        "letter": "y",
+        "color": "blue",
+        "type": "s",
+        "originalLetter": "y",
+        "read": "y"
+      },
+      {
+        "letter": "u",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "v",
+        "read": "van"
+      },
+      {
+        "letter": "ǎ",
+        "color": "#990000",
+        "type": "yt",
+        "originalLetter": "a",
+        "read": "van"
+      },
+      {
+        "letter": "n",
+        "color": "#990000",
+        "type": "y",
+        "originalLetter": "n",
+        "read": "van"
+      }
+    ]
+  },
+  {
+    "hanZi": "。",
+    "shengDiao": "",
+    "pinYin": "",
+    "characterIndex": "",
+    "ori_id": "",
+    "mistakes": "0",
+    "times": "0",
+    "index": "15"
+  }
+]

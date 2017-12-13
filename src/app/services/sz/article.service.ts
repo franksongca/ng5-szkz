@@ -148,6 +148,7 @@ export class ArticleService {
                 ziObj.mistakes = attributes.mistakes.value;
                 ziObj.times = attributes.times.value;
                 ziObj.index = attributes[attrXuHao].value;
+                ziObj.qs = attributes.qs.value;
 
                 if (ziObj.pinYin !== '') {
                   const pinyinObj = PinyinService.buildPinYin({

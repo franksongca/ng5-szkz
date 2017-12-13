@@ -18,6 +18,8 @@ import { HanziDrawingService } from './services/drawing/hanzi.drawing.service';
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
 import { PinyinService } from './services/sz/pinyin.service';
+import { HanziSelectionService } from './services/sz/hanzi-selection.service';
+import { ZiService } from './services/sz/zi.service';
 
 import { ImageDataService } from './services/game/image-data.service';
 
@@ -65,6 +67,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ArticleListService,
     ArticleService,
     PinyinService,
+    HanziSelectionService,
+    ZiService,
     ImageDataService,
     TytsDrawGameService
   ],
