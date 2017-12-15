@@ -187,6 +187,10 @@ export class ZiService {
     return this.numMistake;
   }
 
+  set Mistakes(val: number) {
+    this.numMistake = val;
+  }
+
   set TimesTaken(val: number) {
     this.numTaken = val;
   }

@@ -13,6 +13,34 @@ export class TytsDrawGameService {
   constructor(@Inject('options') @Optional() public options: any) {
   }
 
+
+
+  clear() {
+    this.fillInAreaShapes.forEach((piece) => {
+      piece.hanZi = null;
+      DrawingService.createLines(this.getLines(piece.index), {thickness: 1, stroke: 'white'}, piece.index, piece.name, piece.shape);
+    });
+  }
+
+  bindHanzi(characters) {
+    let cIndex = 0;
+    this.fillInAreaShapes.forEach((piece) => {
+      piece.hanzi = characters[cIndex];
+      cIndex++;
+      if (cIndex > characters.length - 1) {
+        cIndex = 0;
+      }
+    });
+  }
+
+  getFillInAreaNum() {
+    return this.fillInAreaShapes.length;
+  }
+
+  getLines(index) {
+    return this.options.imageInfo.pieces[index].lines;
+  }
+
   drawImages() {
     const self = this;
 

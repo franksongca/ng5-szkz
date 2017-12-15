@@ -4,6 +4,9 @@ import { ImageDataService } from '../../../services/game/image-data.service';
 import { DrawingService } from '../../../services/drawing/drawing.service';
 import { ProcessInterface, DeviceTimerService } from '../../../services/device-timer.service';
 
+import { ArticleService } from '../../../services/sz/article.service';
+import { HanziSelectionService } from '../../../services/sz/hanzi-selection.service';
+
 import { TytsDrawGameService } from '../../../services/game/tyts/tyts-draw-game.service';
 
 // import { ZiDrawingService } from '../../services/drawing/zi.drawing.service';
@@ -25,12 +28,39 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   // gameSettings: any;
   // stylesSettings: any;
 
+  gameStatus = {
+    stageReady: false,
+    selectionReady: false,
+    colorPlateReady: true
+  };
 
   stage;
   gameImagesInfo;
+  pageIndex;
+  hanZiSelection;
 
-  constructor(private imageDataService: ImageDataService, private tytsDrawGameService: TytsDrawGameService) {
+  constructor(
+    private imageDataService: ImageDataService,
+    private tytsDrawGameService: TytsDrawGameService,
+    private articleService: ArticleService
+  ) {
+    this.articleService.onPageChanged.subscribe((n) => {
+      this.pageIndex = n;
+      this.getHanziSelection();
+    });
   }
+
+  getHanziSelection() {
+    const hanziSelectionService: HanziSelectionService =  new HanziSelectionService(this.articleService.getPage(this.pageIndex - 1));
+
+    this.hanZiSelection = hanziSelectionService.getSelectionUniquePronunciation(true);
+
+    this.gameStatus.selectionReady = true;
+    this.prepareGame();
+  }
+
+
+
 
   ngOnInit() {
 
@@ -117,9 +147,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       // DrawingService.emptyInk();
       DrawingService.fillInk('green');
 
-
-
-
+      this.gameStatus.stageReady = true;
+      this.prepareGame();
     }
   }
 
@@ -143,5 +172,13 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     //   //DrawingService.emptyInk();
     // });
 
+  }
+
+  prepareGame() {
+    if (this.gameStatus.colorPlateReady && this.gameStatus.selectionReady && this.gameStatus.stageReady) {
+      this.tytsDrawGameService.clear();
+
+      // alert('prepareGame()');
+    }
   }
 }

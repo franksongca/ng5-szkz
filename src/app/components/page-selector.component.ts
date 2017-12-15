@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
 import { DeviceTimerService } from './../services/device-timer.service';
 import { ArticleService } from './../services/sz/article.service';
 import { CommonService } from './../services/common.service';
@@ -30,9 +29,13 @@ export class PageSelectorComponent implements OnInit {
   pageChanged(event: any): void {
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
-
-    CommonService.setBookmark(event.page);
     this.paginationSettings.currentPage = event.page;
+    this.changeToPage();
+  }
+
+  changeToPage() {
+    CommonService.setBookmark(this.paginationSettings.currentPage);
+    this.articleService.changeToPage(this.paginationSettings.currentPage);
 
     this.articleInfo.pageText = this.articleService.getPageText(this.paginationSettings.currentPage - 1);
     this.showPageText = true;
@@ -44,6 +47,7 @@ export class PageSelectorComponent implements OnInit {
       totalLoops: 1,
       interval: 100
     });
+
   }
 
   constructor(private articleService: ArticleService, private translate: TranslateService) {
@@ -56,6 +60,9 @@ export class PageSelectorComponent implements OnInit {
     DeviceTimerService.register({
       renderFunc: () => {
         this.paginationSettings.currentPage = CommonService.getBookmark();
+        if (CommonService.getBookmark() === 1) {
+          this.changeToPage();
+        }
       },
       totalLoops: 1,
       interval: 1

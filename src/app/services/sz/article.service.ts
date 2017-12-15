@@ -12,11 +12,13 @@ export class ArticleService {
   articleType;
   articleCode;
   totalPage;
+  currentPage;
   // player = document.getElementById('audio-player'),
   // sourceMP3 = document.getElementById('audio-src-mp3'),
   audioURL = 'http://sz-abc.com/ng/audio/';
 
   onArticleLoaded: EventEmitter<any> = new EventEmitter();
+  onPageChanged: EventEmitter<number> = new EventEmitter();
 
   constructor(private http: HttpClient) {
   }
@@ -189,6 +191,11 @@ export class ArticleService {
         console.log('error occurs when loading content-list.json');
       }
     );
+  }
+
+  changeToPage(n) {
+    this.currentPage = n;
+    this.onPageChanged.emit(n);
   }
 
   getTotalPages() {

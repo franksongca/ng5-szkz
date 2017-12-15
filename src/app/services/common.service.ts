@@ -35,4 +35,35 @@ export class CommonService {
 
     return bk ? Number(bk) : 1;
   }
+
+  // from <= return number < end
+  static getRandomNumber(from: number, end: number): number {
+    const t: number = Math.floor(Math.random() * (end - from));
+    return t + from;
+  }
+
+  // randomize array
+  static getRandomizedArray(arr: Array<any>): Array<any> {
+    for (let i = 0; i < arr.length; i++) {
+      const sw: Array<any> = CommonService.getPairedRandomNumber(0, arr.length);
+      CommonService.switchArrayElements(arr, Number(sw[0]), Number(sw[1]));
+    }
+    return(arr);
+  }
+
+  static getPairedRandomNumber(from: number, end: number): Array<any> {
+    const w1: number = CommonService.getRandomNumber(from, end);
+    let w2: number = CommonService.getRandomNumber(from, end);
+    while (w1 === w2) {
+      w2 = CommonService.getRandomNumber(from, end);
+    }
+    return([w1, w2]);
+  }
+
+  static switchArrayElements(arr: Array<any>, ele1: number, ele2: number): void {
+    const t = arr[ele1];
+    arr[ele1] = arr[ele2];
+    arr[ele2] = t;
+  }
+
 }
