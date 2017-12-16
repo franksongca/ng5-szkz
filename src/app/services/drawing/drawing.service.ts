@@ -247,7 +247,6 @@ export class DrawingService {
       });
   }
 
-
   // make sure bitmap is rendering
   static setupStage(stage) {
     DrawingService.Stage = stage;

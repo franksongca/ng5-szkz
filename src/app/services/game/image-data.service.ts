@@ -12,12 +12,12 @@ export class ImageDataService {
   }
 
   loadTytsGameData(gameType, gameCode) {
-    const url = 'assets\\imgs\\games\\' + gameType + '\\' + gameCode + '\\imgs.json' ;
+    const url = 'assets\\config\\games\\' + gameType + '\\' + gameCode + '\\config.json' ;
     return this.load(url);
   }
 
   loadGameSharedData(gameType) {
-    const url = 'assets\\imgs\\games\\' + gameType + '\\imgs.json' ;
+    const url = 'assets\\config\\games\\' + gameType + '\\config.json' ;
     return this.load(url);
   }
 

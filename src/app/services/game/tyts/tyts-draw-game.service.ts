@@ -4,11 +4,13 @@ import { DrawingService } from './../../drawing/drawing.service';
 @Injectable()
 export class TytsDrawGameService {
   static LINES_SCALE = 1.338;
-  static IMAGE_PATH = './assets/imgs/games/';
+  static IMAGE_PATH = './assets/images/games/';
   fillInAreaShapes = [];
   fillInLinesImg;
 
-  // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('imgs') @Optional() public imgs?: any, @Inject('scale') @Optional() public scale?: Number) {
+  colorPlateObject;
+
+  // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('config') @Optional() public config?: any, @Inject('scale') @Optional() public scale?: Number) {
 
   constructor(@Inject('options') @Optional() public options: any) {
   }
@@ -22,7 +24,7 @@ export class TytsDrawGameService {
     });
   }
 
-  bindHanzi(characters) {
+  bindHanziToFillInGraphics(characters) {
     let cIndex = 0;
     this.fillInAreaShapes.forEach((piece) => {
       piece.hanzi = characters[cIndex];
@@ -79,5 +81,15 @@ export class TytsDrawGameService {
     img.cursor = 'default';
     this.options.stage.addChild(img);
     this.fillInLinesImg = img;
+  }
+
+  drawColorPlate() {
+    const bg = DrawingService.createRect(
+      {thinkness: 0, stroke: 'black', fill: 'lightgray'},
+      {pos: {x: 10, y: 10}, size: {w: 300, h: 580}
+      }
+    );
+
+
   }
 }

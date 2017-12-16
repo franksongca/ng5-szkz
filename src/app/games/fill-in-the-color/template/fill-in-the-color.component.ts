@@ -96,7 +96,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
 
 
-    // const img = DrawingService.createBitmap({data: './assets/imgs/loading.gif', scale: 1, cursor: 'pointer'});
+    // const img = DrawingService.createBitmap({data: './assets/config/loading.gif', scale: 1, cursor: 'pointer'});
     // this.stage.addChild(img);
     //
 
@@ -135,7 +135,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
         scale: 1.1,
         type: FillInTheColorComponent.GameType,
         code: this.gameCode,
-        pos: {x: 100, y: 10}
+        pos: {x: 10, y: 10}
       });
       this.tytsDrawGameService.drawImages();
 
