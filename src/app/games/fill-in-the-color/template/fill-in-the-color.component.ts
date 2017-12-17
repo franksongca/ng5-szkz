@@ -159,10 +159,6 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.stage.addChild(c);
 
 
-      // DrawingService.emptyInk();
-      TytsDrawingService.fillInk('green');
-
-
       this.gameStatus.stageReady = true;
       this.prepareGame();
     }
@@ -193,6 +189,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   prepareGame() {
     if (this.gameStatus.colorPlateReady && this.gameStatus.selectionReady && this.gameStatus.stageReady) {
       this.tytsDrawGameService.clear();
+      this.tytsDrawGameService.bindHanziToFillInGraphics(this.hanZiSelection);
+      TytsDrawingService.bindHanziToPlate(this.hanZiSelection);
 
       // alert('prepareGame()');
     }

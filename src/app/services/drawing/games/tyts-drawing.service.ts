@@ -4,13 +4,15 @@ import * as createjs from 'createjs-module';
 import { DrawingService } from '../drawing.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CommonService } from '../../../services/common.service';
+import { ProcessInterface, DeviceTimerService } from './../../../services/device-timer.service';
 
 @Injectable()
 export class TytsDrawingService extends DrawingService {
-  static PLATE_ITEM_RADIUS = 42;
+  static PLATE_ITEM_RADIUS = 35;
+  static translate;
+
   static PenObject;
   static ColorPlateObject;
-  static translate;
   static realPlateColors;
 
   constructor(private translateService: TranslateService) {
@@ -19,7 +21,16 @@ export class TytsDrawingService extends DrawingService {
     TytsDrawingService.translate = translateService;
   }
 
-  static createColorPlateItem(item) {
+  static bindHanziToPlate(characters) {
+    TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
+      const index = item.colorIndex > characters.length - 1 ? item.colorIndex - characters.length + 1 : item.colorIndex;
+      item.hanZi = characters[index];
+      item.textObj.text = characters[index].word;
+    });
+  }
+
+
+  static createColorPlateItem(item, fontFamily) {
     const color = TytsDrawingService.realPlateColors[item.colorIndex];
 
     if (!item.container) {
@@ -30,8 +41,19 @@ export class TytsDrawingService extends DrawingService {
       item.plateShape.clear();
     }
 
-    item.plateShape = TytsDrawingService.createCircle({thinkness: 1, stroke: color, fill: color}, {pos: {x: TytsDrawingService.PLATE_ITEM_RADIUS, y: TytsDrawingService.PLATE_ITEM_RADIUS}, r: TytsDrawingService.PLATE_ITEM_RADIUS});
-    item.container.addChild(item.plateShape);
+    item.plateShape = TytsDrawingService.createCircle(
+      {thinkness: 1, stroke: color, fill: color},
+      {pos: {x: TytsDrawingService.PLATE_ITEM_RADIUS, y: TytsDrawingService.PLATE_ITEM_RADIUS}, r: TytsDrawingService.PLATE_ITEM_RADIUS}
+    );
+    // item.plateShape.shadow = TytsDrawingService.createShadow({color: 'black', x: 0, y: 1,  blur: 1});
+
+    item.textObj = TytsDrawingService.createText('字', {pos: {x: 9, y: 8}, fontSize: 50, color: 'white', fontFamily: fontFamily});
+    item.textObj.shadow = TytsDrawingService.createShadow({color: 'black', x: 1, y: 1,  blur: 1});
+    item.container.addChild(item.plateShape, item.textObj);
+
+
+    item.container.mouseEnabled = true;
+    item.container.cursor = 'pointer';
 
     return item.container;
   }
@@ -62,9 +84,11 @@ export class TytsDrawingService extends DrawingService {
 
 
     const bg = TytsDrawingService.createRect(
-      {thinkness: 0, stroke: 'green', fill: {r: 100, g: 120, b: 100, a: 0.3}},
+      {thinkness: 0, stroke: {r: 230, g: 240, b: 230, a: 1}, fill: {r: 230, g: 240, b: 230, a: 1}},
       {pos: {x: 10, y: 10}, size: {w: 220, h: 580}}
     );
+
+    bg.shadow = TytsDrawingService.createShadow({color: '#99cc99', x: 2, y: 2, blur: 2});
 
     const plateIcon = TytsDrawingService.createBitmap({data: options.colorPlateIconData, cursor: 'default', scale: 0.4, pos: {x: 20, y: 20}});
 
@@ -101,10 +125,24 @@ export class TytsDrawingService extends DrawingService {
     TytsDrawingService.ColorPlateObject.Items.items.forEach((item, index) => {
       const col = index % 2;
       const row = Math.floor(index / 2);
-      const nitem = TytsDrawingService.createColorPlateItem(item);
+      const nitem = TytsDrawingService.createColorPlateItem(item, options.fontFamily);
 
-      nitem.x = 10 + col * 110;
-      nitem.y = 10 + row * TytsDrawingService.PLATE_ITEM_RADIUS;
+      nitem.x = 30 + col * 110;
+      nitem.y = 70 + row * (TytsDrawingService.PLATE_ITEM_RADIUS + 2) * 2;
+
+
+
+      nitem.mouseEnabled = true;
+      nitem.cursor = 'pointer';
+      nitem.addEventListener('mousedown', function(event) {
+        TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
+          TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+            const color = TytsDrawingService.realPlateColors[item.colorIndex];
+            TytsDrawingService.fillInk({color: color, wait: 500, duration: 600});
+          });
+        });
+      });
+
       TytsDrawingService.ColorPlateObject.container.addChild(nitem);
     });
 
@@ -173,17 +211,16 @@ export class TytsDrawingService extends DrawingService {
     return TytsDrawingService.PenObject['container'];
   }
 
-  static fillInk(color, callback?) {
-    TytsDrawingService.PenObject.color = color;
+  static fillInk(options, callback?) {
+    TytsDrawingService.PenObject.color = options.color;
     TytsDrawingService.PenObject.ink.graphics.setStrokeStyle(0);
-    // d.graphics.beginStroke(TytsDrawingService.getRGB('green'));
-    TytsDrawingService.PenObject.ink.graphics.beginFill(TytsDrawingService.getRGB(color));
+    TytsDrawingService.PenObject.ink.graphics.beginFill(TytsDrawingService.getRGB(options.color));
     TytsDrawingService.PenObject.ink.graphics.drawRect(0, 0, 12, 24);
-
+    TytsDrawingService.Stage.update();
 
     createjs.Tween.get(TytsDrawingService.PenObject.ink)
-      .wait(70)
-      .to({y: 100}, 400)
+      .wait(options.wait ? options.wait : 170)
+      .to({y: 100}, options.duration ? options.duration : 500)
       .call(() => {
         TytsDrawingService.PenObject['ink'].y = 100;
         if (callback) {
@@ -197,7 +234,8 @@ export class TytsDrawingService extends DrawingService {
       .wait(50)
       .to({
         x: x - TytsDrawingService.PenObject.point.left,
-        y: y - TytsDrawingService.PenObject.point.top}, 700
+        y: y - TytsDrawingService.PenObject.point.top
+        }, 500
       ).call(() => {
       if (callback) {
         callback();
