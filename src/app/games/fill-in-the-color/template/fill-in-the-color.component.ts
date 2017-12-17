@@ -1,8 +1,8 @@
 /// <reference path="../../../../../node_modules/createjs-module/createjs.d.ts" />
 import { Component, OnInit, Input, AfterViewInit, OnChanges, EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
-import { DrawingService } from '../../../services/drawing/drawing.service';
-import { ProcessInterface, DeviceTimerService } from '../../../services/device-timer.service';
+import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
 
 import { ArticleService } from '../../../services/sz/article.service';
 import { HanziSelectionService } from '../../../services/sz/hanzi-selection.service';
@@ -38,16 +38,21 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   gameImagesInfo;
   pageIndex;
   hanZiSelection;
+  colorPlateTitle;
 
   constructor(
+    private translateService: TranslateService,
     private imageDataService: ImageDataService,
     private tytsDrawGameService: TytsDrawGameService,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private tytsDrawingService: TytsDrawingService
   ) {
+
     this.articleService.onPageChanged.subscribe((n) => {
       this.pageIndex = n;
       this.getHanziSelection();
     });
+
   }
 
   getHanziSelection() {
@@ -140,12 +145,16 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.tytsDrawGameService.drawImages();
 
 
-      const c = DrawingService.createPenBrash({fill: 'green', stroke: 'green', penData: this.gameSharedData.pen});
+      const cp = TytsDrawingService.createColorPlate({pos: {x: 560}, colorPlateIconData: this.gameSharedData.plate, fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily});
+      this.stage.addChild(cp);
+
+      const c = TytsDrawingService.createPenBrash({fill: 'green', stroke: 'green', penData: this.gameSharedData.pen});
       this.stage.addChild(c);
-      this.stage.update();
+
 
       // DrawingService.emptyInk();
-      DrawingService.fillInk('green');
+      TytsDrawingService.fillInk('green');
+
 
       this.gameStatus.stageReady = true;
       this.prepareGame();
@@ -157,7 +166,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     this.stage = new createjs.Stage('gamecanvas');
 
 
-    DrawingService.setupStage(this.stage);
+    TytsDrawingService.setupStage(this.stage);
 
 
 

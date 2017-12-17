@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SzkzDrawingService } from './tyts-drawing.service';
+import { TytsDrawingService } from './tyts-drawing.service';
 
-describe('SzkzDrawingService', () => {
+describe('TytsDrawingService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SzkzDrawingService]
+      providers: [TytsDrawingService]
     });
   });
 
-  it('should be created', inject([SzkzDrawingService], (service: SzkzDrawingService) => {
+  it('should be created', inject([TytsDrawingService], (service: TytsDrawingService) => {
     expect(service).toBeTruthy();
   }));
 });

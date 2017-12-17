@@ -1,5 +1,5 @@
 import { Injectable, Inject, Optional } from '@angular/core';
-import { DrawingService } from './../../drawing/drawing.service';
+import { TytsDrawingService } from './../../drawing/games/tyts-drawing.service';
 
 @Injectable()
 export class TytsDrawGameService {
@@ -20,7 +20,7 @@ export class TytsDrawGameService {
   clear() {
     this.fillInAreaShapes.forEach((piece) => {
       piece.hanZi = null;
-      DrawingService.createLines(this.getLines(piece.index), {thickness: 1, stroke: 'white'}, piece.index, piece.name, piece.shape);
+      TytsDrawingService.createLines(this.getLines(piece.index), {thickness: 1, stroke: 'white'}, piece.index, piece.name, piece.shape);
     });
   }
 
@@ -47,7 +47,7 @@ export class TytsDrawGameService {
     const self = this;
 
     this.options.imageInfo.pieces.forEach((piece, index) => {
-      const imgShape = DrawingService.createLines(piece.lines, {thickness: 1, stroke: 'white'}, index, piece.name);
+      const imgShape = TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: 'white'}, index, piece.name);
 
       imgShape.shape.x = this.options.pos.x + piece.pos.x * this.options.scale;
       imgShape.shape.y = this.options.pos.y + piece.pos.y * this.options.scale;
@@ -56,12 +56,12 @@ export class TytsDrawGameService {
       imgShape.shape.mouseEnabled = true;
       imgShape.shape.cursor = 'pointer';
       imgShape.shape.addEventListener('mousedown', function(event) {
-        if (self.fillInAreaShapes[imgShape.index].status === 0 && DrawingService.PenObject.color) {
+        if (self.fillInAreaShapes[imgShape.index].status === 0 && TytsDrawingService.PenObject.color) {
           self.fillInAreaShapes[imgShape.index].status = 1;
-          DrawingService.movePenTo(event['rawX'], event['rawY'], () => {
-            const color = DrawingService.PenObject.color;
-            DrawingService.emptyInk(() => {
-              DrawingService.createLines(piece.lines, {thickness: 1, stroke: color}, imgShape.index, imgShape.name, imgShape.shape);
+          TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+            const color = TytsDrawingService.PenObject.color;
+            TytsDrawingService.emptyInk(() => {
+              TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: color}, imgShape.index, imgShape.name, imgShape.shape);
             });
           });
         }
@@ -74,7 +74,7 @@ export class TytsDrawGameService {
 
     // draw outline image
     const path = TytsDrawGameService.IMAGE_PATH + this.options.type + '/' + this.options.code + '/lines' + '.png';
-    const img = DrawingService.createBitmap({data: path, scale: this.options.scale, cursor: 'pointer'});
+    const img = TytsDrawingService.createBitmap({data: path, scale: this.options.scale, cursor: 'pointer'});
 
     img.x = this.options.pos.x + this.options.imageInfo.pos.x * this.options.scale;
     img.y = this.options.pos.y + this.options.imageInfo.pos.y * this.options.scale;
@@ -83,13 +83,4 @@ export class TytsDrawGameService {
     this.fillInLinesImg = img;
   }
 
-  drawColorPlate() {
-    const bg = DrawingService.createRect(
-      {thinkness: 0, stroke: 'black', fill: 'lightgray'},
-      {pos: {x: 10, y: 10}, size: {w: 300, h: 580}
-      }
-    );
-
-
-  }
 }

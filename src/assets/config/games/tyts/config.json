@@ -4,6 +4,7 @@
     "h": 600,
     "backgroundColor": "lightyellow"
   },
+  "plateColors": ["#C39BD3","#AED6F1","#A3E4D7","#ABEBC6","#2E86C1","#DC7633","#BA4A00","#145A32","#4A235A","#800000","#FFFF00","#808000","#00FF00","#008000","#00FFFF","#008080","#0000FF","#000080","#FF00FF","#800080"],
   "stylesSettings": {
     "zi": {
       "errorFlashing": [

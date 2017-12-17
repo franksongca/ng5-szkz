@@ -14,6 +14,7 @@ import { DrawingService } from './services/drawing/drawing.service';
 import { ZiDrawingService } from './services/drawing/zi.drawing.service';
 import { PinyinDrawingService } from './services/drawing/pinyin.drawing.service';
 import { HanziDrawingService } from './services/drawing/hanzi.drawing.service';
+import { TytsDrawingService } from './services/drawing/games/tyts-drawing.service';
 
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
@@ -70,7 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HanziSelectionService,
     ZiService,
     ImageDataService,
-    TytsDrawGameService
+    TytsDrawGameService,
+    TytsDrawingService
   ],
   bootstrap: [AppComponent]
 })
