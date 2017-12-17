@@ -60,10 +60,29 @@ export class CommonService {
     return([w1, w2]);
   }
 
+  static getMiniValueFromArray(arr: Array<number>): number {
+    let mini: number = arr[0];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] < mini) {
+        mini = arr[i];
+      }
+    }
+
+    return mini;
+  }
+
   static switchArrayElements(arr: Array<any>, ele1: number, ele2: number): void {
     const t = arr[ele1];
     arr[ele1] = arr[ele2];
     arr[ele2] = t;
+  }
+
+  // 检查是否是中文
+  static isChinese(con: string): boolean {
+    const pattern: RegExp = /[\u4e00-\u9fa5]/;
+    const p: boolean = pattern.test(con);
+
+    return p;
   }
 
 }

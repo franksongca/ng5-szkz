@@ -145,7 +145,14 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.tytsDrawGameService.drawImages();
 
 
-      const cp = TytsDrawingService.createColorPlate({pos: {x: 560}, colorPlateIconData: this.gameSharedData.plate, fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily});
+      const cp = TytsDrawingService.createColorPlate({
+        pos: {x: 560},
+        fillInAreaNum: this.gameImagesInfo.pieces.length,
+        colorNum: this.gameSharedData.colorNum,
+        plateColors: this.gameSharedData.plateColors,
+        colorPlateIconData: this.gameSharedData.plate,
+        fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily
+      });
       this.stage.addChild(cp);
 
       const c = TytsDrawingService.createPenBrash({fill: 'green', stroke: 'green', penData: this.gameSharedData.pen});

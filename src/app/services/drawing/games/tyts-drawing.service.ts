@@ -3,17 +3,37 @@ import { Injectable } from '@angular/core';
 import * as createjs from 'createjs-module';
 import { DrawingService } from '../drawing.service';
 import { TranslateService } from '@ngx-translate/core';
+import { CommonService } from '../../../services/common.service';
 
 @Injectable()
 export class TytsDrawingService extends DrawingService {
+  static PLATE_ITEM_RADIUS = 42;
   static PenObject;
   static ColorPlateObject;
   static translate;
+  static realPlateColors;
 
   constructor(private translateService: TranslateService) {
     super();
 
     TytsDrawingService.translate = translateService;
+  }
+
+  static createColorPlateItem(item) {
+    const color = TytsDrawingService.realPlateColors[item.colorIndex];
+
+    if (!item.container) {
+      item.container = new createjs.Container();
+    }
+
+    if (item.plateShape) {
+      item.plateShape.clear();
+    }
+
+    item.plateShape = TytsDrawingService.createCircle({thinkness: 1, stroke: color, fill: color}, {pos: {x: TytsDrawingService.PLATE_ITEM_RADIUS, y: TytsDrawingService.PLATE_ITEM_RADIUS}, r: TytsDrawingService.PLATE_ITEM_RADIUS});
+    item.container.addChild(item.plateShape);
+
+    return item.container;
   }
 
   static createColorPlate(options) {
@@ -24,6 +44,22 @@ export class TytsDrawingService extends DrawingService {
         container: new createjs.Container()
       };
     }
+
+    if (TytsDrawingService.ColorPlateObject.Items && TytsDrawingService.ColorPlateObject.Items.container) {
+      TytsDrawingService.ColorPlateObject.Items.container.clear();
+
+      TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
+        item.container.clear();
+      });
+    } else {
+      TytsDrawingService.ColorPlateObject.Items = {
+        container: new createjs.Container(),
+        items: []
+      };
+    }
+
+    TytsDrawingService.ColorPlateObject.container.addChild(TytsDrawingService.ColorPlateObject.Items.container);
+
 
     const bg = TytsDrawingService.createRect(
       {thinkness: 0, stroke: 'green', fill: {r: 100, g: 120, b: 100, a: 0.3}},
@@ -38,7 +74,41 @@ export class TytsDrawingService extends DrawingService {
       ptTitle.text = res;
     });
 
+
     TytsDrawingService.ColorPlateObject.container.addChild(bg, plateIcon, ptTitle);
+
+    const plateColors = CommonService.getRandomizedArray(options.plateColors); // array contains all available colors
+    TytsDrawingService.realPlateColors = [];
+
+    TytsDrawingService.ColorPlateObject.Items.items = new Array(options.colorNum);
+
+    // 选前 options.fillInAreaNum 个颜色
+    for (let c = 0; c < options.fillInAreaNum; c++) {
+      TytsDrawingService.realPlateColors.push(plateColors[c]);
+      TytsDrawingService.ColorPlateObject.Items.items[c] = {colorIndex: c};
+    }
+
+    // 不足颜色从已选颜色中随机选取，一共options.colorNum个颜色，对应色盘中颜色数目
+    for (let r = 0; r < options.colorNum - options.fillInAreaNum; r++) {
+      const nc = CommonService.getRandomNumber(0, options.fillInAreaNum - 1);
+
+      TytsDrawingService.ColorPlateObject.Items.items[options.fillInAreaNum + r] = {colorIndex: nc};
+    }
+
+    // 随机排列色盘
+    TytsDrawingService.ColorPlateObject.Items.items = CommonService.getRandomizedArray(TytsDrawingService.ColorPlateObject.Items.items);
+
+    TytsDrawingService.ColorPlateObject.Items.items.forEach((item, index) => {
+      const col = index % 2;
+      const row = Math.floor(index / 2);
+      const nitem = TytsDrawingService.createColorPlateItem(item);
+
+      nitem.x = 10 + col * 110;
+      nitem.y = 10 + row * TytsDrawingService.PLATE_ITEM_RADIUS;
+      TytsDrawingService.ColorPlateObject.container.addChild(nitem);
+    });
+
+
 
     TytsDrawingService.ColorPlateObject.container.x = options.pos.x;
     return TytsDrawingService.ColorPlateObject.container;
