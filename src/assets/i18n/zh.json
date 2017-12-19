@@ -5,6 +5,6 @@
   "PREVIOUS_PAGE": "前一页",
   "NEXT_PAGE": "后一页",
   "PAGE_N": "第 {{value}} 页",
-  "TOTAL_PAGE": "第 {{value}} 页",
+  "TOTAL_PAGE": "共 {{value}} 页",
   "SELECT_APPROPRIATE_CORLOR": "请选择适当的颜色"
 }

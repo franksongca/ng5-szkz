@@ -1,10 +1,10 @@
 {
   "gameConfig": {
     "w": 800,
-    "h": 600,
+    "h": 800,
     "backgroundColor": "lightyellow"
   },
-  "plateColors": ["#C39BD3","#AED6F1","#A3E4D7","#ABEBC6","#2E86C1","#DC7633","#BA4A00","#145A32","#4A235A","#800000","#FFFF00","#808000","#00FF00","#008000","#00FFFF","#008080","#0000FF","#000080","#FF00FF","#800080"],
+  "plateColors": [ "#BB8FCE ",  "#7FB3D5 ",  "#1ABC9C ",  "#82E0AA ",  "#F1C40F ",  "#D35400 ",  "#FF0000 ",  "#800000 ",  "#FFFF00 ",  "#808000 ",  "#00FF00 ",  "#008000 ",  "#00FFFF ",  "#008080 ",  "#0000FF ",  "#000080 ",  "#FF00FF ",  "#800080 "],
   "colorNum": 14,
   "stylesSettings": {
     "zi": {

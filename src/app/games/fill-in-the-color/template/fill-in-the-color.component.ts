@@ -159,6 +159,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.stage.addChild(c);
 
 
+      TytsDrawingService.movePenHome();
+
       this.gameStatus.stageReady = true;
       this.prepareGame();
     }

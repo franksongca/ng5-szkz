@@ -9,6 +9,23 @@ import { ProcessInterface, DeviceTimerService } from './../../../services/device
 @Injectable()
 export class TytsDrawingService extends DrawingService {
   static PLATE_ITEM_RADIUS = 35;
+  static PEN_SETTING = {
+    home: {
+      scale: 0.5,
+      rotation: 70,
+      pos: [{x: 620, y: 140}, {x: 20, y: 610}]
+    },
+    normal: {
+      scale: 1,
+      rotation: 30,
+    }
+  };
+
+  static layoutSetting = [
+    {left: 560, top: 0, width: 220, height: 580}
+  ];
+
+  static layout = 0;  // 0 - color plate is on the right, 1- on the bottom
   static translate;
 
   static PenObject;
@@ -22,6 +39,7 @@ export class TytsDrawingService extends DrawingService {
   }
 
   static bindHanziToPlate(characters) {
+    TytsDrawingService.updateColorPlate();
     TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
       const index = item.colorIndex > characters.length - 1 ? item.colorIndex - characters.length + 1 : item.colorIndex;
       item.hanZi = characters[index];
@@ -58,6 +76,18 @@ export class TytsDrawingService extends DrawingService {
     return item.container;
   }
 
+  static updateColorPlate() {
+    TytsDrawingService.realPlateColors = CommonService.getRandomizedArray(TytsDrawingService.realPlateColors);
+    TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
+      const color = TytsDrawingService.realPlateColors[item.colorIndex];
+
+      item.plateShape.graphics.setStrokeStyle(1)
+        .beginStroke(DrawingService.getRGB(color))
+        .beginFill(DrawingService.getRGB(color))
+        .drawCircle(TytsDrawingService.PLATE_ITEM_RADIUS, TytsDrawingService.PLATE_ITEM_RADIUS, TytsDrawingService.PLATE_ITEM_RADIUS);
+    });
+  }
+
   static createColorPlate(options) {
     if (TytsDrawingService.ColorPlateObject && TytsDrawingService.ColorPlateObject.container) {
       TytsDrawingService.ColorPlateObject.container.clear();
@@ -82,22 +112,23 @@ export class TytsDrawingService extends DrawingService {
 
     TytsDrawingService.ColorPlateObject.container.addChild(TytsDrawingService.ColorPlateObject.Items.container);
 
+    let bg, plateIcon, ptTitle;
+    if (TytsDrawingService.layout === 0) {
+      bg = TytsDrawingService.createRect(
+        {thinkness: 0, stroke: {r: 230, g: 240, b: 230, a: 1}, fill: {r: 230, g: 240, b: 230, a: 1}},
+        {pos: {x: 10, y: 10}, size: {w: TytsDrawingService.layoutSetting[TytsDrawingService.layout].width, h: TytsDrawingService.layoutSetting[TytsDrawingService.layout].height}}
+      );
+      plateIcon = TytsDrawingService.createBitmap({data: options.colorPlateIconData, cursor: 'default', scale: 0.4, pos: {x: 20, y: 20}});
+      ptTitle = TytsDrawingService.createText('hello', {pos: {x: 80, y: 30}, fontSize: 17, fontFamily: options.fontFamily});
+    } else {
 
-    const bg = TytsDrawingService.createRect(
-      {thinkness: 0, stroke: {r: 230, g: 240, b: 230, a: 1}, fill: {r: 230, g: 240, b: 230, a: 1}},
-      {pos: {x: 10, y: 10}, size: {w: 220, h: 580}}
-    );
+    }
 
     bg.shadow = TytsDrawingService.createShadow({color: '#99cc99', x: 2, y: 2, blur: 2});
-
-    const plateIcon = TytsDrawingService.createBitmap({data: options.colorPlateIconData, cursor: 'default', scale: 0.4, pos: {x: 20, y: 20}});
-
-    const ptTitle = TytsDrawingService.createText('hello', {pos: {x: 80, y: 30}, fontSize: 17, fontFamily: options.fontFamily});
 
     TytsDrawingService.translate.get('SELECT_APPROPRIATE_CORLOR').subscribe((res: string) => {
       ptTitle.text = res;
     });
-
 
     TytsDrawingService.ColorPlateObject.container.addChild(bg, plateIcon, ptTitle);
 
@@ -123,18 +154,20 @@ export class TytsDrawingService extends DrawingService {
     TytsDrawingService.ColorPlateObject.Items.items = CommonService.getRandomizedArray(TytsDrawingService.ColorPlateObject.Items.items);
 
     TytsDrawingService.ColorPlateObject.Items.items.forEach((item, index) => {
-      const col = index % 2;
-      const row = Math.floor(index / 2);
+      let col, row;
       const nitem = TytsDrawingService.createColorPlateItem(item, options.fontFamily);
+      if (TytsDrawingService.layout === 0) {
+        col = index % 2;
+        row = Math.floor(index / 2);
 
-      nitem.x = 30 + col * 110;
-      nitem.y = 70 + row * (TytsDrawingService.PLATE_ITEM_RADIUS + 2) * 2;
-
-
+        nitem.x = 30 + col * 110;
+        nitem.y = 70 + row * (TytsDrawingService.PLATE_ITEM_RADIUS + 2) * 2;
+      }
 
       nitem.mouseEnabled = true;
       nitem.cursor = 'pointer';
       nitem.addEventListener('mousedown', function(event) {
+        console.log(event['rawX'], event['rawY']);
         TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
           TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
             const color = TytsDrawingService.realPlateColors[item.colorIndex];
@@ -143,12 +176,16 @@ export class TytsDrawingService extends DrawingService {
         });
       });
 
+      item.templateItem = nitem;
+
       TytsDrawingService.ColorPlateObject.container.addChild(nitem);
     });
 
 
 
-    TytsDrawingService.ColorPlateObject.container.x = options.pos.x;
+    TytsDrawingService.ColorPlateObject.container.x = TytsDrawingService.layoutSetting[TytsDrawingService.layout].left;
+    TytsDrawingService.ColorPlateObject.container.y = TytsDrawingService.layoutSetting[TytsDrawingService.layout].top;
+
     return TytsDrawingService.ColorPlateObject.container;
   }
 
@@ -234,7 +271,28 @@ export class TytsDrawingService extends DrawingService {
       .wait(50)
       .to({
         x: x - TytsDrawingService.PenObject.point.left,
-        y: y - TytsDrawingService.PenObject.point.top
+        y: y - TytsDrawingService.PenObject.point.top,
+        scaleX: TytsDrawingService.PEN_SETTING.normal.scale,
+        scaleY: TytsDrawingService.PEN_SETTING.normal.scale,
+        rotation: TytsDrawingService.PEN_SETTING.normal.rotation
+        }, 500,
+      ).call(() => {
+      if (callback) {
+        callback();
+      }
+      // TytsDrawingService.emptyInk(callback);
+    });
+  }
+
+  static movePenHome(callback?) {
+    createjs.Tween.get(TytsDrawingService.PenObject.container)
+      .wait(50)
+      .to({
+          x: TytsDrawingService.PEN_SETTING.home.pos[TytsDrawingService.layout].x - TytsDrawingService.PenObject.point.left,
+          y: TytsDrawingService.PEN_SETTING.home.pos[TytsDrawingService.layout].y - TytsDrawingService.PenObject.point.top,
+          scaleX: TytsDrawingService.PEN_SETTING.home.scale,
+          scaleY: TytsDrawingService.PEN_SETTING.home.scale,
+          rotation: TytsDrawingService.PEN_SETTING.home.rotation
         }, 500
       ).call(() => {
       if (callback) {
@@ -243,6 +301,8 @@ export class TytsDrawingService extends DrawingService {
       // TytsDrawingService.emptyInk(callback);
     });
   }
+
+
 
   static emptyInk(callback?) {
     TytsDrawingService.PenObject.color = '';

@@ -20,6 +20,7 @@ export class TytsDrawGameService {
   clear() {
     this.fillInAreaShapes.forEach((piece) => {
       piece.hanZi = null;
+      piece.status = 0;
       TytsDrawingService.createLines(this.getLines(piece.index), {thickness: 1, stroke: 'white'}, piece.index, piece.name, piece.shape);
     });
   }
@@ -62,6 +63,8 @@ export class TytsDrawGameService {
             const color = TytsDrawingService.PenObject.color;
             TytsDrawingService.emptyInk(() => {
               TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: color}, imgShape.index, imgShape.name, imgShape.shape);
+
+              TytsDrawingService.movePenHome(null);
             });
           });
         }
