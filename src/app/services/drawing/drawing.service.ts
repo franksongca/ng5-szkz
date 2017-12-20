@@ -15,6 +15,10 @@ export class DrawingService {
     return (new createjs.Shadow(options.color, options.x, options.y, options.blur));
   }
 
+  static createContainer() {
+    return new createjs.Container();
+  }
+
   static createCircle(drwaingSettings, shapeSettings) {
     const circle = new createjs.Shape();
 

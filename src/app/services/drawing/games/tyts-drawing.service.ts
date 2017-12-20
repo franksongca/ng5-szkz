@@ -31,6 +31,8 @@ export class TytsDrawingService extends DrawingService {
   static PenObject;
   static ColorPlateObject;
   static realPlateColors;
+  static plateColors;
+  static allColors;
 
   constructor(private translateService: TranslateService) {
     super();
@@ -63,7 +65,7 @@ export class TytsDrawingService extends DrawingService {
       {thinkness: 1, stroke: color, fill: color},
       {pos: {x: TytsDrawingService.PLATE_ITEM_RADIUS, y: TytsDrawingService.PLATE_ITEM_RADIUS}, r: TytsDrawingService.PLATE_ITEM_RADIUS}
     );
-    // item.plateShape.shadow = TytsDrawingService.createShadow({color: 'black', x: 0, y: 1,  blur: 1});
+    item.plateShape.shadow = TytsDrawingService.createShadow({color: 'gray', x: 1, y: 0,  blur: 2});
 
     item.textObj = TytsDrawingService.createText('字', {pos: {x: 9, y: 8}, fontSize: 50, color: 'white', fontFamily: fontFamily});
     item.textObj.shadow = TytsDrawingService.createShadow({color: 'black', x: 1, y: 1,  blur: 1});
@@ -77,7 +79,7 @@ export class TytsDrawingService extends DrawingService {
   }
 
   static updateColorPlate() {
-    TytsDrawingService.realPlateColors = CommonService.getRandomizedArray(TytsDrawingService.realPlateColors);
+    TytsDrawingService.realPlateColors = CommonService.getRandomizedArray(TytsDrawingService.allColors);
     TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
       const color = TytsDrawingService.realPlateColors[item.colorIndex];
 
@@ -132,23 +134,22 @@ export class TytsDrawingService extends DrawingService {
 
     TytsDrawingService.ColorPlateObject.container.addChild(bg, plateIcon, ptTitle);
 
-    const plateColors = CommonService.getRandomizedArray(options.plateColors); // array contains all available colors
-    TytsDrawingService.realPlateColors = [];
+    TytsDrawingService.allColors = options.plateColors;
+
+    TytsDrawingService.realPlateColors = CommonService.getRandomizedArray(TytsDrawingService.allColors); // array contains all available colors
 
     TytsDrawingService.ColorPlateObject.Items.items = new Array(options.colorNum);
 
-    // 选前 options.fillInAreaNum 个颜色
-    for (let c = 0; c < options.fillInAreaNum; c++) {
-      TytsDrawingService.realPlateColors.push(plateColors[c]);
+    for (let c = 0; c < options.colorNum; c++) {
       TytsDrawingService.ColorPlateObject.Items.items[c] = {colorIndex: c};
     }
 
     // 不足颜色从已选颜色中随机选取，一共options.colorNum个颜色，对应色盘中颜色数目
-    for (let r = 0; r < options.colorNum - options.fillInAreaNum; r++) {
-      const nc = CommonService.getRandomNumber(0, options.fillInAreaNum - 1);
-
-      TytsDrawingService.ColorPlateObject.Items.items[options.fillInAreaNum + r] = {colorIndex: nc};
-    }
+    // for (let r = 0; r < options.colorNum - options.fillInAreaNum; r++) {
+    //   const nc = CommonService.getRandomNumber(0, options.fillInAreaNum - 1);
+    //
+    //   TytsDrawingService.ColorPlateObject.Items.items[options.fillInAreaNum + r] = {colorIndex: nc};
+    // }
 
     // 随机排列色盘
     TytsDrawingService.ColorPlateObject.Items.items = CommonService.getRandomizedArray(TytsDrawingService.ColorPlateObject.Items.items);

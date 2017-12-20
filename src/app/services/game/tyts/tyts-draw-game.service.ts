@@ -7,6 +7,7 @@ export class TytsDrawGameService {
   static IMAGE_PATH = './assets/images/games/';
   fillInAreaShapes = [];
   fillInLinesImg;
+  container;
 
   colorPlateObject;
 
@@ -46,6 +47,7 @@ export class TytsDrawGameService {
 
   drawImages() {
     const self = this;
+    this.container = TytsDrawingService.createContainer();
 
     this.options.imageInfo.pieces.forEach((piece, index) => {
       const imgShape = TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: 'white'}, index, piece.name);
@@ -70,7 +72,8 @@ export class TytsDrawGameService {
         }
       });
 
-      this.options.stage.addChild(imgShape.shape);
+      this.container.addChild(imgShape.shape);
+      // this.options.stage.addChild(imgShape.shape);
 
       this.fillInAreaShapes.push({index: index, name: piece.name, shape: imgShape.shape, status: 0});
     });
@@ -82,7 +85,11 @@ export class TytsDrawGameService {
     img.x = this.options.pos.x + this.options.imageInfo.pos.x * this.options.scale;
     img.y = this.options.pos.y + this.options.imageInfo.pos.y * this.options.scale;
     img.cursor = 'default';
-    this.options.stage.addChild(img);
+
+    this.container.addChild(img);
+    this.options.stage.addChild(this.container);
+
+    // this.options.stage.addChild(img);
     this.fillInLinesImg = img;
   }
 

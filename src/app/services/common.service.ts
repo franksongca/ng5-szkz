@@ -46,9 +46,10 @@ export class CommonService {
   static getRandomizedArray(arr: Array<any>): Array<any> {
     for (let i = 0; i < arr.length; i++) {
       const sw: Array<any> = CommonService.getPairedRandomNumber(0, arr.length);
-      CommonService.switchArrayElements(arr, Number(sw[0]), Number(sw[1]));
+      arr = CommonService.switchArrayElements(arr, Number(sw[0]), Number(sw[1]));
     }
-    return(arr);
+
+    return arr;
   }
 
   static getPairedRandomNumber(from: number, end: number): Array<any> {
@@ -71,10 +72,12 @@ export class CommonService {
     return mini;
   }
 
-  static switchArrayElements(arr: Array<any>, ele1: number, ele2: number): void {
+  static switchArrayElements(arr: Array<any>, ele1: number, ele2: number): Array<any> {
     const t = arr[ele1];
     arr[ele1] = arr[ele2];
     arr[ele2] = t;
+
+    return arr;
   }
 
   // 检查是否是中文
