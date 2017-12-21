@@ -56,7 +56,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   getHanziSelection() {
-    const hanziSelectionService: HanziSelectionService =  new HanziSelectionService(this.articleService.getPage(this.pageIndex - 1));
+    const hanziSelectionService: HanziSelectionService = new HanziSelectionService(this.articleService.getPage(this.pageIndex - 1));
 
     this.hanZiSelection = hanziSelectionService.getSelectionUniquePronunciation(true);
 

@@ -1,28 +1,45 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Injectable, Inject, Optional, EventEmitter } from '@angular/core';
 import { ZiService } from './zi.service';
 import { CommonService } from './../common.service';
+import { AudioLoaderService } from './../audio.manager.service';
 
 @Injectable()
 export class HanziSelectionService {
-
+  static AudioBasePath = 'assets/media/Zi/';
   _hanzi; // Array
   _hanzi_id;
   _unique_hanzi_0;	// 没有相同字，同音字在同一组，但有同音字
   unique_hanzi_may_have_same_pron;
   _unique_hanzi_1;	// 从_unique_hanzi_0选取一组字后，将同音字放在一组，动态产生
 
+  audioLoaderService: AudioLoaderService;
+
+  onHanziColectionReady: EventEmitter<any> = new EventEmitter();
+
   constructor(@Inject('options') @Optional() private pageContent: any) {
+    this.audioLoaderService = new AudioLoaderService();
     this._hanzi_id = [];
     this._hanzi = [];
 
+    this.audioLoaderService.onQueueLoaded.subscribe(() => {
+      this.init();
+
+      this.onHanziColectionReady.emit();
+    });
+
+    const audioMenifest = [];
     pageContent.characters.forEach((c) => {
       const ch = new ZiService(c);
       if (ch.Spelling !== '') {
         // _hanzi[i] = new ZI(this.ziXML.zi[i]);
         this._hanzi.push(ch);
         this._hanzi_id.push(ch.ID);
+
+        audioMenifest.push({id: ch.ID, src: HanziSelectionService.AudioBasePath + ch.spelling + '_' + ch.tone + '.mp3'});
       }
     });
+
+    this.audioLoaderService.loadQueue(audioMenifest);
 
     // access server, to get each chinese character's credits the user has gotten in the past
     // and then dispatch a event
@@ -42,7 +59,7 @@ export class HanziSelectionService {
     // } else {
     //   sendData(_hanzi_id.join(','));
     // }
-    this.init();
+
   }
 
   static addIndex(selction: Array<ZiService>): Array<ZiService> {

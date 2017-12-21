@@ -8,6 +8,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { AudioLoaderService } from './services/audio.manager.service';
 import { CommonService } from './services/common.service';
 import { DeviceTimerService } from './services/device-timer.service';
 import { DrawingService } from './services/drawing/drawing.service';
@@ -70,6 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PinyinService,
     HanziSelectionService,
     ZiService,
+    AudioLoaderService,
     ImageDataService,
     TytsDrawGameService,
     TytsDrawingService
