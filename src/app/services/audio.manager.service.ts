@@ -11,20 +11,20 @@ export class AudioLoaderService {
   queue;
 
   constructor() {
-    this.queue = new createjs.LoadQueue();
+    this.queue = new createjs.LoadQueue(true);
     this.queue.installPlugin(createjs.Sound);
 
     this.queue.on('fileload', (event) => {
       this.onAudioLoaded.emit({id: event['id'], src: event['src']});
-    });
+    }, this);
 
     this.queue.on('complete', (event) => {
       this.onQueueLoaded.emit();
-    });
+    }, this);
   }
 
-  loadQueue(options) {
-    this.queue.loadManifest(options.manifest);
+  loadQueue(menifest) {
+    this.queue.loadManifest(menifest);
   }
 
   play(id) {
