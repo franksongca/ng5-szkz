@@ -1,6 +1,6 @@
 <div class="page-selector-container container">
   <div class="row page-text center-block" [ngStyle]="{'z-index': showPageText ? 500 : 0, 'opacity': showPageText ? 1 : 0}">
-    <div class="page-info"><span><b>{{articleInfo.title}}</b></span> -- <label><span [translate]="'PAGE_N'" [translateParams]="{value: paginationSettings.currentPage}"></span> ( <span [translate]="'TOTAL_PAGE'" [translateParams]="{value: paginationSettings.numPages}"></span> )</label></div>
+    <div class="page-info"><span><b>{{articleInfo.title}}</b></span> -- <label><span [translate]="'PAGE_N'" [translateParams]="{value: paginationSettings?.currentPage}"></span> ( <span [translate]="'TOTAL_PAGE'" [translateParams]="{value: paginationSettings?.numPages}"></span> )</label></div>
     <p>{{articleInfo.pageText}}</p>
   </div>
   <div class="col-xs-12 col-12 pagination-element" [ngStyle]="{'opacity': showPageText ? 0 : 1}">

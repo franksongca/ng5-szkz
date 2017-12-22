@@ -14,7 +14,7 @@ export class HanziSelectionService {
 
   audioLoaderService: AudioLoaderService;
 
-  onHanziColectionReady: EventEmitter<any> = new EventEmitter();
+  onHanziCollectionReady: EventEmitter<any> = new EventEmitter();
 
   constructor(@Inject('options') @Optional() private pageContent: any) {
     this.audioLoaderService = new AudioLoaderService();
@@ -24,7 +24,7 @@ export class HanziSelectionService {
     this.audioLoaderService.onQueueLoaded.subscribe(() => {
       this.init();
 
-      this.onHanziColectionReady.emit();
+      this.onHanziCollectionReady.emit();
     });
 
     const audioMenifest = [];

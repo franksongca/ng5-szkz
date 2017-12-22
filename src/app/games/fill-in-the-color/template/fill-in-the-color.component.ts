@@ -1,5 +1,5 @@
 /// <reference path="../../../../../node_modules/createjs-module/createjs.d.ts" />
-import { Component, OnInit, Input, AfterViewInit, OnChanges, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewEncapsulation } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
 import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
@@ -18,7 +18,8 @@ import * as createjs from 'createjs-module';
 @Component({
   selector: 'app-fill-in-the-color',
   templateUrl: './fill-in-the-color.component.html',
-  styleUrls: ['./fill-in-the-color.component.css']
+  styleUrls: ['./fill-in-the-color.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit {
   static GameType = 'tyts';
@@ -58,10 +59,11 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   getHanziSelection() {
     const hanziSelectionService: HanziSelectionService = new HanziSelectionService(this.articleService.getPage(this.pageIndex - 1));
 
-    this.hanZiSelection = hanziSelectionService.getSelectionUniquePronunciation(true);
-
-    this.gameStatus.selectionReady = true;
-    this.prepareGame();
+    hanziSelectionService.onHanziCollectionReady.subscribe(() => {
+      this.hanZiSelection = hanziSelectionService.getSelectionUniquePronunciation(true);
+      this.gameStatus.selectionReady = true;
+      this.prepareGame();
+    });
   }
 
 
