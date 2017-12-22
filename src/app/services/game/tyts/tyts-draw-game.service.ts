@@ -1,14 +1,17 @@
 import { Injectable, Inject, Optional } from '@angular/core';
-import { DrawingService } from './../../drawing/drawing.service';
+import { TytsDrawingService } from './../../drawing/games/tyts-drawing.service';
 
 @Injectable()
 export class TytsDrawGameService {
   static LINES_SCALE = 1.338;
-  static IMAGE_PATH = './assets/imgs/games/';
+  static IMAGE_PATH = './assets/images/games/';
   fillInAreaShapes = [];
   fillInLinesImg;
+  container;
 
-  // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('imgs') @Optional() public imgs?: any, @Inject('scale') @Optional() public scale?: Number) {
+  colorPlateObject;
+
+  // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('config') @Optional() public config?: any, @Inject('scale') @Optional() public scale?: Number) {
 
   constructor(@Inject('options') @Optional() public options: any) {
   }
@@ -18,11 +21,12 @@ export class TytsDrawGameService {
   clear() {
     this.fillInAreaShapes.forEach((piece) => {
       piece.hanZi = null;
-      DrawingService.createLines(this.getLines(piece.index), {thickness: 1, stroke: 'white'}, piece.index, piece.name, piece.shape);
+      piece.status = 0;
+      TytsDrawingService.createLines(this.getLines(piece.index), {thickness: 1, stroke: 'white'}, piece.index, piece.name, piece.shape);
     });
   }
 
-  bindHanzi(characters) {
+  bindHanziToFillInGraphics(characters) {
     let cIndex = 0;
     this.fillInAreaShapes.forEach((piece) => {
       piece.hanzi = characters[cIndex];
@@ -43,9 +47,10 @@ export class TytsDrawGameService {
 
   drawImages() {
     const self = this;
+    this.container = TytsDrawingService.createContainer();
 
     this.options.imageInfo.pieces.forEach((piece, index) => {
-      const imgShape = DrawingService.createLines(piece.lines, {thickness: 1, stroke: 'white'}, index, piece.name);
+      const imgShape = TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: 'white'}, index, piece.name);
 
       imgShape.shape.x = this.options.pos.x + piece.pos.x * this.options.scale;
       imgShape.shape.y = this.options.pos.y + piece.pos.y * this.options.scale;
@@ -54,30 +59,38 @@ export class TytsDrawGameService {
       imgShape.shape.mouseEnabled = true;
       imgShape.shape.cursor = 'pointer';
       imgShape.shape.addEventListener('mousedown', function(event) {
-        if (self.fillInAreaShapes[imgShape.index].status === 0 && DrawingService.PenObject.color) {
+        if (self.fillInAreaShapes[imgShape.index].status === 0 && TytsDrawingService.PenObject.color) {
           self.fillInAreaShapes[imgShape.index].status = 1;
-          DrawingService.movePenTo(event['rawX'], event['rawY'], () => {
-            const color = DrawingService.PenObject.color;
-            DrawingService.emptyInk(() => {
-              DrawingService.createLines(piece.lines, {thickness: 1, stroke: color}, imgShape.index, imgShape.name, imgShape.shape);
+          TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+            const color = TytsDrawingService.PenObject.color;
+            TytsDrawingService.emptyInk(() => {
+              TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: color}, imgShape.index, imgShape.name, imgShape.shape);
+
+              TytsDrawingService.movePenHome(null);
             });
           });
         }
       });
 
-      this.options.stage.addChild(imgShape.shape);
+      this.container.addChild(imgShape.shape);
+      // this.options.stage.addChild(imgShape.shape);
 
       this.fillInAreaShapes.push({index: index, name: piece.name, shape: imgShape.shape, status: 0});
     });
 
     // draw outline image
     const path = TytsDrawGameService.IMAGE_PATH + this.options.type + '/' + this.options.code + '/lines' + '.png';
-    const img = DrawingService.createBitmap({data: path, scale: this.options.scale, cursor: 'pointer'});
+    const img = TytsDrawingService.createBitmap({data: path, scale: this.options.scale, cursor: 'pointer'});
 
     img.x = this.options.pos.x + this.options.imageInfo.pos.x * this.options.scale;
     img.y = this.options.pos.y + this.options.imageInfo.pos.y * this.options.scale;
     img.cursor = 'default';
-    this.options.stage.addChild(img);
+
+    this.container.addChild(img);
+    this.options.stage.addChild(this.container);
+
+    // this.options.stage.addChild(img);
     this.fillInLinesImg = img;
   }
+
 }

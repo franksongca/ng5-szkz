@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceTimerService } from './../services/device-timer.service';
 import { ArticleService } from './../services/sz/article.service';
@@ -10,13 +10,13 @@ import { CommonService } from './../services/common.service';
   styleUrls: ['./page-selector.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PageSelectorComponent implements OnInit {
+export class PageSelectorComponent implements AfterViewInit {
   paginationSettings = {
     bigTotalItems: 0,
     currentPage: 1,
     maxSize: 5,
     itemsPerPage: 1,
-    numPages: 0,
+    numPages: 1,
     translation: {}
   };
   articleInfo = {
@@ -73,7 +73,7 @@ export class PageSelectorComponent implements OnInit {
     this.articleInfo.pageText = this.articleService.getPageText(this.paginationSettings.currentPage - 1);
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     if (this.articleService.isLoaded()) {
       this.initData();
     } else {

@@ -11,6 +11,14 @@ export class DrawingService {
   constructor() {
   }
 
+  static createShadow(options) {
+    return (new createjs.Shadow(options.color, options.x, options.y, options.blur));
+  }
+
+  static createContainer() {
+    return new createjs.Container();
+  }
+
   static createCircle(drwaingSettings, shapeSettings) {
     const circle = new createjs.Shape();
 
@@ -70,6 +78,18 @@ export class DrawingService {
     return t;
   }
 
+  static createBitmap(options) {
+    const img = new Image();
+    img.src = options.data;
+    const btm = new createjs.Bitmap(img);
+    btm.cursor = options.cursor ? options.cursor : 'default';
+    btm.scaleX = btm.scaleY = options.scale ? options.scale : 1;
+    btm.x = options.pos ? options.pos.x : 0;
+    btm.y = options.pos ? options.pos.y : 0;
+
+    return btm;
+  }
+
   static createPinyinLines(linesConfig) {
     const lines = new createjs.Shape();
     let line = 0;
@@ -85,50 +105,6 @@ export class DrawingService {
     return lines;
   }
 
-  static createLines(linesData, linesConfig, index, name, shape?) {
-    const lines = shape ? shape : new createjs.Shape();
-
-    lines.graphics.clear();
-
-    const boundary = {
-      minX: 10000, maxX: 0, minY: 10000, maxY: 0
-    };
-
-    lines.graphics.beginStroke(DrawingService.getRGB(linesConfig.stroke));
-    lines.graphics.setStrokeStyle(linesConfig.thickness);
-    linesData.forEach((line) => {
-      if (line.start.x < boundary.minX) {
-        boundary.minX = line.start.x;
-      }
-      if (line.end.x > boundary.maxX) {
-        boundary.maxX = line.end.x;
-      }
-      if (line.start.y < boundary.minY) {
-        boundary.minY = line.start.y;
-      }
-      if (line.end.y > boundary.maxY) {
-        boundary.maxY = line.end.y;
-      }
-
-      lines.graphics.moveTo(line.start.x, line.start.y);
-      lines.graphics.lineTo(line.end.x, line.end.y);
-    });
-    lines.graphics.endStroke();
-
-    lines.setBounds(boundary.minX, boundary.minY, boundary.maxX - boundary.minX, boundary.maxY - boundary.minY);
-    return {shape: lines, index: index, name: name, size: {width: boundary.maxX - boundary.minX, height: boundary.maxY - boundary.minY}};
-  }
-
-  static createBitmap(options) {
-    const img = new Image();
-    img.src = options.data;
-    const btm = new createjs.Bitmap(img);
-    btm.cursor = options.cursor ? options.cursor : 'default';
-    btm.scaleX = btm.scaleY = options.scale ? options.scale : 1;
-
-    return btm;
-  }
-
   // static createPenBrash(options) {
   //   const c = new createjs.Shape();
   //   c.graphics.beginFill(options.fill);
@@ -140,112 +116,6 @@ export class DrawingService {
   //
   //   return c;
   // }
-
-  static createPenBrash(options) {
-    if (DrawingService.PenObject && DrawingService.PenObject.container) {
-      DrawingService.PenObject.container.clear();
-    }
-
-    const pen = DrawingService.createBitmap({data: options.penData, cursor: 'default', scale: 1});
-
-    const b = new createjs.Shape();
-    b.graphics.beginFill('lightgray');
-    b.graphics.setStrokeStyle(1);
-    b.graphics.beginStroke('black');
-    b.graphics.moveTo(10, 0);
-    b.graphics.quadraticCurveTo(4, 40, 18, 60);
-    b.graphics.quadraticCurveTo(36, 40, 26, 0);
-    b.graphics.lineTo(10, 0);
-
-    b.scaleX = 0.3;
-    b.scaleY = 0.4;
-
-    b.x = 61;
-    b.y = 100;
-
-    const d = new createjs.Shape();
-    d.graphics.setStrokeStyle(0);
-    // d.graphics.beginStroke(DrawingService.getRGB('green'));
-    const cmd = d.graphics.beginFill(DrawingService.getRGB('green'));
-    d.graphics.drawRect(0, 0, 12, 24);
-    d.x = 60;
-    d.y = 124;  // 100~124;
-
-    const c = new createjs.Shape();
-    c.graphics.beginFill('black');
-    c.graphics.beginStroke('black');
-    c.graphics.moveTo(10, 0);
-    c.graphics.quadraticCurveTo(4, 40, 18, 60);
-    c.graphics.quadraticCurveTo(36, 40, 26, 0);
-    c.graphics.lineTo(10, 0);
-
-    c.scaleX = 0.3;
-    c.scaleY = 0.4;
-
-    c.x = 61;
-    c.y = 100;
-
-    d.mask = c;
-
-    DrawingService.PenObject = {
-      container: new createjs.Container(),
-      ink: d,
-      fillCmd: cmd,
-      point: {left: -3, top: 140}
-    };
-
-    DrawingService.PenObject.container.addChild(b, d, pen);
-
-    DrawingService.PenObject.container.rotation = 30;
-    return DrawingService.PenObject['container'];
-  }
-
-  static fillInk(color, callback?) {
-    DrawingService.PenObject.color = color;
-    DrawingService.PenObject.ink.graphics.setStrokeStyle(0);
-    // d.graphics.beginStroke(DrawingService.getRGB('green'));
-    DrawingService.PenObject.ink.graphics.beginFill(DrawingService.getRGB(color));
-    DrawingService.PenObject.ink.graphics.drawRect(0, 0, 12, 24);
-
-
-    createjs.Tween.get(DrawingService.PenObject.ink)
-      .wait(70)
-      .to({y: 100}, 400)
-      .call(() => {
-        DrawingService.PenObject['ink'].y = 100;
-        if (callback) {
-          callback();
-        }
-      });
-  }
-
-  static movePenTo(x, y, callback?) {
-    createjs.Tween.get(DrawingService.PenObject.container)
-      .wait(50)
-      .to({
-        x: x - DrawingService.PenObject.point.left,
-        y: y - DrawingService.PenObject.point.top}, 700
-      ).call(() => {
-      if (callback) {
-        callback();
-      }
-      // DrawingService.emptyInk(callback);
-    });
-  }
-
-  static emptyInk(callback?) {
-    DrawingService.PenObject.color = '';
-
-    createjs.Tween.get(DrawingService.PenObject.ink)
-      .wait(170)
-      .to({y: 124}, 400)
-      .call(() => {
-        DrawingService.PenObject['ink'].y = 124;
-        if (callback) {
-          callback();
-        }
-      });
-  }
 
 
   // make sure bitmap is rendering
@@ -262,7 +132,7 @@ export class DrawingService {
     DeviceTimerService.register(process);
   }
 
-  private static getRGB(colorValue) {
+  protected static getRGB(colorValue) {
     if (typeof colorValue !== 'string') {
       colorValue = createjs.Graphics.getRGB(colorValue.r, colorValue.g, colorValue.b, colorValue.a ? colorValue.a : 1);
     }
