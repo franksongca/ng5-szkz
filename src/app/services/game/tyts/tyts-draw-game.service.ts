@@ -59,17 +59,27 @@ export class TytsDrawGameService {
       imgShape.shape.mouseEnabled = true;
       imgShape.shape.cursor = 'pointer';
       imgShape.shape.addEventListener('mousedown', function(event) {
-        if (self.fillInAreaShapes[imgShape.index].status === 0 && TytsDrawingService.PenObject.color) {
-          self.fillInAreaShapes[imgShape.index].status = 1;
-          TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
-            const color = TytsDrawingService.PenObject.color;
-            TytsDrawingService.emptyInk(() => {
-              TytsDrawingService.createLines(piece.lines, {thickness: 1, stroke: color}, imgShape.index, imgShape.name, imgShape.shape);
+        if (self.fillInAreaShapes[imgShape.index].status === 0) {
+          if (TytsDrawingService.PenObject.color) {
+            self.fillInAreaShapes[imgShape.index].status = 1;
+            TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+              const color = TytsDrawingService.PenObject.color;
+              TytsDrawingService.emptyInk(() => {
+                TytsDrawingService.createLines(piece.lines, {
+                  thickness: 1,
+                  stroke: color
+                }, imgShape.index, imgShape.name, imgShape.shape);
 
-              TytsDrawingService.movePenHome(null);
+                TytsDrawingService.movePenHome(null);
+              });
             });
-          });
+          } else {
+            self.fillInAreaShapes[imgShape.index].hanzi.read();
+          }
         }
+
+
+
       });
 
       this.container.addChild(imgShape.shape);

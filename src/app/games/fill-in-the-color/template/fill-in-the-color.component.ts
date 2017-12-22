@@ -59,11 +59,10 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   getHanziSelection() {
     const hanziSelectionService: HanziSelectionService = new HanziSelectionService(this.articleService.getPage(this.pageIndex - 1));
 
-    hanziSelectionService.onHanziCollectionReady.subscribe(() => {
-      this.hanZiSelection = hanziSelectionService.getSelectionUniquePronunciation(true);
-      this.gameStatus.selectionReady = true;
-      this.prepareGame();
-    });
+    this.hanZiSelection = hanziSelectionService.getSelectionUniquePronunciation(true);
+
+    this.gameStatus.selectionReady = true;
+    this.prepareGame();
   }
 
 

@@ -1,10 +1,11 @@
+/// <reference path='../../node_modules/createjs-module/createjs.d.ts' />
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
 import { DeviceTimerService } from './services/device-timer.service';
 import { CommonService } from './services/common.service';
-
+import * as createjs from 'createjs-module';
 
 @Component({
   selector: 'app-root',
@@ -26,4 +27,5 @@ export class AppComponent {
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     translateService.use('zh');
   }
+
 }

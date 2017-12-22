@@ -1,8 +1,9 @@
 import { Injectable, Inject, Optional } from '@angular/core';
+import { Howl } from 'howler';
 
 @Injectable()
 export class ZiService {
-  public static KOUJUE_AUDIO_PATH = './assets/media/Zi/';
+  static AudioBasePath = './assets/media/Zi/';
 
   allSpellings;
 
@@ -36,16 +37,12 @@ export class ZiService {
   }
 
   read() {
-    // trace("ZI :: read: "+((Configuration.MAIN == null ? Configuration.RELATIVE_PATH : "") + KOUJUE_AUDIO_PATH + _spelling + "_" + _tone + ".mp3"));
-    //
-    // try{
-    //   var soundRequest:URLRequest = new URLRequest((Configuration.MAIN == null ? Configuration.RELATIVE_PATH : "") + KOUJUE_AUDIO_PATH + _spelling + "_" + _tone + ".mp3");
-    //   var audioSound:Sound = new Sound(soundRequest);
-    //   audioSound.addEventListener(IOErrorEvent.IO_ERROR, handlerAudioError);
-    //   audioSound.play();
-    // } catch(e:IOErrorEvent) {
-    //   trace("ZI :: Cannot find audio file.");
-    // }
+    const sound = new Howl({
+      src: [ZiService.AudioBasePath + this.spelling + '_' + this.tone + '.mp3'],
+      html5 : true
+    });
+
+    sound.play();
   }
 
   equals(zi): boolean {
