@@ -43,6 +43,17 @@ export class ZiService {
     });
 
     sound.play();
+
+    // trace("ZI :: read: "+((Configuration.MAIN == null ? Configuration.RELATIVE_PATH : "") + KOUJUE_AUDIO_PATH + _spelling + "_" + _tone + ".mp3"));
+    //
+    // try{
+    //   var soundRequest:URLRequest = new URLRequest((Configuration.MAIN == null ? Configuration.RELATIVE_PATH : "") + KOUJUE_AUDIO_PATH + _spelling + "_" + _tone + ".mp3");
+    //   var audioSound:Sound = new Sound(soundRequest);
+    //   audioSound.addEventListener(IOErrorEvent.IO_ERROR, handlerAudioError);
+    //   audioSound.play();
+    // } catch(e:IOErrorEvent) {
+    //   trace("ZI :: Cannot find audio file.");
+    // }
   }
 
   equals(zi): boolean {

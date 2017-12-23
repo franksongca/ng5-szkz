@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import * as createjs from 'createjs-module';
 import { DrawingService } from '../drawing.service';
 import { TranslateService } from '@ngx-translate/core';
-import { CommonService } from '../../../services/common.service';
+import { CommonService } from '../../common.service';
+import { AudioLoaderService } from './../../audio.manager.service';
 import { ProcessInterface, DeviceTimerService } from './../../../services/device-timer.service';
 
 @Injectable()
 export class TytsDrawingService extends DrawingService {
   static PLATE_ITEM_RADIUS = 35;
+  static GAME_OVER = 0;
   static PEN_SETTING = {
     home: {
       scale: 0.5,
@@ -37,6 +39,7 @@ export class TytsDrawingService extends DrawingService {
   constructor(private translateService: TranslateService) {
     super();
 
+    TytsDrawingService.GAME_OVER = 0;
     TytsDrawingService.translate = translateService;
   }
 
@@ -168,11 +171,17 @@ export class TytsDrawingService extends DrawingService {
       nitem.mouseEnabled = true;
       nitem.cursor = 'pointer';
       nitem.addEventListener('mousedown', function(event) {
+        if (TytsDrawingService.GAME_OVER) {
+          return;
+        }
         console.log(event['rawX'], event['rawY']);
 
         TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
+          AudioLoaderService.play('sliding');
           TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
             const color = TytsDrawingService.realPlateColors[item.colorIndex];
+            AudioLoaderService.play('ink');
+
             TytsDrawingService.fillInk({color: color, wait: 500, duration: 600, hanZi: item.hanZi});
           });
         });
@@ -192,6 +201,7 @@ export class TytsDrawingService extends DrawingService {
   }
 
   static createSplashingAnimation(options) {
+    const container = TytsDrawingService.createContainer();
     const spriteSheet = new createjs.SpriteSheet({
       // image to use
       images: [options.data],
@@ -202,7 +212,13 @@ export class TytsDrawingService extends DrawingService {
       }
     });
 
-    return new createjs.Sprite(spriteSheet, 'splashing');
+
+    const spani = new createjs.Sprite(spriteSheet, 'splashing');
+    spani.name = 'ani';
+
+    container.addChild(spani);
+
+    return container;
   }
 
 

@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceTimerService } from './../services/device-timer.service';
 import { ArticleService } from './../services/sz/article.service';
 import { CommonService } from './../services/common.service';
+import { AudioLoaderService } from './../services/audio.manager.service';
 
 @Component({
   selector: 'app-page-selector',
@@ -27,6 +28,7 @@ export class PageSelectorComponent implements AfterViewInit {
   showPageText = false;
 
   pageChanged(event: any): void {
+    AudioLoaderService.play('changeSelection');
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
     this.paginationSettings.currentPage = event.page;

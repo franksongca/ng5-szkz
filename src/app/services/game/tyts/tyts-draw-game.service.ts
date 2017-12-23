@@ -1,5 +1,6 @@
-import { Injectable, Inject, Optional } from '@angular/core';
+import { Injectable, Inject, Optional, EventEmitter } from '@angular/core';
 import { TytsDrawingService } from './../../drawing/games/tyts-drawing.service';
+import { AudioLoaderService } from './../../audio.manager.service';
 
 @Injectable()
 export class TytsDrawGameService {
@@ -8,16 +9,18 @@ export class TytsDrawGameService {
   fillInAreaShapes = [];
   fillInLinesImg;
   container;
-
+  correctFilled = 0;
+  wrongFilled = 0;
   splashingAni;
-  colorPlateObject;
+  splashingAniContainer;
+
+  onGameOver: EventEmitter<number> = new EventEmitter();
 
   // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('config') @Optional() public config?: any, @Inject('scale') @Optional() public scale?: Number) {
 
   constructor(@Inject('options') @Optional() public options: any) {
+    TytsDrawingService.GAME_OVER = 0;
   }
-
-
 
   clear() {
     this.fillInAreaShapes.forEach((piece) => {
@@ -60,10 +63,24 @@ export class TytsDrawGameService {
       imgShape.shape.mouseEnabled = true;
       imgShape.shape.cursor = 'pointer';
       imgShape.shape.addEventListener('mousedown', function(event) {
+        if (TytsDrawingService.GAME_OVER) {
+          return;
+        }
         if (self.fillInAreaShapes[imgShape.index].status === 0) {
           if (TytsDrawingService.PenObject.color) {
+            if (self.fillInAreaShapes[imgShape.index].hanzi.equalsInSpelling(TytsDrawingService.PenObject.hanZi)) {
+              AudioLoaderService.play('correct', () => {
+                AudioLoaderService.play('claping', () => {
+                  self.correctFilled ++;
+                  if (self.correctFilled === self.fillInAreaShapes.length) {
+                    AudioLoaderService.play('success');
 
-            if (self.fillInAreaShapes[imgShape.index].hanzi.equalsInSpelling(TytsDrawingService.PenObject.hanZi) {
+                    TytsDrawingService.GAME_OVER = 1;
+                    self.onGameOver.emit(TytsDrawingService.GAME_OVER);
+                    /// TODO: game done popup ?
+                  }
+                });
+              });
               self.fillInAreaShapes[imgShape.index].status = 1;
               TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
                 const color = TytsDrawingService.PenObject.color;
@@ -77,6 +94,21 @@ export class TytsDrawGameService {
                 });
               });
             } else {
+              AudioLoaderService.play('splash', () => {
+                self.wrongFilled ++;
+
+                if (self.wrongFilled > self.fillInAreaShapes.length * 0.4) {
+                  TytsDrawingService.emptyInk();
+                  TytsDrawingService.movePenHome(null);
+
+                  AudioLoaderService.play('failed');
+                  TytsDrawingService.GAME_OVER = -1;
+                  self.onGameOver.emit(TytsDrawingService.GAME_OVER);
+
+                  /// TODO: game done popup ?                }
+                }
+              });
+
               self.playSplashingAni({pos: {x: event['rawX'], y: event['rawY']}});
               TytsDrawingService.movePenHome(null);
               TytsDrawingService.emptyInk();
@@ -108,7 +140,8 @@ export class TytsDrawGameService {
     this.fillInLinesImg = img;
 
 
-    this.splashingAni = TytsDrawingService.createSplashingAnimation({data: this.options.splashData});
+    this.splashingAniContainer = TytsDrawingService.createSplashingAnimation({data: this.options.splashData});
+    this.splashingAni = this.splashingAniContainer.getChildByName('ani');
 
     this.splashingAni.alpha = 0;
 
@@ -116,7 +149,7 @@ export class TytsDrawGameService {
       this.splashingAni.alpha = 0;
     });
 
-    this.options.stage.addChild(this.splashingAni);
+    this.options.stage.addChild(this.splashingAniContainer);
   }
 
   playSplashingAni(options) {
