@@ -169,10 +169,11 @@ export class TytsDrawingService extends DrawingService {
       nitem.cursor = 'pointer';
       nitem.addEventListener('mousedown', function(event) {
         console.log(event['rawX'], event['rawY']);
+
         TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
           TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
             const color = TytsDrawingService.realPlateColors[item.colorIndex];
-            TytsDrawingService.fillInk({color: color, wait: 500, duration: 600});
+            TytsDrawingService.fillInk({color: color, wait: 500, duration: 600, hanZi: item.hanZi});
           });
         });
       });
@@ -189,6 +190,21 @@ export class TytsDrawingService extends DrawingService {
 
     return TytsDrawingService.ColorPlateObject.container;
   }
+
+  static createSplashingAnimation(options) {
+    const spriteSheet = new createjs.SpriteSheet({
+      // image to use
+      images: [options.data],
+      // width, height & registration point of each sprite
+      frames: {width: 200, height: 150, regX: 100, regY: 75, spacing: 0, margin: 0},
+      animations: {
+        splashing: [0, 5]
+      }
+    });
+
+    return new createjs.Sprite(spriteSheet, 'splashing');
+  }
+
 
   static createPenBrash(options) {
     if (TytsDrawingService.PenObject && TytsDrawingService.PenObject.container) {
@@ -250,6 +266,7 @@ export class TytsDrawingService extends DrawingService {
   }
 
   static fillInk(options, callback?) {
+    TytsDrawingService.PenObject.hanZi = options.hanZi;
     TytsDrawingService.PenObject.color = options.color;
     TytsDrawingService.PenObject.ink.graphics.setStrokeStyle(0);
     TytsDrawingService.PenObject.ink.graphics.beginFill(TytsDrawingService.getRGB(options.color));

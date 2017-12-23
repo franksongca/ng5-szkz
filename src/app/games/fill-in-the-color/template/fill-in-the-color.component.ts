@@ -140,6 +140,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
         imageInfo: this.gameImagesInfo,
         scale: 1.1,
         type: FillInTheColorComponent.GameType,
+        splashData: this.gameSharedData.splashing,
         code: this.gameCode,
         pos: {x: 10, y: 10}
       });
@@ -155,6 +156,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
         fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily
       });
       this.stage.addChild(cp);
+
+
 
       const c = TytsDrawingService.createPenBrash({fill: 'green', stroke: 'green', penData: this.gameSharedData.pen});
       this.stage.addChild(c);

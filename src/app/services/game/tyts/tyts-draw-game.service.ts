@@ -9,6 +9,7 @@ export class TytsDrawGameService {
   fillInLinesImg;
   container;
 
+  splashingAni;
   colorPlateObject;
 
   // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('config') @Optional() public config?: any, @Inject('scale') @Optional() public scale?: Number) {
@@ -61,25 +62,29 @@ export class TytsDrawGameService {
       imgShape.shape.addEventListener('mousedown', function(event) {
         if (self.fillInAreaShapes[imgShape.index].status === 0) {
           if (TytsDrawingService.PenObject.color) {
-            self.fillInAreaShapes[imgShape.index].status = 1;
-            TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
-              const color = TytsDrawingService.PenObject.color;
-              TytsDrawingService.emptyInk(() => {
-                TytsDrawingService.createLines(piece.lines, {
-                  thickness: 1,
-                  stroke: color
-                }, imgShape.index, imgShape.name, imgShape.shape);
 
-                TytsDrawingService.movePenHome(null);
+            if (self.fillInAreaShapes[imgShape.index].hanzi.equalsInSpelling(TytsDrawingService.PenObject.hanZi) {
+              self.fillInAreaShapes[imgShape.index].status = 1;
+              TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+                const color = TytsDrawingService.PenObject.color;
+                TytsDrawingService.emptyInk(() => {
+                  TytsDrawingService.createLines(piece.lines, {
+                    thickness: 1,
+                    stroke: color
+                  }, imgShape.index, imgShape.name, imgShape.shape);
+
+                  TytsDrawingService.movePenHome(null);
+                });
               });
-            });
+            } else {
+              self.playSplashingAni({pos: {x: event['rawX'], y: event['rawY']}});
+              TytsDrawingService.movePenHome(null);
+              TytsDrawingService.emptyInk();
+            }
           } else {
             self.fillInAreaShapes[imgShape.index].hanzi.read();
           }
         }
-
-
-
       });
 
       this.container.addChild(imgShape.shape);
@@ -101,6 +106,24 @@ export class TytsDrawGameService {
 
     // this.options.stage.addChild(img);
     this.fillInLinesImg = img;
+
+
+    this.splashingAni = TytsDrawingService.createSplashingAnimation({data: this.options.splashData});
+
+    this.splashingAni.alpha = 0;
+
+    this.splashingAni.on('animationend', () => {
+      this.splashingAni.alpha = 0;
+    });
+
+    this.options.stage.addChild(this.splashingAni);
+  }
+
+  playSplashingAni(options) {
+    this.splashingAni.x = options.pos.x;
+    this.splashingAni.y = options.pos.y;
+    this.splashingAni.alpha = 1;
+    this.splashingAni.gotoAndPlay(0);
   }
 
 }
