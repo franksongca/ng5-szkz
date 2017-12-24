@@ -15,7 +15,7 @@ export class TytsDrawingService extends DrawingService {
     home: {
       scale: 0.5,
       rotation: 70,
-      pos: [{x: 620, y: 140}, {x: 20, y: 610}]
+      pos: [{x: 620, y: 140}, {x: 60, y: 710}]
     },
     normal: {
       scale: 1,
@@ -24,10 +24,11 @@ export class TytsDrawingService extends DrawingService {
   };
 
   static layoutSetting = [
-    {left: 560, top: 0, width: 220, height: 580}
+    {left: 560, top: 0, width: 220, height: 580},
+    {left: 0, top: 570, width: 580, height: 190},
   ];
 
-  static layout = 0;  // 0 - color plate is on the right, 1- on the bottom
+  static layout = 1;  // 0 - color plate is on the right, 1- on the bottom
   static translate;
 
   static PenObject;
@@ -126,7 +127,13 @@ export class TytsDrawingService extends DrawingService {
       plateIcon = TytsDrawingService.createBitmap({data: options.colorPlateIconData, cursor: 'default', scale: 0.4, pos: {x: 20, y: 20}});
       ptTitle = TytsDrawingService.createText('hello', {pos: {x: 80, y: 30}, fontSize: 17, fontFamily: options.fontFamily});
     } else {
-
+      bg = TytsDrawingService.createRect(
+        {thinkness: 0, stroke: {r: 230, g: 240, b: 230, a: 1}, fill: {r: 230, g: 240, b: 230, a: 1}},
+        {pos: {x: 10, y: 10}, size: {w: TytsDrawingService.layoutSetting[TytsDrawingService.layout].width, h: TytsDrawingService.layoutSetting[TytsDrawingService.layout].height}}
+      );
+      plateIcon = TytsDrawingService.createBitmap({data: options.colorPlateIconData, cursor: 'default', scale: 0.4, pos: {x: 20, y: 20}});
+      ptTitle = TytsDrawingService.createText('hello', {pos: {x: 30, y: 195}, fontSize: 17, fontFamily: options.fontFamily});
+      ptTitle.rotation = 270;
     }
 
     bg.shadow = TytsDrawingService.createShadow({color: '#99cc99', x: 2, y: 2, blur: 2});
@@ -166,6 +173,12 @@ export class TytsDrawingService extends DrawingService {
 
         nitem.x = 30 + col * 110;
         nitem.y = 70 + row * (TytsDrawingService.PLATE_ITEM_RADIUS + 2) * 2;
+      } else {
+        row = index % 2;
+        col = Math.floor(index / 2);
+
+        nitem.y = 30 + row * 85;
+        nitem.x = 70 + col * (TytsDrawingService.PLATE_ITEM_RADIUS + 2) * 2;
       }
 
       nitem.mouseEnabled = true;
@@ -174,11 +187,11 @@ export class TytsDrawingService extends DrawingService {
         if (TytsDrawingService.GAME_OVER) {
           return;
         }
-        console.log(event['rawX'], event['rawY']);
+        console.log('PLATE: ' + event['rawX'], event['rawY'] + ',' + options.scale);
 
         TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
           AudioLoaderService.play('sliding');
-          TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+          TytsDrawingService.movePenTo(event['rawX'] / options.scale, event['rawY'] / options.scale, () => {
             const color = TytsDrawingService.realPlateColors[item.colorIndex];
             AudioLoaderService.play('ink');
 

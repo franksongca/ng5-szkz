@@ -82,7 +82,7 @@ export class TytsDrawGameService {
                 });
               });
               self.fillInAreaShapes[imgShape.index].status = 1;
-              TytsDrawingService.movePenTo(event['rawX'], event['rawY'], () => {
+              TytsDrawingService.movePenTo(event['rawX'] / self.options.stage.scale, event['rawY'] / self.options.stage.scale, () => {
                 const color = TytsDrawingService.PenObject.color;
                 TytsDrawingService.emptyInk(() => {
                   TytsDrawingService.createLines(piece.lines, {

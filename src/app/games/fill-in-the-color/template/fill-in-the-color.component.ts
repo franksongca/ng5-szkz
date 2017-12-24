@@ -50,6 +50,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   ) {
 
     this.articleService.onPageChanged.subscribe((n) => {
+      TytsDrawingService.GAME_OVER = 0;
       this.pageIndex = n;
       this.getHanziSelection();
     });
@@ -146,14 +147,14 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       });
       this.tytsDrawGameService.drawImages();
 
-
       const cp = TytsDrawingService.createColorPlate({
         pos: {x: 560},
         fillInAreaNum: this.gameImagesInfo.pieces.length,
         colorNum: this.gameSharedData.colorNum,
         plateColors: this.gameSharedData.plateColors,
         colorPlateIconData: this.gameSharedData.plate,
-        fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily
+        fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily,
+        scale: this.stage.scale
       });
       this.stage.addChild(cp);
 
@@ -173,7 +174,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   createGameCanvas() {
     // TODO -- start drawing
     this.stage = new createjs.Stage('gamecanvas');
-
+    this.stage.scaleX = this.stage.scaleY = this.stage.scale = 0.7;
 
     TytsDrawingService.setupStage(this.stage);
 
