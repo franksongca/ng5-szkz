@@ -1,5 +1,5 @@
 /// <reference path='../../node_modules/createjs-module/createjs.d.ts' />
-import { Component } from '@angular/core';
+import { Component, HostListener, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
@@ -14,7 +14,11 @@ import * as createjs from 'createjs-module';
 })
 export class AppComponent {
 
-  constructor(private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
+  @HostListener('window:resize') onResize($event) {
+    this.commonService.triggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
+  }
+
+  constructor(private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
     DeviceTimerService.init();
 
     ArticleListService.loadArticleList().subscribe((response) => {

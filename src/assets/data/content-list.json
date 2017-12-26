@@ -308,7 +308,7 @@
 				"py":"Shi Ci Ge Qu",
 				"en":"Songs of classical Chinese poetry"
 			},
-			"articles": 
+			"articles":
 			[
 				{
 					"code": "scgq-YE",
@@ -367,5 +367,16 @@
 				}
 			]
 		}
-	]
+	],
+
+  "commands": {
+    "gameFillInColor": {
+      "icon": "./assets/images/page/game-ts.png",
+      "commands": [
+        {"name": "home", "textKey": "CMD_RETURN", "buttonIcon": "home"},
+        {"name": "selectPic", "textKey": "CMD_SELECT_PIC", "buttonIcon": "leaf"},
+        {"name": "settings", "textKey": "CMD_SELECT_PIC", "buttonIcon": "leaf"}
+      ]
+    }
+  }
 }

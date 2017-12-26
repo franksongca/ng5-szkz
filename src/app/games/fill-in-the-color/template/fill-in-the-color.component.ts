@@ -75,18 +75,6 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
   ngAfterViewInit() {
 
-
-
-
-
-
-
-
-
-
-
-
-
     // this.stage.addChild(DrawingService.createRect({thickness: 1,
     //   stroke: 'black',
     //   fill: 'white'}, {pos: {x: 0, y: 0}, size: {w: 800, h: 600}}));
@@ -109,10 +97,6 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
     // the stage.update makes drawing bitmap works!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // hzDrawing.ziColorFlicking(this.stage, ['purple', 'white', 'darkred'], 20, 20);
-
-
-
-
 
   }
 

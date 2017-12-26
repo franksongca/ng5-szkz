@@ -1,4 +1,5 @@
 {
+  "APP_TITLE": "《三字经》-- 玩一玩，轻松学",
   "HELLO": "你好",
   "FIRST_PAGE": "首页",
   "LAST_PAGE": "尾页",
@@ -6,5 +7,10 @@
   "NEXT_PAGE": "后一页",
   "PAGE_N": "第 {{value}} 页",
   "TOTAL_PAGE": "共 {{value}} 页",
-  "SELECT_APPROPRIATE_CORLOR": "请选择适当的颜色"
+  "SELECT_APPROPRIATE_CORLOR": "请选择适当的颜色",
+
+  "CMD_RETURN": "返回",
+  "CMD_SELECT_PIC": "选择填色图",
+  "CMD_GAME_SETTINGS": "游戏设置",
+  "CMD_HELP": "帮助"
 }

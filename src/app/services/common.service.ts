@@ -1,11 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable()
 export class CommonService {
   static productCode = 'kj-SZJ';
-
   static TICK = 0.0167; // 1/60 seconds, 16.7 milliseconds
-  constructor() { }
+
+  static WindowSize;
+
+  onResized: EventEmitter<any> = new EventEmitter();
+
+  constructor() {
+    this.triggerResizeEvent({
+      w: window.innerWidth,
+      h: window.innerHeight
+    });
+  }
 
   static clone(srcObj) {
     return JSON.parse(JSON.stringify(srcObj));
@@ -87,5 +96,16 @@ export class CommonService {
 
     return p;
   }
+
+  triggerResizeEvent(size) {
+    CommonService.WindowSize = {
+      w: size.w,
+      h: size.h,
+      smallWidth: size.w < 480
+    };
+
+    this.onResized.emit(CommonService.WindowSize);
+  }
+
 
 }

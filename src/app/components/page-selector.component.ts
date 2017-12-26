@@ -12,6 +12,13 @@ import { AudioLoaderService } from './../services/audio.manager.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PageSelectorComponent implements AfterViewInit {
+  static maxSize = [
+    {w: 520, size: 1},
+    {w: 570, size: 2},
+    {w: 610, size: 3},
+    {w: 660, size: 4}
+  ];
+
   paginationSettings = {
     bigTotalItems: 0,
     currentPage: 1,
@@ -25,9 +32,16 @@ export class PageSelectorComponent implements AfterViewInit {
     pageText: ''
   };
 
+  firstTime = true;
+  winSize;
   showPageText = false;
 
   pageChanged(event: any): void {
+    if (this.paginationSettings.currentPage === event.page && !this.firstTime) {
+     return;
+    }
+    this.firstTime = false;
+
     AudioLoaderService.play('changeSelection');
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
@@ -52,11 +66,43 @@ export class PageSelectorComponent implements AfterViewInit {
 
   }
 
-  constructor(private articleService: ArticleService, private translate: TranslateService) {
+  constructor(private commonService: CommonService, private articleService: ArticleService, private translate: TranslateService) {
     this.translate.get(['FIRST_PAGE', 'LAST_PAGE', 'PREVIOUS_PAGE', 'NEXT_PAGE']).subscribe((res) => {
       this.paginationSettings.translation = res;
     });
+
+    this.commonService.onResized.subscribe((size) => {
+      this.onResize(size);
+    });
   }
+
+  onResize(size) {
+    this.winSize = size;
+
+    setTimeout(() => {
+      this.paginationSettings.maxSize = this.getPaginationMaxSize(this.winSize.w);
+    });
+
+  }
+
+  getPaginationMaxSize(winWidth) {
+    if (winWidth > PageSelectorComponent.maxSize[3].w) {
+      return 5;
+    }
+    if (winWidth > PageSelectorComponent.maxSize[2].w) {
+      return 4;
+    }
+    if (winWidth > PageSelectorComponent.maxSize[1].w) {
+      return 3;
+    }
+    if (winWidth > PageSelectorComponent.maxSize[0].w) {
+      return 2;
+    }
+    return 1;
+
+  }
+
+
 
   initData() {
     DeviceTimerService.register({
@@ -83,6 +129,8 @@ export class PageSelectorComponent implements AfterViewInit {
         this.initData.apply(this);
       });
     }
+
+    this.onResize(CommonService.WindowSize);
   }
 
 }
