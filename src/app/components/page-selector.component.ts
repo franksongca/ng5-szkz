@@ -37,10 +37,10 @@ export class PageSelectorComponent implements AfterViewInit {
   showPageText = false;
 
   pageChanged(event: any): void {
-    if (this.paginationSettings.currentPage === event.page && !this.firstTime) {
+    if (this.paginationSettings.currentPage === event.page && !CommonService.FirstTime) {
      return;
     }
-    this.firstTime = false;
+    CommonService.FirstTime = false;
 
     AudioLoaderService.play('changeSelection');
     console.log('Page changed to: ' + event.page);
@@ -108,7 +108,8 @@ export class PageSelectorComponent implements AfterViewInit {
     DeviceTimerService.register({
       renderFunc: () => {
         this.paginationSettings.currentPage = CommonService.getBookmark();
-        if (CommonService.getBookmark() === 1) {
+        if (CommonService.getBookmark() === 1 && CommonService.FirstTime) {
+          CommonService.FirstTime = false;
           this.changeToPage();
         }
       },

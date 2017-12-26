@@ -13,6 +13,7 @@ import * as createjs from 'createjs-module';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  fullScreen = false;
 
   @HostListener('window:resize') onResize($event) {
     this.commonService.triggerResizeEvent({w: window.innerWidth, h: window.innerHeight});

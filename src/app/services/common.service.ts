@@ -6,6 +6,7 @@ export class CommonService {
   static TICK = 0.0167; // 1/60 seconds, 16.7 milliseconds
 
   static WindowSize;
+  static FirstTime = true;
 
   onResized: EventEmitter<any> = new EventEmitter();
 
