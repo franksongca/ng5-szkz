@@ -110,6 +110,8 @@ export class TytsDrawGameService {
               });
 
               self.playSplashingAni({pos: {x: event['rawX'], y: event['rawY']}});
+              console.log('>>> ' + event['rawX'] + ',' + event['rawY']);
+
               TytsDrawingService.movePenHome(null);
               TytsDrawingService.emptyInk();
             }
@@ -152,9 +154,9 @@ export class TytsDrawGameService {
     this.options.stage.addChild(this.splashingAniContainer);
   }
 
-  playSplashingAni(options) {
-    this.splashingAni.x = options.pos.x;
-    this.splashingAni.y = options.pos.y;
+  playSplashingAni(option) {
+    this.splashingAni.x = option.pos.x / this.options.stage.scale;
+    this.splashingAni.y = option.pos.y / this.options.stage.scale;
     this.splashingAni.alpha = 1;
     this.splashingAni.gotoAndPlay(0);
   }

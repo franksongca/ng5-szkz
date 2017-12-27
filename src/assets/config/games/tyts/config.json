@@ -1,11 +1,11 @@
 {
   "gameConfig": {
-    "w": 800,
-    "h": 800,
+    "w": 910,
+    "h": 590,
     "backgroundColor": "lightyellow"
   },
   "plateColors": [ "#BB8FCE ",  "#7FB3D5 ",  "#1ABC9C ",  "#82E0AA ",  "#F1C40F ",  "#D35400 ",  "#FF0000 ",  "#800000 ",  "#FFFF00 ",  "#808000 ",  "#00FF00 ",  "#008000 ",  "#00FFFF ",  "#008080 ",  "#0000FF ",  "#000080 ",  "#FF00FF ",  "#800080 "],
-  "colorNum": 14,
+  "colorNum": 15,
   "stylesSettings": {
     "zi": {
       "errorFlashing": [
@@ -14,7 +14,7 @@
       ],
       "successFlashing": [
         "green",
-        "white"
+        "WHITE"
       ],
       "normalFlashing": [
         "yellow",

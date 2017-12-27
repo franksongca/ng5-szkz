@@ -59,8 +59,16 @@ export class DrawingService {
     return square;
   }
 
-  static createRect(drwaingSettings, shapeSettings) {
-    const rect = new createjs.Shape();
+  static createRect(drwaingSettings, shapeSettings, rectObj?) {
+    let rect;
+
+    if (typeof rectObj !== 'undefined' && rectObj !== null) {
+      rect = rectObj;
+    } else {
+      rect = new createjs.Shape();
+    }
+
+    rect.graphics.clear();
 
     rect.graphics.setStrokeStyle(drwaingSettings.thickness)
       .beginStroke(DrawingService.getRGB(drwaingSettings.stroke))

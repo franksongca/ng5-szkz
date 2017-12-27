@@ -101,8 +101,7 @@ export class CommonService {
   triggerResizeEvent(size) {
     CommonService.WindowSize = {
       w: size.w,
-      h: size.h,
-      smallWidth: size.w < 480
+      h: size.h
     };
 
     this.onResized.emit(CommonService.WindowSize);

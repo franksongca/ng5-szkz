@@ -3,7 +3,7 @@ import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewEncapsulation }
 import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
 import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
-
+import { CommonService } from './../../../services/common.service';
 import { ArticleService } from '../../../services/sz/article.service';
 import { HanziSelectionService } from '../../../services/sz/hanzi-selection.service';
 
@@ -26,6 +26,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   @Input() gameSharedData;
   @Input() gameCode: string;
 
+  canvasSize = {};
   // gameSettings: any;
   // stylesSettings: any;
 
@@ -39,10 +40,9 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   gameImagesInfo;
   pageIndex;
   hanZiSelection;
-  colorPlateTitle;
 
   constructor(
-    private translateService: TranslateService,
+    private commonService: CommonService,
     private imageDataService: ImageDataService,
     private tytsDrawGameService: TytsDrawGameService,
     private articleService: ArticleService,
@@ -54,6 +54,14 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.pageIndex = n;
       this.getHanziSelection();
     });
+
+    this.commonService.onResized.subscribe((size) => {
+      // TODO: update layout
+
+      this.updateLayout();
+    });
+
+    const winSize = CommonService.WindowSize;
 
   }
 
@@ -127,12 +135,11 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
         type: FillInTheColorComponent.GameType,
         splashData: this.gameSharedData.splashing,
         code: this.gameCode,
-        pos: {x: 10, y: 10}
+        pos: {x: 50, y: 10}
       });
       this.tytsDrawGameService.drawImages();
 
       const cp = TytsDrawingService.createColorPlate({
-        pos: {x: 560},
         fillInAreaNum: this.gameImagesInfo.pieces.length,
         colorNum: this.gameSharedData.colorNum,
         plateColors: this.gameSharedData.plateColors,
@@ -158,7 +165,7 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   createGameCanvas() {
     // TODO -- start drawing
     this.stage = new createjs.Stage('gamecanvas');
-    this.stage.scaleX = this.stage.scaleY = this.stage.scale = 0.7;
+    this.stage.scaleX = this.stage.scaleY = this.stage.scale = 1;
 
     TytsDrawingService.setupStage(this.stage);
 
@@ -184,6 +191,25 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       TytsDrawingService.bindHanziToPlate(this.hanZiSelection);
 
       // alert('prepareGame()');
+      this.updateLayout();
     }
+  }
+
+  updateLayout() {
+    const a = TytsDrawingService.ColorPlateObject.container.getBounds();
+
+    if (CommonService.WindowSize.w > CommonService.WindowSize.h) {
+      this.canvasSize['w'] = this.gameSharedData.gameConfig.h;
+      this.canvasSize['h'] = this.gameSharedData.gameConfig.w;
+
+      this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / this.gameSharedData.gameConfig.w;
+    } else {
+      this.canvasSize['w'] = this.gameSharedData.gameConfig.w;
+      this.canvasSize['h'] = this.gameSharedData.gameConfig.h;
+
+      this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / this.gameSharedData.gameConfig.h;
+    }
+
+    TytsDrawingService.repositionColorPlate();
   }
 }
