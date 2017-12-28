@@ -1,6 +1,4 @@
 .app-banner {
-  position: relative;
-  top: 0;
   background: rgba(237,240,239,1);
   background: -moz-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, rgba(237,240,239,1)), color-stop(58%, rgba(93,240,98,1)), color-stop(100%, rgba(42,186,9,1)));
@@ -10,10 +8,6 @@
   background: linear-gradient(to right, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#edf0ef', endColorstr='#2aba09', GradientType=1 );
 }
-
-.control-selction {
-}
-
 
 .command-bar {
   height: 40px;
@@ -44,3 +38,19 @@
   margin: 5px;
 }
 
+.work-zone {
+  position: fixed;
+  overflow-x: auto;
+  overflow-y: auto;
+  top: 30px;
+}
+
+.game-work-zone {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+app-fill-in-the-color-menu {
+  position: relative;
+}

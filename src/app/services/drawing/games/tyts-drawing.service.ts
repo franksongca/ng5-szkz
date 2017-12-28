@@ -48,8 +48,6 @@ export class TytsDrawingService extends DrawingService {
 
   static adjustCanvasSize() {
     TytsDrawingService.layout = CommonService.WindowSize.w > CommonService.WindowSize.h ? 0 : 1;
-    const b = TytsDrawingService.ColorPlateObject.container.getBounds();
-
   }
 
   static bindHanziToPlate(characters) {

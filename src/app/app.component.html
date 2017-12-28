@@ -3,17 +3,19 @@
   <a href="#" (click)="fullScreen = !fullScreen" class="funn-screen-btn pull-right"><span class="glyphicon glyphicon-resize-full" *ngIf="!fullScreen"></span><span class="glyphicon glyphicon-resize-small" *ngIf="fullScreen"></span></a>
 </div>
 
-<div class="app-banner" *ngIf="!fullScreen">
-  <div class="control-selction">
-    <div class="command-bar">
-      <img class="game-title" src="./assets/images/page/game-ts.png">
-      <span class="glyphicon glyphicon-home"></span>
+<div class="work-zone">
+  <div class="app-banner" *ngIf="!fullScreen">
+    <div class="control-selction">
+      <div class="command-bar">
+        <img class="game-title" src="./assets/images/page/game-ts.png">
+        <span class="glyphicon glyphicon-home"></span>
+      </div>
     </div>
+
+    <app-page-selector></app-page-selector>
   </div>
 
-  <app-page-selector></app-page-selector>
-</div>
-
-<div class="work-zone">
-  <app-fill-in-the-color-menu></app-fill-in-the-color-menu>
+  <div class="game-work-zone" [ngStyle]="{'height': workZoneHeight + 'px'}">
+    <app-fill-in-the-color-menu></app-fill-in-the-color-menu>
+  </div>
 </div>

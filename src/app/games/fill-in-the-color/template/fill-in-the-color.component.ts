@@ -196,19 +196,25 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   updateLayout() {
-    const a = TytsDrawingService.ColorPlateObject.container.getBounds();
-
+    let h;
     if (CommonService.WindowSize.w > CommonService.WindowSize.h) {
-      this.canvasSize['w'] = this.gameSharedData.gameConfig.h;
-      this.canvasSize['h'] = this.gameSharedData.gameConfig.w;
+      // this.canvasSize['w'] = this.gameSharedData.gameConfig.h;
+      // this.canvasSize['h'] = this.gameSharedData.gameConfig.w;
+
+      h = this.gameSharedData.gameConfig.h;
 
       this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / this.gameSharedData.gameConfig.w;
-    } else {
-      this.canvasSize['w'] = this.gameSharedData.gameConfig.w;
-      this.canvasSize['h'] = this.gameSharedData.gameConfig.h;
 
-      this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / this.gameSharedData.gameConfig.h;
+    } else {
+      // this.canvasSize['w'] = this.gameSharedData.gameConfig.w;
+      // this.canvasSize['h'] = this.gameSharedData.gameConfig.h;
+
+      h = this.gameSharedData.gameConfig.w;
+      this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / (this.gameSharedData.gameConfig.h);
+
     }
+    this.canvasSize['w'] = CommonService.WindowSize.w;
+    this.canvasSize['h'] = h * this.stage.scale; //CommonService.WindowSize.h; // s* this.stage.scale;
 
     TytsDrawingService.repositionColorPlate();
   }

@@ -14,12 +14,16 @@ import * as createjs from 'createjs-module';
 })
 export class AppComponent {
   fullScreen = false;
+  workZoneHeight;
 
   @HostListener('window:resize') onResize($event) {
+    this.workZoneHeight = window.innerHeight - 30;
     this.commonService.triggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
   }
 
   constructor(private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
+    this.workZoneHeight = window.innerHeight - 30;
+
     DeviceTimerService.init();
 
     ArticleListService.loadArticleList().subscribe((response) => {
