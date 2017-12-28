@@ -24,7 +24,8 @@ import * as createjs from 'createjs-module';
 export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit {
   static GameType = 'tyts';
   @Input() gameSharedData;
-  @Input() gameCode: string;
+
+  gameCode = 'Pic_2';
 
   canvasSize = {};
   // gameSettings: any;
@@ -107,6 +108,20 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     // hzDrawing.ziColorFlicking(this.stage, ['purple', 'white', 'darkred'], 20, 20);
 
   }
+
+  // loadGameData() {
+  //   this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
+  //     (response) => {
+  //       this.gameImagesInfo = response;
+  //
+  //       this.drawGameStage();
+  //     },
+  //     () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + '][' + this.gameCode + ']')
+  //   );
+  // }
+
+
+
 
   ngOnChanges(changes) {
     if (changes.gameCode && changes.gameCode.previousValue !== changes.gameCode.currentValue) {
