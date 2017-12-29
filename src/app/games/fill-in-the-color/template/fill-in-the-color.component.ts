@@ -23,13 +23,13 @@ import * as createjs from 'createjs-module';
 })
 export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit {
   static GameType = 'tyts';
-  @Input() gameSharedData;
+
+  gameSharedData;
 
   gameCode = 'Pic_2';
 
+  marginHeight = 0;
   canvasSize = {};
-  // gameSettings: any;
-  // stylesSettings: any;
 
   gameStatus = {
     stageReady: false,
@@ -62,6 +62,19 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.updateLayout();
     });
 
+    // this is one time thing
+    this.imageDataService.loadGameSharedData(FillInTheColorComponent.GameType).subscribe(
+      (response) => {
+        this.gameSharedData = response;
+
+        this.createGameCanvas();
+        this.drawGameStage();
+      },
+      () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + ']')
+    );
+
+
+    this.loadGameData();
     const winSize = CommonService.WindowSize;
 
   }
@@ -79,7 +92,6 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -109,36 +121,37 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
   }
 
-  // loadGameData() {
-  //   this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
-  //     (response) => {
-  //       this.gameImagesInfo = response;
-  //
-  //       this.drawGameStage();
-  //     },
-  //     () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + '][' + this.gameCode + ']')
-  //   );
-  // }
+  // invoked after game code changed
+  loadGameData() {
+    this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
+      (response) => {
+        this.gameImagesInfo = response;
+
+        this.drawGameStage();
+      },
+      () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + '][' + this.gameCode + ']')
+    );
+  }
 
 
 
 
   ngOnChanges(changes) {
-    if (changes.gameCode && changes.gameCode.previousValue !== changes.gameCode.currentValue) {
-      this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
-        (response) => {
-          this.gameImagesInfo = response;
+    // if (changes.gameCode && changes.gameCode.previousValue !== changes.gameCode.currentValue) {
+    //   this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
+    //     (response) => {
+    //       this.gameImagesInfo = response;
+    //
+    //       this.drawGameStage();
+    //     },
+    //     () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + '][' + this.gameCode + ']')
+    //   );
+    // }
 
-          this.drawGameStage();
-        },
-        () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + '][' + this.gameCode + ']')
-      );
-    }
-
-    if (changes.gameSharedData && changes.gameSharedData.previousValue !== changes.gameSharedData.currentValue) {
-      this.createGameCanvas();
-      this.drawGameStage();
-    }
+    // if (changes.gameSharedData && changes.gameSharedData.previousValue !== changes.gameSharedData.currentValue) {
+    //   this.createGameCanvas();
+    //   this.drawGameStage();
+    // }
   }
 
   drawGameStage() {
@@ -164,11 +177,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       });
       this.stage.addChild(cp);
 
-
-
       const c = TytsDrawingService.createPenBrash({fill: 'green', stroke: 'green', penData: this.gameSharedData.pen});
       this.stage.addChild(c);
-
 
       TytsDrawingService.movePenHome();
 
@@ -177,26 +187,13 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     }
   }
 
+  // base function
   createGameCanvas() {
     // TODO -- start drawing
     this.stage = new createjs.Stage('gamecanvas');
     this.stage.scaleX = this.stage.scaleY = this.stage.scale = 1;
 
     TytsDrawingService.setupStage(this.stage);
-
-
-
-
-
-    // this.stage.clear();
-    // this.stage.enableMouseOver(10);
-    // this.stage.mouseEnabled = true;
-    // this.stage.on('mousedown', (e) => {
-    //   console.log(e.stageX + ':' + e.stageY);
-    //   DrawingService.movePenTo(e.stageX, e.stageY);
-    //   //DrawingService.emptyInk();
-    // });
-
   }
 
   prepareGame() {

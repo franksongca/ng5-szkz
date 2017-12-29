@@ -30,6 +30,14 @@
   background-color: red;
 }
 
+#smallGameName {
+  margin-top: -5px;
+  margin-left: 5px;
+}
+.game-title-top {
+    height: 26px;
+}
+
 .command-bar {
   height: 50px;
 }
@@ -53,4 +61,8 @@
 
 app-fill-in-the-color-menu {
   position: relative;
+}
+
+.control-selction {
+  height: 50px;
 }

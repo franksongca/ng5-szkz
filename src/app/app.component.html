@@ -1,5 +1,5 @@
 <div class="top-bar">
-  <div class="app-title">{{ 'APP_TITLE' | translate:param }}</div>
+  <div class="app-title">{{ 'APP_TITLE' | translate:param }}</div><img id="smallGameName" *ngIf="fullScreen" class="game-title-top" src="./assets/images/page/game-ts.png">
   <a href="#" (click)="fullScreen = !fullScreen" class="funn-screen-btn pull-right"><span class="glyphicon glyphicon-resize-full" *ngIf="!fullScreen"></span><span class="glyphicon glyphicon-resize-small" *ngIf="fullScreen"></span></a>
 </div>
 
@@ -11,11 +11,10 @@
         <span class="glyphicon glyphicon-home"></span>
       </div>
     </div>
-
     <app-page-selector></app-page-selector>
   </div>
 
   <div class="game-work-zone" [ngStyle]="{'height': workZoneHeight + 'px'}">
-    <app-fill-in-the-color-menu></app-fill-in-the-color-menu>
+    <app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color>
   </div>
 </div>

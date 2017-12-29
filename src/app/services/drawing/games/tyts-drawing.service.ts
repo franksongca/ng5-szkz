@@ -59,7 +59,6 @@ export class TytsDrawingService extends DrawingService {
     });
   }
 
-
   static createColorPlateItem(item, fontFamily) {
     const color = TytsDrawingService.realPlateColors[item.colorIndex];
 
@@ -260,11 +259,11 @@ export class TytsDrawingService extends DrawingService {
           return;
         }
         // alert(TytsDrawingService.ColorPlateObject.container.getBounds())
-        console.log('PLATE: ' + event['rawX'], event['rawY'] + ',' + options.scale);
+        console.log('PLATE: ' + event['rawX'], event['rawY'] + ',' + TytsDrawingService.Stage.scale);
 
         TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
           AudioLoaderService.play('sliding');
-          TytsDrawingService.movePenTo(event['rawX'] / options.scale, event['rawY'] / options.scale, () => {
+          TytsDrawingService.movePenTo(event['rawX'] / TytsDrawingService.Stage.scale, event['rawY'] / TytsDrawingService.Stage.scale, () => {
             const color = TytsDrawingService.realPlateColors[item.colorIndex];
             AudioLoaderService.play('ink');
 

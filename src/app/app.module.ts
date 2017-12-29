@@ -30,7 +30,6 @@ import { TytsDrawGameService } from './services/game/tyts/tyts-draw-game.service
 import { AppComponent } from './app.component';
 
 import { FillInTheColorComponent } from './games/fill-in-the-color/template/fill-in-the-color.component';
-import { TytsMenuComponent } from './games/fill-in-the-color/games-menu/tyts-menu.component';
 import { PageSelectorComponent } from './components/page-selector.component';
 
 // AoT requires an exported function for factories
@@ -41,7 +40,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     FillInTheColorComponent,
-    TytsMenuComponent,
     AppComponent,
     PageSelectorComponent
   ],

@@ -1,9 +1,14 @@
 <ng-template #main>
-  <div class="up-margin-zone" [ngStyle]="{'height': '10px'}"></div>
+  <div class="margin-zone" [ngStyle]="{'height': marginHeight + 'px'}"></div>
   <div class="canvas-container">
-    <canvas id="gamecanvas" [attr.width]="canvasSize?.w + 'px'" [attr.height]="canvasSize?.h + 'px'" [ngStyle]="{'background-color': gameSharedData?.gameConfig?.backgroundColor}"></canvas>
+    <canvas id="gamecanvas"
+            [attr.width]="canvasSize?.w + 'px'"
+            [attr.height]="canvasSize?.h + 'px'"
+            [ngStyle]="{'background-color': gameSharedData?.gameConfig?.backgroundColor}">
+
+    </canvas>
   </div>
-  <div class="bottom-maigin-zone" [ngStyle]="{'height': '10px'}"></div>
+  <div class="margin-zone" [ngStyle]="{'height': marginHeight + 'px'}"></div>
 </ng-template>
 
 <ng-container *ngTemplateOutlet="main"></ng-container>
