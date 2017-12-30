@@ -1,12 +1,10 @@
 /// <reference path="../../../../node_modules/createjs-module/createjs.d.ts" />
 import { Injectable } from '@angular/core';
 import * as createjs from 'createjs-module';
-import { ProcessInterface, DeviceTimerService } from './../../services/device-timer.service';
 
 @Injectable()
 export class DrawingService {
   static PenObject;
-  static Stage;
 
   constructor() {
   }
@@ -125,20 +123,6 @@ export class DrawingService {
   //   return c;
   // }
 
-
-  // make sure bitmap is rendering
-  static setupStage(stage) {
-    DrawingService.Stage = stage;
-    const process: ProcessInterface = {
-      renderFunc: () => {
-        DrawingService.Stage.update();
-      },
-      totalLoops: 0,
-      interval: 1
-    };
-
-    DeviceTimerService.register(process);
-  }
 
   protected static getRGB(colorValue) {
     if (typeof colorValue !== 'string') {

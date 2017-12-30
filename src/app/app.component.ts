@@ -5,6 +5,7 @@ import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
 import { DeviceTimerService } from './services/device-timer.service';
 import { CommonService } from './services/common.service';
+import { CanvasService } from './services/canvas.service';
 import * as createjs from 'createjs-module';
 
 @Component({
@@ -19,10 +20,10 @@ export class AppComponent implements AfterViewInit {
   fullScreen = false;
 
   @HostListener('window:resize') onResize($event) {
-    this.commonService.triggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
+    CanvasService.TriggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
   }
 
-  constructor(private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
+  constructor(private canvasService: CanvasService, private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
     this._win = window;
 
     DeviceTimerService.init();

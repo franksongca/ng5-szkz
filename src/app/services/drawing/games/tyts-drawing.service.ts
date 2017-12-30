@@ -4,6 +4,7 @@ import * as createjs from 'createjs-module';
 import { DrawingService } from '../drawing.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CommonService } from '../../common.service';
+import { CanvasService, Oritation } from '../../canvas.service';
 import { AudioLoaderService } from './../../audio.manager.service';
 import { ProcessInterface, DeviceTimerService } from './../../../services/device-timer.service';
 
@@ -37,17 +38,17 @@ export class TytsDrawingService extends DrawingService {
   static plateColors;
   static allColors;
 
-  constructor(private translateService: TranslateService, private commonService: CommonService) {
+  constructor(private translateService: TranslateService, private commonService: CommonService, private canvasService: CanvasService) {
     super();
 
     TytsDrawingService.GAME_OVER = 0;
     TytsDrawingService.translate = translateService;
 
-    TytsDrawingService.layout = CommonService.WindowSize.w > CommonService.WindowSize.h ? 0 : 1;
+    TytsDrawingService.updateLayoutValue();
   }
 
-  static adjustCanvasSize() {
-    TytsDrawingService.layout = CommonService.WindowSize.w > CommonService.WindowSize.h ? 0 : 1;
+  static updateLayoutValue() {
+    TytsDrawingService.layout = CanvasService.Oritation === Oritation.Landscape ? 0 : 1;
   }
 
   static bindHanziToPlate(characters) {
@@ -100,7 +101,7 @@ export class TytsDrawingService extends DrawingService {
   }
 
   static repositionColorPlate() {
-    TytsDrawingService.layout = CommonService.WindowSize.w > CommonService.WindowSize.h ? 0 : 1;
+    TytsDrawingService.updateLayoutValue();
 
     let bg = TytsDrawingService.ColorPlateObject.container.getChildByName('background');
     const plateIcon = TytsDrawingService.ColorPlateObject.container.getChildByName('icon');
@@ -259,11 +260,11 @@ export class TytsDrawingService extends DrawingService {
           return;
         }
         // alert(TytsDrawingService.ColorPlateObject.container.getBounds())
-        console.log('PLATE: ' + event['rawX'], event['rawY'] + ',' + TytsDrawingService.Stage.scale);
+        console.log('PLATE: ' + event['rawX'], event['rawY'] + ',' + CanvasService.Scale);
 
         TytsDrawingService.fillInk({color: 'white', wait: 10, duration: 10}, () => {
           AudioLoaderService.play('sliding');
-          TytsDrawingService.movePenTo(event['rawX'] / TytsDrawingService.Stage.scale, event['rawY'] / TytsDrawingService.Stage.scale, () => {
+          TytsDrawingService.movePenTo(event['rawX'] / CanvasService.Scale, event['rawY'] / CanvasService.Scale, () => {
             const color = TytsDrawingService.realPlateColors[item.colorIndex];
             AudioLoaderService.play('ink');
 
@@ -372,7 +373,7 @@ export class TytsDrawingService extends DrawingService {
     TytsDrawingService.PenObject.ink.graphics.setStrokeStyle(0);
     TytsDrawingService.PenObject.ink.graphics.beginFill(TytsDrawingService.getRGB(options.color));
     TytsDrawingService.PenObject.ink.graphics.drawRect(0, 0, 12, 24);
-    TytsDrawingService.Stage.update();
+    CanvasService.UpdateStage();
 
     createjs.Tween.get(TytsDrawingService.PenObject.ink)
       .wait(options.wait ? options.wait : 170)

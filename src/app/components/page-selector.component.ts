@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceTimerService } from './../services/device-timer.service';
 import { ArticleService } from './../services/sz/article.service';
 import { CommonService } from './../services/common.service';
+import { CanvasService } from './../services/canvas.service';
 import { AudioLoaderService } from './../services/audio.manager.service';
 
 @Component({
@@ -66,18 +67,22 @@ export class PageSelectorComponent implements AfterViewInit {
 
   }
 
-  constructor(private commonService: CommonService, private articleService: ArticleService, private translate: TranslateService) {
+  constructor(private canvasService: CanvasService, private commonService: CommonService, private articleService: ArticleService, private translate: TranslateService) {
     this.translate.get(['FIRST_PAGE', 'LAST_PAGE', 'PREVIOUS_PAGE', 'NEXT_PAGE']).subscribe((res) => {
       this.paginationSettings.translation = res;
     });
 
-    this.commonService.onResized.subscribe((size) => {
-      this.onResize(size);
+    CanvasService.ResizeEventHabdler.subscribe((sizeAndOrtation) => {
+      this.onResize(sizeAndOrtation.size);
     });
   }
 
-  onResize(size) {
-    this.winSize = size;
+  onResize(size?) {
+    if (size) {
+      this.winSize = size;
+    } else {
+      this.winSize = CanvasService.WindowSize;
+    }
 
     setTimeout(() => {
       this.paginationSettings.maxSize = this.getPaginationMaxSize(this.winSize.w);
@@ -131,7 +136,7 @@ export class PageSelectorComponent implements AfterViewInit {
       });
     }
 
-    this.onResize(CommonService.WindowSize);
+    this.onResize();
   }
 
 }

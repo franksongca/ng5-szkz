@@ -1,6 +1,7 @@
 import { Injectable, Inject, Optional, EventEmitter } from '@angular/core';
 import { TytsDrawingService } from './../../drawing/games/tyts-drawing.service';
 import { AudioLoaderService } from './../../audio.manager.service';
+import { CanvasService, Oritation } from '../../canvas.service';
 
 @Injectable()
 export class TytsDrawGameService {
@@ -15,8 +16,6 @@ export class TytsDrawGameService {
   splashingAniContainer;
 
   onGameOver: EventEmitter<number> = new EventEmitter();
-
-  // constructor(@Inject('stage') @Optional() public stage?: any, @Inject('config') @Optional() public config?: any, @Inject('scale') @Optional() public scale?: Number) {
 
   constructor(@Inject('options') @Optional() public options: any) {
     TytsDrawingService.GAME_OVER = 0;
@@ -82,7 +81,7 @@ export class TytsDrawGameService {
                 });
               });
               self.fillInAreaShapes[imgShape.index].status = 1;
-              TytsDrawingService.movePenTo(event['rawX'] / self.options.stage.scale, event['rawY'] / self.options.stage.scale, () => {
+              TytsDrawingService.movePenTo(event['rawX'] / CanvasService.Scale, event['rawY'] / CanvasService.Scale, () => {
                 const color = TytsDrawingService.PenObject.color;
                 TytsDrawingService.emptyInk(() => {
                   TytsDrawingService.createLines(piece.lines, {
@@ -122,7 +121,6 @@ export class TytsDrawGameService {
       });
 
       this.container.addChild(imgShape.shape);
-      // this.options.stage.addChild(imgShape.shape);
 
       this.fillInAreaShapes.push({index: index, name: piece.name, shape: imgShape.shape, status: 0});
     });
@@ -136,7 +134,7 @@ export class TytsDrawGameService {
     img.cursor = 'default';
 
     this.container.addChild(img);
-    this.options.stage.addChild(this.container);
+    CanvasService.Stage.addChild(this.container);
 
     // this.options.stage.addChild(img);
     this.fillInLinesImg = img;
@@ -151,12 +149,12 @@ export class TytsDrawGameService {
       this.splashingAni.alpha = 0;
     });
 
-    this.options.stage.addChild(this.splashingAniContainer);
+    CanvasService.Stage.addChild(this.splashingAniContainer);
   }
 
   playSplashingAni(option) {
-    this.splashingAni.x = option.pos.x / this.options.stage.scale;
-    this.splashingAni.y = option.pos.y / this.options.stage.scale;
+    this.splashingAni.x = option.pos.x / CanvasService.Scale;
+    this.splashingAni.y = option.pos.y / CanvasService.Scale;
     this.splashingAni.alpha = 1;
     this.splashingAni.gotoAndPlay(0);
   }

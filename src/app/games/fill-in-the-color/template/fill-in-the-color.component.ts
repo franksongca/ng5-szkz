@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
 import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
 import { CommonService } from './../../../services/common.service';
+import { CanvasService } from './../../../services/canvas.service';
 import { ArticleService } from '../../../services/sz/article.service';
 import { HanziSelectionService } from '../../../services/sz/hanzi-selection.service';
 
@@ -33,17 +34,16 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
   gameStatus = {
     stageReady: false,
-    selectionReady: false,
-    colorPlateReady: true
+    selectionReady: false
   };
 
-  stage;
   gameImagesInfo;
   pageIndex;
   hanZiSelection;
 
   constructor(
     private commonService: CommonService,
+    private canvasService: CanvasService,
     private imageDataService: ImageDataService,
     private tytsDrawGameService: TytsDrawGameService,
     private articleService: ArticleService,
@@ -56,18 +56,11 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       this.getHanziSelection();
     });
 
-    this.commonService.onResized.subscribe((size) => {
-      // TODO: update layout
-
-      this.updateLayout();
-    });
-
     // this is one time thing
     this.imageDataService.loadGameSharedData(FillInTheColorComponent.GameType).subscribe(
       (response) => {
         this.gameSharedData = response;
 
-        this.createGameCanvas();
         this.drawGameStage();
       },
       () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + ']')
@@ -75,8 +68,6 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
 
     this.loadGameData();
-    const winSize = CommonService.WindowSize;
-
   }
 
   getHanziSelection() {
@@ -149,15 +140,14 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     // }
 
     // if (changes.gameSharedData && changes.gameSharedData.previousValue !== changes.gameSharedData.currentValue) {
-    //   this.createGameCanvas();
+
     //   this.drawGameStage();
     // }
   }
 
   drawGameStage() {
-    if (this.gameImagesInfo && this.stage && this.gameSharedData) {
+    if (this.gameImagesInfo && this.gameSharedData) {
       this.tytsDrawGameService = new TytsDrawGameService({
-        stage: this.stage,
         imageInfo: this.gameImagesInfo,
         scale: 1.1,
         type: FillInTheColorComponent.GameType,
@@ -173,12 +163,12 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
         plateColors: this.gameSharedData.plateColors,
         colorPlateIconData: this.gameSharedData.plate,
         fontFamily: this.gameSharedData.stylesSettings.zi.fontFamily,
-        scale: this.stage.scale
+        scale: CanvasService.Scale
       });
-      this.stage.addChild(cp);
+      CanvasService.Stage.addChild(cp);
 
       const c = TytsDrawingService.createPenBrash({fill: 'green', stroke: 'green', penData: this.gameSharedData.pen});
-      this.stage.addChild(c);
+      CanvasService.Stage.addChild(c);
 
       TytsDrawingService.movePenHome();
 
@@ -187,47 +177,20 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     }
   }
 
-  // base function
-  createGameCanvas() {
-    // TODO -- start drawing
-    this.stage = new createjs.Stage('gamecanvas');
-    this.stage.scaleX = this.stage.scaleY = this.stage.scale = 1;
-
-    TytsDrawingService.setupStage(this.stage);
-  }
-
   prepareGame() {
-    if (this.gameStatus.colorPlateReady && this.gameStatus.selectionReady && this.gameStatus.stageReady) {
+    if (this.gameStatus.selectionReady && this.gameStatus.stageReady) {
       this.tytsDrawGameService.clear();
       this.tytsDrawGameService.bindHanziToFillInGraphics(this.hanZiSelection);
       TytsDrawingService.bindHanziToPlate(this.hanZiSelection);
 
       // alert('prepareGame()');
-      this.updateLayout();
+      this.canvasSizeChanged();
     }
   }
 
-  updateLayout() {
-    let h;
-    if (CommonService.WindowSize.w > CommonService.WindowSize.h) {
-      // this.canvasSize['w'] = this.gameSharedData.gameConfig.h;
-      // this.canvasSize['h'] = this.gameSharedData.gameConfig.w;
-
-      h = this.gameSharedData.gameConfig.h;
-
-      this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / this.gameSharedData.gameConfig.w;
-
-    } else {
-      // this.canvasSize['w'] = this.gameSharedData.gameConfig.w;
-      // this.canvasSize['h'] = this.gameSharedData.gameConfig.h;
-
-      h = this.gameSharedData.gameConfig.w;
-      this.stage.scaleX = this.stage.scaleY = this.stage.scale = CommonService.WindowSize.w / (this.gameSharedData.gameConfig.h);
-
+  canvasSizeChanged() {
+    if (this.gameStatus.stageReady) {
+      TytsDrawingService.repositionColorPlate();
     }
-    this.canvasSize['w'] = CommonService.WindowSize.w;
-    this.canvasSize['h'] = h * this.stage.scale; //CommonService.WindowSize.h; // s* this.stage.scale;
-
-    TytsDrawingService.repositionColorPlate();
   }
 }

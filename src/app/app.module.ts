@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AudioLoaderService } from './services/audio.manager.service';
 import { CommonService } from './services/common.service';
+import { CanvasService } from './services/canvas.service';
 import { DeviceTimerService } from './services/device-timer.service';
 import { DrawingService } from './services/drawing/drawing.service';
 import { ZiDrawingService } from './services/drawing/zi.drawing.service';
@@ -61,6 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     CommonService,
+    CanvasService,
     DeviceTimerService,
     DrawingService,
     ZiDrawingService,

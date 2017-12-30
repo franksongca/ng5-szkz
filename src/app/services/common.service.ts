@@ -5,16 +5,9 @@ export class CommonService {
   static productCode = 'kj-SZJ';
   static TICK = 0.0167; // 1/60 seconds, 16.7 milliseconds
 
-  static WindowSize;
   static FirstTime = true;
 
-  onResized: EventEmitter<any> = new EventEmitter();
-
   constructor() {
-    this.triggerResizeEvent({
-      w: window.innerWidth,
-      h: window.innerHeight
-    });
   }
 
   static clone(srcObj) {
@@ -98,14 +91,6 @@ export class CommonService {
     return p;
   }
 
-  triggerResizeEvent(size) {
-    CommonService.WindowSize = {
-      w: size.w,
-      h: size.h
-    };
-
-    this.onResized.emit(CommonService.WindowSize);
-  }
 
 
 }
