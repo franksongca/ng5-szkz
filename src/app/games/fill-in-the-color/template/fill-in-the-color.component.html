@@ -1,14 +1,5 @@
 <ng-template #main>
-  <div class="margin-zone" [ngStyle]="{'height': marginHeight + 'px'}"></div>
-  <div class="canvas-container">
-    <canvas id="gamecanvas"
-            [attr.width]="canvasSize?.w + 'px'"
-            [attr.height]="canvasSize?.h + 'px'"
-            [ngStyle]="{'background-color': gameSharedData?.gameConfig?.backgroundColor}">
-
-    </canvas>
-  </div>
-  <div class="margin-zone" [ngStyle]="{'height': marginHeight + 'px'}"></div>
+  <app-canvas-template></app-canvas-template>
 </ng-template>
 
 <ng-container *ngTemplateOutlet="main"></ng-container>

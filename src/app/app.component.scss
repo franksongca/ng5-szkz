@@ -1,68 +1,59 @@
-.app-banner {
-  background: rgba(237,240,239,1);
-  background: -moz-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(237,240,239,1)), color-stop(58%, rgba(93,240,98,1)), color-stop(100%, rgba(42,186,9,1)));
-  background: -webkit-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
-  background: -o-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
-  background: -ms-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
-  background: linear-gradient(to right, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#edf0ef', endColorstr='#2aba09', GradientType=1 );
-}
+.func-section {
+  width: 100%;
 
-.command-bar {
-  height: 40px;
-}
+  .app-banner {
+    .control-section {
+      .command-bar {
+        .game-title {
+          margin: 5px;
+        }
 
-.app-title, .funn-screen-btn {
-  display: inline-block;
-}
+        height: 50px;
+      }
 
-.funn-screen-btn {
-  font-size: 1.2em;
-  color: white;
-}
+      height: 50px;
+    }
 
-.top-bar {
-  height: 30px;
-  color: white;
-  padding: 5px;
-  border-bottom: 2px solid white;
-  background-color: red;
-}
+    background: rgba(237,240,239,1);
+    background: -moz-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(237,240,239,1)), color-stop(58%, rgba(93,240,98,1)), color-stop(100%, rgba(42,186,9,1)));
+    background: -webkit-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
+    background: -o-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
+    background: -ms-linear-gradient(left, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
+    background: linear-gradient(to right, rgba(237,240,239,1) 0%, rgba(93,240,98,1) 58%, rgba(42,186,9,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#edf0ef', endColorstr='#2aba09', GradientType=1 );
+  }
 
-#smallGameName {
-  margin-top: -5px;
-  margin-left: 5px;
-}
-.game-title-top {
-    height: 26px;
-}
+  .top-bar {
+    .app-title, .funn-screen-btn {
+      display: inline-block;
+    }
 
-.command-bar {
-  height: 50px;
-}
+    .full-screen-btn {
+      font-size: 1.2em;
+      color: white;
+    }
 
-.game-title {
-  margin: 5px;
+    .game-title-top {
+      height: 26px;
+      margin-top: -5px;
+      margin-left: 5px;
+    }
+
+
+    width: 100%;
+    height: 30px;
+    color: white;
+    padding: 5px;
+    border-bottom: 2px solid white;
+    background-color: red;
+  }
+
 }
 
 .work-zone {
-  position: fixed;
-  overflow-x: auto;
-  overflow-y: auto;
-  top: 30px;
+  width: 100%;
+  overflow: auto;
+  background-color: blue;
 }
 
-.game-work-zone {
-  position: relative;
-  overflow-x: auto;
-  overflow-y: auto;
-}
-
-app-fill-in-the-color-menu {
-  position: relative;
-}
-
-.control-selction {
-  height: 50px;
-}

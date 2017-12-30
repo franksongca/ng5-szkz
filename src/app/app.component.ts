@@ -1,5 +1,5 @@
 /// <reference path='../../node_modules/createjs-module/createjs.d.ts' />
-import { Component, HostListener, EventEmitter } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
@@ -12,17 +12,18 @@ import * as createjs from 'createjs-module';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+  @ViewChild('funcEle') el: ElementRef;
+
+  _win;
   fullScreen = false;
-  workZoneHeight;
 
   @HostListener('window:resize') onResize($event) {
-    this.workZoneHeight = window.innerHeight - 30;
     this.commonService.triggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
   }
 
   constructor(private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
-    this.workZoneHeight = window.innerHeight - 30;
+    this._win = window;
 
     DeviceTimerService.init();
 
@@ -37,4 +38,8 @@ export class AppComponent {
     translateService.use('zh');
   }
 
+  ngAfterViewInit() {
+    // const ctrlElementHeight = this.el.nativeElement.offsetHeight;
+
+  }
 }

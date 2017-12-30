@@ -31,6 +31,7 @@ import { AppComponent } from './app.component';
 
 import { FillInTheColorComponent } from './games/fill-in-the-color/template/fill-in-the-color.component';
 import { PageSelectorComponent } from './components/page-selector.component';
+import { CanvasTemplateComponent } from './components/canvas-template/canvas-template.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -41,7 +42,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     FillInTheColorComponent,
     AppComponent,
-    PageSelectorComponent
+    PageSelectorComponent,
+    CanvasTemplateComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

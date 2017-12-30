@@ -1,11 +1,11 @@
-<div class="top-bar">
-  <div class="app-title">{{ 'APP_TITLE' | translate:param }}</div><img id="smallGameName" *ngIf="fullScreen" class="game-title-top" src="./assets/images/page/game-ts.png">
-  <a href="#" (click)="fullScreen = !fullScreen" class="funn-screen-btn pull-right"><span class="glyphicon glyphicon-resize-full" *ngIf="!fullScreen"></span><span class="glyphicon glyphicon-resize-small" *ngIf="fullScreen"></span></a>
-</div>
+<div class="func-section" #funcEle>
+  <div class="top-bar">
+    <div class="app-title">{{ 'APP_TITLE' | translate:param }}</div><img *ngIf="fullScreen" class="game-title-top" src="./assets/images/page/game-ts.png">
+    <a href="#" (click)="fullScreen=!fullScreen" class="full-screen-btn pull-right"><span class="glyphicon glyphicon-resize-full" *ngIf="!fullScreen"></span><span class="glyphicon glyphicon-resize-small" *ngIf="fullScreen"></span></a>
+  </div>
 
-<div class="work-zone">
   <div class="app-banner" *ngIf="!fullScreen">
-    <div class="control-selction">
+    <div class="control-section">
       <div class="command-bar">
         <img class="game-title" src="./assets/images/page/game-ts.png">
         <span class="glyphicon glyphicon-home"></span>
@@ -13,8 +13,8 @@
     </div>
     <app-page-selector></app-page-selector>
   </div>
+</div>
 
-  <div class="game-work-zone" [ngStyle]="{'height': workZoneHeight + 'px'}">
-    <app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color>
-  </div>
+<div class="work-zone" [ngStyle]="{'height': (_win.innerHeight - el.nativeElement.offsetHeight) + 'px'}">
+  <!--app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color-->
 </div>
