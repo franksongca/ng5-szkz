@@ -1,6 +1,8 @@
 <div class="page-selector-container container">
   <div class="row page-text center-block" [ngStyle]="{'z-index': showPageText ? 500 : 0, 'opacity': showPageText ? 1 : 0}">
-    <div class="page-info" [ngStyle]="{'margin-top': paginationSettings?.maxSize === 1 ? 0 : '8px'}"><label>{{articleInfo?.pageText}}</label></div>
+    <div class="page-info" [ngStyle]="{'margin-top': paginationSettings?.maxSize === 1 ? 0 : '8px'}">
+      <label>{{articleInfo?.pageText}}</label>
+    </div>
   </div>
   <div class="col-xs-12 col-12 pagination-element" [ngStyle]="{'opacity': showPageText ? 0 : 1}">
     <pagination *ngIf="paginationSettings?.maxSize === 1" [totalItems]="paginationSettings.bigTotalItems"
@@ -11,10 +13,10 @@
                 [ngClass]="{'pagination-sm': paginationSettings?.maxSize === 1, 'pagination-lg': paginationSettings?.maxSize > 1}"
                 [boundaryLinks]="true"
                 [rotate]="false"
-                [firstText]="paginationSettings.translation.FIRST_PAGE"
-                [lastText]="paginationSettings.translation.LAST_PAGE"
-                [previousText]="paginationSettings.translation.PREVIOUS_PAGE"
-                [nextText]="paginationSettings.translation.NEXT_PAGE"
+                [firstText]="paginationSettings.translation.firstPage"
+                [lastText]="paginationSettings.translation.lastPage"
+                [previousText]="paginationSettings.translation.previousPage"
+                [nextText]="paginationSettings.translation.nextPage"
                 (numPages)="paginationSettings.numPages = $event"
                 (pageChanged)="pageChanged($event)"
     ></pagination>
@@ -26,10 +28,10 @@
                 [ngClass]="{'pagination-sm': paginationSettings?.maxSize === 1, 'pagination-lg': paginationSettings?.maxSize > 1}"
                 [boundaryLinks]="true"
                 [rotate]="false"
-                [firstText]="paginationSettings.translation.FIRST_PAGE"
-                [lastText]="paginationSettings.translation.LAST_PAGE"
-                [previousText]="paginationSettings.translation.PREVIOUS_PAGE"
-                [nextText]="paginationSettings.translation.NEXT_PAGE"
+                [firstText]="paginationSettings.translation.firstPage"
+                [lastText]="paginationSettings.translation.lastPage"
+                [previousText]="paginationSettings.translation.previousPage"
+                [nextText]="paginationSettings.translation.nextPage"
                 (numPages)="paginationSettings.numPages = $event"
                 (pageChanged)="pageChanged($event)"
     ></pagination>
@@ -41,10 +43,10 @@
                 [ngClass]="{'pagination-sm': paginationSettings?.maxSize === 1, 'pagination-lg': paginationSettings?.maxSize > 1}"
                 [boundaryLinks]="true"
                 [rotate]="false"
-                [firstText]="paginationSettings.translation.FIRST_PAGE"
-                [lastText]="paginationSettings.translation.LAST_PAGE"
-                [previousText]="paginationSettings.translation.PREVIOUS_PAGE"
-                [nextText]="paginationSettings.translation.NEXT_PAGE"
+                [firstText]="paginationSettings.translation.firstPage"
+                [lastText]="paginationSettings.translation.lastPage"
+                [previousText]="paginationSettings.translation.previousPage"
+                [nextText]="paginationSettings.translation.nextPage"
                 (numPages)="paginationSettings.numPages = $event"
                 (pageChanged)="pageChanged($event)"
     ></pagination>
@@ -56,10 +58,10 @@
                 [ngClass]="{'pagination-sm': paginationSettings?.maxSize === 1, 'pagination-lg': paginationSettings?.maxSize > 1}"
                 [boundaryLinks]="true"
                 [rotate]="false"
-                [firstText]="paginationSettings.translation.FIRST_PAGE"
-                [lastText]="paginationSettings.translation.LAST_PAGE"
-                [previousText]="paginationSettings.translation.PREVIOUS_PAGE"
-                [nextText]="paginationSettings.translation.NEXT_PAGE"
+                [firstText]="paginationSettings.translation.firstPage"
+                [lastText]="paginationSettings.translation.lastPage"
+                [previousText]="paginationSettings.translation.previousPage"
+                [nextText]="paginationSettings.translation.nextPage"
                 (numPages)="paginationSettings.numPages = $event"
                 (pageChanged)="pageChanged($event)"
     ></pagination>
@@ -71,10 +73,10 @@
                 [ngClass]="{'pagination-sm': paginationSettings?.maxSize === 1, 'pagination-lg': paginationSettings?.maxSize > 1}"
                 [boundaryLinks]="true"
                 [rotate]="false"
-                [firstText]="paginationSettings.translation.FIRST_PAGE"
-                [lastText]="paginationSettings.translation.LAST_PAGE"
-                [previousText]="paginationSettings.translation.PREVIOUS_PAGE"
-                [nextText]="paginationSettings.translation.NEXT_PAGE"
+                [firstText]="paginationSettings.translation.firstPage"
+                [lastText]="paginationSettings.translation.lastPage"
+                [previousText]="paginationSettings.translation.previousPage"
+                [nextText]="paginationSettings.translation.nextPage"
                 (numPages)="paginationSettings.numPages = $event"
                 (pageChanged)="pageChanged($event)"
     ></pagination>

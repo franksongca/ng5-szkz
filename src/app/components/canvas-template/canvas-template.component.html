@@ -1,0 +1,17 @@
+<ng-template #canvas>
+  <div class="canvas-container">
+    <div class="margin-zone" [ngStyle]="{'height': canvasSettings?.marginHeight + 'px'}"></div>
+      <canvas id="szkzCanvas"
+              [attr.width]="canvasSettings?.size?.w + 'px'"
+              [attr.height]="canvasSettings?.size?.h + 'px'"
+              [ngStyle]="{'background-color': canvasSettings?.backgroundColor}"
+              style="margin-bottom: -5px;"
+      >
+
+      </canvas>
+    <div class="margin-zone" [ngStyle]="{'height': canvasSettings?.marginHeight + 'px'}"></div>
+  </div>
+
+</ng-template>
+
+<ng-container *ngTemplateOutlet="canvas"></ng-container>

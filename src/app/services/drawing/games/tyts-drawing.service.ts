@@ -208,7 +208,7 @@ export class TytsDrawingService extends DrawingService {
 
     // bg.shadow = TytsDrawingService.createShadow({color: 'darkgreen', x: 1, y: 1, blur: 1});
 
-    TytsDrawingService.translate.get('SELECT_APPROPRIATE_CORLOR').subscribe((res: string) => {
+    TytsDrawingService.translate.get('selectApproriateColor').subscribe((res: string) => {
       ptTitle.text = res;
       ptTitle.font = '25px ' + options.fontFamily;
       ptTitle.color = 'darkgreen';

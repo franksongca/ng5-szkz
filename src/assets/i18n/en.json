@@ -1,11 +1,34 @@
 {
-  "APP_TITLE": "Three Character Primer -- Play and Learn",
-  "HELLO": "hello",
-  "FIRST_PAGE": "First Page",
-  "LAST_PAGE": "Last Page",
-  "PREVIOUS_PAGE": "Prev Page",
-  "NEXT_PAGE": "Next Page",
-  "PAGE_N": "Page {{value}}",
-  "TOTAL_PAGE": "Total Pages {{value}}",
-  "SELECT_APPROPRIATE_CORLOR": "Please appropriate color"
+  "appTitle": "Three Character Primer -- Play and Learn",
+  "firstPage": "First Page",
+  "lastPage": "Last Page",
+  "previousPage": "Prev Page",
+  "nextPage": "Next Page",
+  "selectApproriateColor": "Please appropriate color",
+
+  "CMD_RETURN": "返回",
+  "CMD_SELECT_PIC": "选择填色图",
+  "CMD_GAME_SETTINGS": "游戏设置",
+  "CMD_HELP": "帮助",
+
+  "home": "Home",
+  "training": "Training",
+  "gaming": "Gaming",
+  "testing": "Testing",
+  "help": "Help",
+  "settings": "Settings",
+
+  "listening": "Listening",
+  "listeningOneByOne": "Listening One By One",
+  "listeningOneByOneRandomOrder": "Listening One By One(Random Order)",
+  "clickAndRead": "Click and Read",
+  "clickAndReadRandomOrder": "Click and Read(Random Order)",
+
+  "fillInTheColor": "Fill in the Color",
+  "matchingShape": "Matching Shape",
+
+  "listenAndRead": "Listen and Read",
+  "listenAndReadRandomOrder": "Listen and Read(Random Order)"
+
+
 }

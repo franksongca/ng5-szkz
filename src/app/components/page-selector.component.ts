@@ -68,7 +68,7 @@ export class PageSelectorComponent implements AfterViewInit {
   }
 
   constructor(private canvasService: CanvasService, private commonService: CommonService, private articleService: ArticleService, private translate: TranslateService) {
-    this.translate.get(['FIRST_PAGE', 'LAST_PAGE', 'PREVIOUS_PAGE', 'NEXT_PAGE']).subscribe((res) => {
+    this.translate.get(['firstPage', 'lastPage', 'previousPage', 'nextPage']).subscribe((res) => {
       this.paginationSettings.translation = res;
     });
 

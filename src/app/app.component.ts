@@ -8,23 +8,19 @@ import { CommonService } from './services/common.service';
 import { CanvasService } from './services/canvas.service';
 import * as createjs from 'createjs-module';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild('funcEle') el: ElementRef;
 
-  _win;
-  fullScreen = false;
-
-  @HostListener('window:resize') onResize($event) {
-    CanvasService.TriggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
-  }
 
   constructor(private canvasService: CanvasService, private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
-    this._win = window;
+
+
+
 
     DeviceTimerService.init();
 

@@ -1,4 +1,6 @@
 import { BrowserModule,  } from '@angular/platform-browser';
+import { Routes, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -33,22 +35,45 @@ import { AppComponent } from './app.component';
 import { FillInTheColorComponent } from './games/fill-in-the-color/template/fill-in-the-color.component';
 import { PageSelectorComponent } from './components/page-selector.component';
 import { CanvasTemplateComponent } from './components/canvas-template/canvas-template.component';
+import { HomeComponent } from './components/home/home/home.component';
+import { FeaturesComponent } from './components/features/features.component';
+
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
+export const ROUTES: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'features',
+    component: FeaturesComponent,
+    children: [
+      {
+        path: 'fillcolor',
+        component: FillInTheColorComponent
+      }
+    ]
+  },
+];
+
 @NgModule({
   declarations: [
     FillInTheColorComponent,
     AppComponent,
     PageSelectorComponent,
-    CanvasTemplateComponent
+    CanvasTemplateComponent,
+    HomeComponent,
+    FeaturesComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
     PaginationModule.forRoot(),
+    RouterModule.forRoot(ROUTES),
     BrowserModule,
     FormsModule,
     HttpClientModule,
@@ -81,3 +106,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+// export class ChildModule {}

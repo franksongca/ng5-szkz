@@ -1,16 +1,34 @@
 {
-  "APP_TITLE": "《三字经》-- 玩一玩，轻松学",
-  "HELLO": "你好",
-  "FIRST_PAGE": "首页",
-  "LAST_PAGE": "尾页",
-  "PREVIOUS_PAGE": "前一页",
-  "NEXT_PAGE": "后一页",
-  "PAGE_N": "第 {{value}} 页",
-  "TOTAL_PAGE": "共 {{value}} 页",
-  "SELECT_APPROPRIATE_CORLOR": "请选择适当的颜色",
+  "appTitle": "《三字经》-- 边玩边学，轻松识字",
+  "firstPage": "首页",
+  "lastPage": "尾页",
+  "previousPage": "前一页",
+  "nextPage": "后一页",
+  "selectApproriateColor": "请选择适当的颜色",
 
   "CMD_RETURN": "返回",
   "CMD_SELECT_PIC": "选择填色图",
   "CMD_GAME_SETTINGS": "游戏设置",
-  "CMD_HELP": "帮助"
+  "CMD_HELP": "帮助",
+
+  "home": "首页",
+  "training": "训练",
+  "gaming": "游戏",
+  "testing": "测试",
+  "help": "帮助",
+  "settings": "设置",
+
+  "listening": "听朗读",
+  "listeningOneByOne": "逐字听",
+  "listeningOneByOneRandomOrder": "逐字听（随机排序）",
+  "clickAndRead": "点字听音",
+  "clickAndReadRandomOrder": "点字听音（随机排序）",
+
+  "fillInTheColor": "填色",
+  "matchingShape": "匹配图形",
+
+  "listenAndRead": "听音辨字",
+  "listenAndReadRandomOrder": "听音辨字（随机排序）"
+
+
 }

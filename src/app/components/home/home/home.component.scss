@@ -1,0 +1,56 @@
+.logo {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 100%;
+  text-align: center;
+
+  .title {
+    font-size: 1.4em;
+    font-weight: bold;
+  }
+}
+
+.section {
+  margin-left: auto;
+  margin-right: auto;
+
+  margin-bottom: 2em;
+  max-width: 500px;
+
+  .section-title {
+    font-size: 1.5em;
+  }
+
+  .section-link {
+    font-size: 1.2em;
+  }
+}
+
+@media (min-width: 768px) {
+  .logo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    .title {
+      font-size: 3em;
+    }
+  }
+
+  .section {
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-bottom: 3em;
+    max-width: 700px;
+
+    .section-title {
+      font-size: 2.2em;
+    }
+
+    .section-link {
+      font-size: 1.8em;
+    }
+  }
+
+}
+
