@@ -7,10 +7,10 @@
 
   <ul class="section" *ngFor="let ff of featuresAndFunctions" class="list-group">
     <li class="list-group-item">
-      <div class="section-title">{{ ff.id | translate }}</div>
+      <div class="section-title"><img src="./assets/images/page/Learning-section.png" class="section-icon">{{ ff.id | translate }}</div>
       <ul class="list-group">
-        <li *ngFor="let model of ff.models" class="list-group-item">
-          <div class="section-link">{{ model.id | translate }}</div>
+        <li *ngFor="let model of ff.models" class="list-group-item section-link-item">
+          <div class="section-link">{{ model.id | translate }}<span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
         </li>
       </ul>
     </li>
