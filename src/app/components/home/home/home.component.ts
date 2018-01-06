@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,30 +11,34 @@ export class HomeComponent implements OnInit {
     {
       id: 'training',
       models: [
-        {id: 'listening', link: ''},
-        {id: 'listeningOneByOne', link: ''},
-        {id: 'listeningOneByOneRandomOrder', link: ''},
-        {id: 'clickAndRead', link: ''},
-        {id: 'clickAndReadRandomOrder', link: ''}
+        {id: 'listening', link: '/game/fillcolor'},
+        {id: 'listeningOneByOne', link: 'game/fillcolor'},
+        {id: 'listeningOneByOneRandomOrder', link: 'game/fillcolor'},
+        {id: 'clickAndRead', link: 'game/fillcolor'},
+        {id: 'clickAndReadRandomOrder', link: 'game/fillcolor'}
       ]
     }, {
       id: 'gaming',
       models: [
-        {id: 'fillInTheColor', link: ''},
-        {id: 'matchingShape', link: ''}
+        {id: 'fillInTheColor', link: 'game/fillcolor'},
+        {id: 'matchingShape', link: 'game/fillcolor'}
       ]
     }, {
       id: 'testing',
       models: [
-        {id: 'listenAndRead', link: ''},
-        {id: 'listenAndReadRandomOrder', link: ''}
+        {id: 'listenAndRead', link: 'game/fillcolor'},
+        {id: 'listenAndReadRandomOrder', link: 'game/fillcolor'}
       ]
     }
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  navigateTo(link) {
+    this.router.navigate([link]);
   }
 
 }

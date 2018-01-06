@@ -1,4 +1,5 @@
 import { BrowserModule,  } from '@angular/platform-browser';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Routes, RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -45,20 +46,13 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export const ROUTES: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'features',
-    component: FeaturesComponent,
+  {path: '', component: HomeComponent},
+  {path: 'game', component: FeaturesComponent,
     children: [
-      {
-        path: 'fillcolor',
-        component: FillInTheColorComponent
-      }
+      {path: 'fillcolor', component: FillInTheColorComponent}
     ]
   },
+  {path: '**', component: HomeComponent}
 ];
 
 @NgModule({
@@ -73,7 +67,7 @@ export const ROUTES: Routes = [
   imports: [
     BsDropdownModule.forRoot(),
     PaginationModule.forRoot(),
-    RouterModule.forRoot(ROUTES),
+    RouterModule.forRoot(ROUTES, {useHash: true, enableTracing: true}),
     BrowserModule,
     FormsModule,
     HttpClientModule,
@@ -106,4 +100,6 @@ export const ROUTES: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+platformBrowserDynamic().bootstrapModule(AppModule);
 // export class ChildModule {}
