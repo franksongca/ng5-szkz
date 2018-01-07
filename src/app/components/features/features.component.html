@@ -1,14 +1,14 @@
 <div class="func-section" #funcEle>
   <div class="top-bar">
     <div class="app-title">{{ 'appTitle' | translate:param }}</div><img *ngIf="fullScreen" class="game-title-top" src="./assets/images/page/game-ts.png">
-    <a href="#" (click)="toggleHeader($event)" class="full-screen-btn pull-right"><span class="glyphicon glyphicon-resize-full" *ngIf="!fullScreen"></span><span class="glyphicon glyphicon-resize-small" *ngIf="fullScreen"></span></a>
+    <a href="#" (click)="toggleHeader($event)" class="full-screen-btn pull-right"><span class="glyphicon glyphicon-chevron-down" *ngIf="fullScreen"></span><span class="glyphicon glyphicon-chevron-up" *ngIf="!fullScreen"></span></a>
   </div>
 
-  <div class="app-banner" *ngIf="!fullScreen">
+  <div class="app-banner" [hidden]="fullScreen">
     <div class="control-section">
       <div class="command-bar">
         <img class="game-title" src="./assets/images/page/game-ts.png">
-        <span class="glyphicon glyphicon-home"></span>
+        <a routerLink="/"><span class="glyphicon glyphicon-home"></span></a>
       </div>
     </div>
     <app-page-selector></app-page-selector>
@@ -16,5 +16,13 @@
 </div>
 
 <div class="work-zone" [ngStyle]="{'height': (_win.innerHeight - el.nativeElement.offsetHeight) + 'px'}">
-  <app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color>
+  <!--app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color-->
+  <ng-container [ngSwitch]="featureName">
+    <ng-container *ngSwitchCase="'fillcolor'">
+      <app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color>
+    </ng-container>
+
+  </ng-container>
+
+
 </div>

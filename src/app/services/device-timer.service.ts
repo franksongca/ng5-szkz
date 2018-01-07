@@ -70,7 +70,7 @@ export class DeviceTimerService {
     DeviceTimerService.animationFrame = DeviceTimerService.requestAnimationFrame(DeviceTimerService.deviceTimer);
   }
 
-  private static unregister(timeStamp) {
+  public static unregister(timeStamp) {
     delete DeviceTimerService.processes[timeStamp];
   }
 

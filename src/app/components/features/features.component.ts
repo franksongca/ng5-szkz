@@ -1,52 +1,53 @@
-/// <reference path='../../../../node_modules/createjs-module/createjs.d.ts' />
-import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { ArticleListService } from './../../services/sz/article-list.service';
+import { Component, HostListener, ViewChild, ElementRef, AfterContentInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleService } from './../../services/sz/article.service';
-import { DeviceTimerService } from './../../services/device-timer.service';
-import { CommonService } from './../../services/common.service';
 import { CanvasService } from './../../services/canvas.service';
-import * as createjs from 'createjs-module';
 
 @Component({
   selector: 'app-features',
   templateUrl: './features.component.html',
   styleUrls: ['./features.component.scss']
 })
-export class FeaturesComponent {
+export class FeaturesComponent implements AfterContentInit, OnDestroy {
   @ViewChild('funcEle') el: ElementRef;
 
   _win;
   fullScreen = false;
+  featureName;
 
   @HostListener('window:resize') onResize($event) {
     CanvasService.TriggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
+    this.changeDetectorRef.detectChanges();
   }
 
   constructor(
-    private canvasService: CanvasService,
-    private commonService: CommonService,
-    private articleListService: ArticleListService,
     private articleService: ArticleService,
-    private translateService: TranslateService
+    private canvasService: CanvasService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this._win = window;
-
-    DeviceTimerService.init();
-
-    ArticleListService.loadArticleList().subscribe((response) => {
-      this.articleService.loadArticle(CommonService.productCode);
-    });
-
-    // this language will be used as a fallback when a translation isn't found in the current language
-    translateService.setDefaultLang('en');
-
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translateService.use('zh');
   }
 
   toggleHeader(e) {
     e.preventDefault();
     this.fullScreen = !this.fullScreen;
+  }
+
+  ngAfterContentInit() {
+    if (!this.articleService.isLoaded()) {
+      this.router.navigate(['/']);
+    } else {
+      this.route.params.subscribe( params => {
+        this.featureName = params.featureName;
+      });
+    }
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy() {
+
   }
 }

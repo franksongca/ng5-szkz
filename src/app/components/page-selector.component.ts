@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, ViewEncapsulation, AfterViewInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceTimerService } from './../services/device-timer.service';
 import { ArticleService } from './../services/sz/article.service';
@@ -12,12 +12,12 @@ import { AudioLoaderService } from './../services/audio.manager.service';
   styleUrls: ['./page-selector.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PageSelectorComponent implements AfterViewInit {
+export class PageSelectorComponent implements AfterViewInit, OnDestroy {
   static maxSize = [
     {w: 520, size: 1},
     {w: 570, size: 2},
     {w: 610, size: 3},
-    {w: 660, size: 4}
+    {w: 680, size: 4}
   ];
 
   paginationSettings = {
@@ -38,12 +38,11 @@ export class PageSelectorComponent implements AfterViewInit {
   showPageText = false;
 
   pageChanged(event: any): void {
-    if (this.paginationSettings.currentPage === event.page && !CommonService.FirstTime) {
+    if (this.paginationSettings.currentPage === event.page && !this.firstTime) {
      return;
     }
-    CommonService.FirstTime = false;
+    this.firstTime = false;
 
-    AudioLoaderService.play('changeSelection');
     console.log('Page changed to: ' + event.page);
     console.log('Number items per page: ' + event.itemsPerPage);
     this.paginationSettings.currentPage = event.page;
@@ -51,6 +50,10 @@ export class PageSelectorComponent implements AfterViewInit {
   }
 
   changeToPage() {
+    if (!this.winSize) {
+      return;
+    }
+    AudioLoaderService.play('changeSelection');
     CommonService.setBookmark(this.paginationSettings.currentPage);
     this.articleService.changeToPage(this.paginationSettings.currentPage);
 
@@ -85,7 +88,9 @@ export class PageSelectorComponent implements AfterViewInit {
     }
 
     setTimeout(() => {
-      this.paginationSettings.maxSize = this.getPaginationMaxSize(this.winSize.w);
+      if (this.winSize) {
+        this.paginationSettings.maxSize = this.getPaginationMaxSize(this.winSize.w);
+      }
     });
 
   }
@@ -113,8 +118,8 @@ export class PageSelectorComponent implements AfterViewInit {
     DeviceTimerService.register({
       renderFunc: () => {
         this.paginationSettings.currentPage = CommonService.getBookmark();
-        if (CommonService.getBookmark() === 1 && CommonService.FirstTime) {
-          CommonService.FirstTime = false;
+        if (CommonService.getBookmark() === 1 && this.firstTime) {
+          this.firstTime = false;
           this.changeToPage();
         }
       },
@@ -137,6 +142,26 @@ export class PageSelectorComponent implements AfterViewInit {
     }
 
     this.onResize();
+  }
+
+  ngOnDestroy() {
+    this.paginationSettings = {
+      bigTotalItems: 0,
+      currentPage: 1,
+      maxSize: 5,
+      itemsPerPage: 1,
+      numPages: 1,
+      translation: {}
+    };
+    this.articleInfo = {
+      title: '',
+      pageText: ''
+    };
+
+    this.winSize = undefined;
+    this.showPageText = false;
+
+    this.firstTime = true;
   }
 
 }

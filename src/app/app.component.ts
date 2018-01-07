@@ -19,9 +19,6 @@ export class AppComponent implements AfterViewInit {
 
   constructor(private canvasService: CanvasService, private commonService: CommonService, private articleListService: ArticleListService, private articleService: ArticleService, private translateService: TranslateService) {
 
-
-
-
     DeviceTimerService.init();
 
     ArticleListService.loadArticleList().subscribe((response) => {

@@ -1,5 +1,5 @@
 /// <reference path="../../../../../node_modules/createjs-module/createjs.d.ts" />
-import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
 import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
@@ -22,7 +22,7 @@ import * as createjs from 'createjs-module';
   styleUrls: ['./fill-in-the-color.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit {
+export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   static GameType = 'tyts';
 
   gameSharedData;
@@ -49,11 +49,13 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     private articleService: ArticleService,
     private tytsDrawingService: TytsDrawingService
   ) {
-
+    // must be triggered by page selector
     this.articleService.onPageChanged.subscribe((n) => {
-      TytsDrawingService.GAME_OVER = 0;
-      this.pageIndex = n;
-      this.getHanziSelection();
+      if (this.articleService) {
+        this.pageIndex = this.articleService.getCurrentPage();
+        TytsDrawingService.GAME_OVER = 0;
+        this.getHanziSelection();
+      }
     });
 
     // this is one time thing
@@ -66,8 +68,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
       () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + ']')
     );
 
-
     this.loadGameData();
+
   }
 
   getHanziSelection() {
@@ -79,7 +81,24 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     this.prepareGame();
   }
 
+  ngOnDestroy() {
+    CanvasService.ClearStage();
 
+    this.marginHeight = 0;
+    this.canvasSize = {};
+
+    this.gameStatus = {
+      stageReady: false,
+      selectionReady: false
+    };
+
+    this.gameImagesInfo = undefined;
+    this.pageIndex = undefined;
+    this.hanZiSelection = undefined;
+
+    this.tytsDrawGameService = null;
+    this.articleService = null;
+  }
 
 
   ngOnInit() {

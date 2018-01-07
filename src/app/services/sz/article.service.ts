@@ -202,6 +202,10 @@ export class ArticleService {
     return this.totalPage;
   }
 
+  getCurrentPage() {
+    return this.currentPage;
+  }
+
   getArticleInfo() {
     return ArticleListService.getArticleInfo({type: this.articleType, code: this.articleCode});
   }

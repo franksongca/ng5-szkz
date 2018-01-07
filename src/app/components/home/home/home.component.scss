@@ -5,8 +5,8 @@
 }
 
 .list-group {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 2vw;
+  margin-right: 2vw;
 }
 
 .title {
@@ -16,6 +16,7 @@
   text-align: center;
   position: fixed;
   font-size: 1.5em;
+  font-size: 6vw;
   font-weight: bold;
   z-index: 50;
   background-color: red;
@@ -24,38 +25,36 @@
 
 
 .logo {
-  padding-top: 40px;
-  padding-bottom: 20px;
+  padding-top: calc(20px + 6vw + 3vh);
+  padding-bottom: 5vh;
   text-align: center;
 }
 
 
 .section {
-  margin-left: auto;
-  margin-right: auto;
-
   max-width: 500px;
-
   margin-bottom: 0;
 }
 
 .section-icon {
-  margin-top: -10px;
-  margin-right: 20px;
-  height: 35px;
+  margin-top: -15px;
+  margin-right: 2vw;
+  min-height: 35px;
+  max-height: 60px;
+  height: 7vw;
 }
 
 .section-title {
   margin-top: 3px;
   margin-bottom: 3px;
   margin-left: 20px;
-  font-size: 1.9em;
+  font-size: 5.5vw;
   font-weight: bold;
   color: #0080ff;
 }
 
 .section-link {
-  font-size: 1.4em;
+  font-size: 4vw;
   color: cornflowerblue;
 }
 

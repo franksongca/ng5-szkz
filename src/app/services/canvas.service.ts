@@ -11,7 +11,10 @@ export enum Oritation {
 @Injectable()
 export class CanvasService {
   private static _CanvasId = 'szkzCanvas';
-  private static _WindowSize;
+  private static _WindowSize = {
+    w: window.innerWidth,
+    h: window.innerHeight
+  };
   private static _ResizeEventHabdler;
   private static _Stage;
   private static _CanvasSize = [
@@ -21,6 +24,8 @@ export class CanvasService {
   private static _RealCanvasSize;
   private static _Oritation;
   private static _BackgroundColor = 'lightyellow';
+
+  private static _updateTimeStamp;
 
   private onResized: EventEmitter<any> = new EventEmitter();
 
@@ -88,6 +93,19 @@ export class CanvasService {
     return CanvasService._BackgroundColor;
   }
 
+  static ClearStage() {
+    if (CanvasService._Stage) {
+      CanvasService._Stage.removeAllChildren();
+      CanvasService._Stage.clear();
+      CanvasService._Stage = null;
+
+
+      DeviceTimerService.unregister(CanvasService._updateTimeStamp);
+      CanvasService._updateTimeStamp = undefined;
+    }
+
+  }
+
   static CreateStage() {
     if (!CanvasService._Stage) {
       CanvasService._Stage = new createjs.Stage(CanvasService._CanvasId);
@@ -100,7 +118,7 @@ export class CanvasService {
         interval: 1
       };
 
-      DeviceTimerService.register(process);
+      CanvasService._updateTimeStamp = DeviceTimerService.register(process);
     }
 
     CanvasService._Stage.scaleX = CanvasService._Stage.scaleY = CanvasService._Stage.scale = 1;

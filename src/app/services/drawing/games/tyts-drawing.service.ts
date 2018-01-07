@@ -161,26 +161,26 @@ export class TytsDrawingService extends DrawingService {
   }
 
   static createColorPlate(options) {
-    if (TytsDrawingService.ColorPlateObject && TytsDrawingService.ColorPlateObject.container) {
-      TytsDrawingService.ColorPlateObject.container.clear();
-    } else {
+    // if (TytsDrawingService.ColorPlateObject && TytsDrawingService.ColorPlateObject.container) {
+    //   TytsDrawingService.ColorPlateObject.container.removeAllChildren(); // clear();
+    // } else {
       TytsDrawingService.ColorPlateObject = {
         container: new createjs.Container()
       };
-    }
+    //}
 
-    if (TytsDrawingService.ColorPlateObject.Items && TytsDrawingService.ColorPlateObject.Items.container) {
-      TytsDrawingService.ColorPlateObject.Items.container.clear();
-
-      TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
-        item.container.clear();
-      });
-    } else {
+    // if (TytsDrawingService.ColorPlateObject.Items && TytsDrawingService.ColorPlateObject.Items.container) {
+    //   TytsDrawingService.ColorPlateObject.Items.container.removeAllChildren(); // clear();
+    //
+    //   TytsDrawingService.ColorPlateObject.Items.items.forEach((item) => {
+    //     item.container.removeAllChildren(); // clear();
+    //   });
+    // } else {
       TytsDrawingService.ColorPlateObject.Items = {
         container: new createjs.Container(),
         items: []
       };
-    }
+    //}
 
     TytsDrawingService.ColorPlateObject.container.addChild(TytsDrawingService.ColorPlateObject.Items.container);
 
@@ -310,7 +310,7 @@ export class TytsDrawingService extends DrawingService {
 
   static createPenBrash(options) {
     if (TytsDrawingService.PenObject && TytsDrawingService.PenObject.container) {
-      TytsDrawingService.PenObject.container.clear();
+      // TytsDrawingService.PenObject.container.clear();
     }
 
     const pen = TytsDrawingService.createBitmap({data: options.penData, cursor: 'default', scale: 1});

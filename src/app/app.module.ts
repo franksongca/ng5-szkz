@@ -50,14 +50,14 @@ export const ROUTES: Routes = [
     component: HomeComponent
   },
   {
-    path: 'features',
-    component: FeaturesComponent,
-    children: [
-      {
-        path: 'fillcolor',
-        component: FillInTheColorComponent
-      }
-    ]
+    path: 'feature/:featureName',
+    component: FeaturesComponent
+    // children: [
+    //   {
+    //     path: 'fillcolor',
+    //     component: FillInTheColorComponent
+    //   }
+    // ]
   },
 ];
 
