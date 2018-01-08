@@ -3,8 +3,8 @@ import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewEncapsulation, 
 import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
 import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
-import { CommonService } from './../../../services/common.service';
-import { CanvasService } from './../../../services/canvas.service';
+import { CommonService } from '../../../services/common.service';
+import { CanvasService } from '../../../services/canvas.service';
 import { ArticleService } from '../../../services/sz/article.service';
 import { HanziSelectionService } from '../../../services/sz/hanzi-selection.service';
 

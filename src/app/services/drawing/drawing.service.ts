@@ -111,19 +111,6 @@ export class DrawingService {
     return lines;
   }
 
-  // static createPenBrash(options) {
-  //   const c = new createjs.Shape();
-  //   c.graphics.beginFill(options.fill);
-  //   c.graphics.beginStroke(options.stroke);
-  //   c.graphics.moveTo(10, 0);
-  //   c.graphics.quadraticCurveTo(4, 40, 18, 60);
-  //   c.graphics.quadraticCurveTo(36, 40, 26, 0);
-  //   c.graphics.lineTo(10, 0);
-  //
-  //   return c;
-  // }
-
-
   protected static getRGB(colorValue) {
     if (typeof colorValue !== 'string') {
       colorValue = createjs.Graphics.getRGB(colorValue.r, colorValue.g, colorValue.b, colorValue.a ? colorValue.a : 1);

@@ -32,11 +32,12 @@ import { TytsDrawGameService } from './services/game/tyts/tyts-draw-game.service
 
 import { AppComponent } from './app.component';
 
-import { FillInTheColorComponent } from './games/fill-in-the-color/template/fill-in-the-color.component';
+import { FillInTheColorComponent } from './components/games/fill-in-the-color/fill-in-the-color.component';
 import { PageSelectorComponent } from './components/page-selector.component';
 import { CanvasTemplateComponent } from './components/canvas-template/canvas-template.component';
 import { HomeComponent } from './components/home/home/home.component';
-import { FeaturesComponent } from './components/features/features.component';
+import { FeaturesComponent } from './components/features-template/features.component';
+import { ListeningComponent } from './components/trainings/listening/listening.component';
 
 
 // AoT requires an exported function for factories
@@ -68,7 +69,8 @@ export const ROUTES: Routes = [
     PageSelectorComponent,
     CanvasTemplateComponent,
     HomeComponent,
-    FeaturesComponent
+    FeaturesComponent,
+    ListeningComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
