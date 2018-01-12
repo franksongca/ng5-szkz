@@ -13,8 +13,8 @@ export class ZiDrawingService extends createjs.Container {
     super();
   }
 
-  createHz(hzText: string, stylesSettings: any) {
-    this.stylesSettings = stylesSettings;
+  createHz(hzText: string, settings: any) {
+    this.stylesSettings = settings.stylesSettings;
     const shapeSettings = {
       pos: {x: 0, y: 0},
       size: {

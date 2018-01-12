@@ -16,9 +16,15 @@
 </div>
 
 <div class="work-zone" [ngStyle]="{'height': (_win.innerHeight - el.nativeElement.offsetHeight) + 'px'}">
+
   <ng-container [ngSwitch]="featureName">
-    <ng-container *ngSwitchCase="'fillcolor'">
+    <ng-container *ngSwitchCase="'fillInTheColor'">
       <app-fill-in-the-color class="fill-in-the-color"></app-fill-in-the-color>
     </ng-container>
+
+    <ng-container *ngSwitchCase="'listening'">
+      <app-training-listening class="fill-in-the-color"></app-training-listening>
+    </ng-container>
+
   </ng-container>
 </div>

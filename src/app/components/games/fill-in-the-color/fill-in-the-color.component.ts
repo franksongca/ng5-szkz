@@ -1,5 +1,7 @@
 /// <reference path="../../../../../node_modules/createjs-module/createjs.d.ts" />
 import { Component, OnInit, Input, AfterViewInit, OnChanges, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { ISubscription } from 'rxjs/Subscription';
+
 import { TranslateService } from '@ngx-translate/core';
 import { ImageDataService } from '../../../services/game/image-data.service';
 import { TytsDrawingService } from '../../../services/drawing/games/tyts-drawing.service';
@@ -41,6 +43,8 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   pageIndex;
   hanZiSelection;
 
+  subscriptions = [];
+
   constructor(
     private commonService: CommonService,
     private canvasService: CanvasService,
@@ -50,23 +54,23 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
     private tytsDrawingService: TytsDrawingService
   ) {
     // must be triggered by page selector
-    this.articleService.onPageChanged.subscribe((n) => {
+    this.subscriptions.push(this.articleService.onPageChanged.subscribe((n) => {
       if (this.articleService) {
         this.pageIndex = this.articleService.getCurrentPage();
         TytsDrawingService.GAME_OVER = 0;
         this.getHanziSelection();
       }
-    });
+    }));
 
     // this is one time thing
-    this.imageDataService.loadGameSharedData(FillInTheColorComponent.GameType).subscribe(
+    this.subscriptions.push(this.imageDataService.loadGameSharedData(FillInTheColorComponent.GameType).subscribe(
       (response) => {
         this.gameSharedData = response;
 
         this.drawGameStage();
       },
       () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + ']')
-    );
+    ));
 
     this.loadGameData();
 
@@ -82,7 +86,11 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
   }
 
   ngOnDestroy() {
-    CanvasService.ClearStage();
+    this.subscriptions.forEach((s) => {
+      s.unsubscribe();
+    });
+
+    this.subscriptions = [];
 
     this.marginHeight = 0;
     this.canvasSize = {};
@@ -133,14 +141,14 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
   // invoked after game code changed
   loadGameData() {
-    this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
+    this.subscriptions.push(this.imageDataService.loadTytsGameData(FillInTheColorComponent.GameType, this.gameCode).subscribe(
       (response) => {
         this.gameImagesInfo = response;
 
         this.drawGameStage();
       },
       () => console.log('error occurs when loading images of [' + FillInTheColorComponent.GameType + '][' + this.gameCode + ']')
-    );
+    ));
   }
 
 

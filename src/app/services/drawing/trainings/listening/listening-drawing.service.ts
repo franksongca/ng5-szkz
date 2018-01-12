@@ -8,4 +8,5 @@ export class ListeningDrawingService extends BaseTrainingsDrawingService {
     super();
   }
 
+
 }

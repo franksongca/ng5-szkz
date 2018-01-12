@@ -19,6 +19,8 @@ import { ZiDrawingService } from './services/drawing/zi.drawing.service';
 import { PinyinDrawingService } from './services/drawing/pinyin.drawing.service';
 import { HanziDrawingService } from './services/drawing/hanzi.drawing.service';
 import { TytsDrawingService } from './services/drawing/games/tyts-drawing.service';
+import { BaseTrainingsDrawingService } from './services/drawing/trainings/base.trainings.drawing.service';
+import { ListeningDrawingService } from './services/drawing/trainings/listening/listening-drawing.service';
 
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
@@ -51,7 +53,7 @@ export const ROUTES: Routes = [
     component: HomeComponent
   },
   {
-    path: 'feature/:featureName',
+    path: 'training/:featureName',
     component: FeaturesComponent
     // children: [
     //   {
@@ -60,6 +62,14 @@ export const ROUTES: Routes = [
     //   }
     // ]
   },
+  {
+    path: 'gaming/:featureName',
+    component: FeaturesComponent
+  },
+  {
+    path: 'testing/:featureName',
+    component: FeaturesComponent
+  }
 ];
 
 @NgModule({
@@ -103,7 +113,9 @@ export const ROUTES: Routes = [
     AudioLoaderService,
     ImageDataService,
     TytsDrawGameService,
-    TytsDrawingService
+    TytsDrawingService,
+    ListeningDrawingService,
+    BaseTrainingsDrawingService
   ],
   bootstrap: [AppComponent]
 })

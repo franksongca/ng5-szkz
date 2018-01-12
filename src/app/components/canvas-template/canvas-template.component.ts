@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import enumerate = Reflect.enumerate;
 import { CanvasService, Oritation } from './../../services/canvas.service';
 
@@ -9,7 +9,7 @@ import { CanvasService, Oritation } from './../../services/canvas.service';
   templateUrl: './canvas-template.component.html',
   styleUrls: ['./canvas-template.component.scss']
 })
-export class CanvasTemplateComponent implements OnInit, AfterViewInit {
+export class CanvasTemplateComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() SizeChange = new EventEmitter<any>();
 
   canvasSettings = {
@@ -38,6 +38,10 @@ export class CanvasTemplateComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     CanvasService.CreateStage();
+  }
+
+  ngOnDestroy() {
+    CanvasService.ClearStage();
   }
 
 }

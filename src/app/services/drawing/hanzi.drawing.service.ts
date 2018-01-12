@@ -18,18 +18,18 @@ export class HanziDrawingService extends createjs.Container  {
     DeviceTimerService.init();
   }
 
-  createHanzi(character: any, stylesSettings: any) {
+  createHanzi(character: any, settings: any) {
     this.character = character;
-    this.stylesSettings = stylesSettings;
+    this.stylesSettings = settings.stylesSettings;
 
     this.ziObj = new ZiDrawingService();
-    this.ziObj.createHz(this.character.hanZi, this.stylesSettings);
+    this.ziObj.createHz(this.character.word, settings);
 
     this.ziObj.x = 1;
     this.ziObj.y = this.stylesSettings.pinyinOptions.lineDist * 3 + this.stylesSettings.pinyinOptions.marginTop;
 
     this.pinyinObj = new PinyinDrawingService();
-    this.pinyinObj.createPinyin(this.character.pinyinObj, this.stylesSettings.pinyinOptions);
+    this.pinyinObj.createPinyin(this.character.ziObj.pinyinObj, this.stylesSettings.pinyinOptions);
     this.pinyinObj.x = 1;
     this.pinyinObj.y = 1;
     this.addChild(this.pinyinObj);
