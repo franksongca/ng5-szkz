@@ -63,7 +63,8 @@ export class BaseTrainingsDrawingService extends DrawingService {
         'fontFamily': 'Arial',
         'size': {
           'w': 100
-        }
+        },
+        'letterDist': 2
       }
     }
   };
@@ -73,17 +74,26 @@ export class BaseTrainingsDrawingService extends DrawingService {
   canvasService: CanvasService;
   hanziDrawingService: HanziDrawingService;
 
+  canvasSize;
   containerHanzi;
   hanziCollection;
 
+  subscription;
+
   constructor() {
     super();
-
   }
 
-
-
   drawHanzi(collection?) {
+    if (!this.subscription) {
+      this.subscription = CanvasService.ResizeEventHabdler.subscribe((sizeAndOrtation) => {
+        if (this.hanziCollection) {
+          this.canvasSize = sizeAndOrtation.canvasSize;
+          this.drawHanzi();
+        }
+      });
+    }
+
     if (collection) {
       this.hanziCollection = collection;
     }
@@ -94,37 +104,84 @@ export class BaseTrainingsDrawingService extends DrawingService {
     const size = CanvasService.WindowSize;
     let charsLines = 8;
 
-    if (size.w <= BaseTrainingsDrawingService.SMALL_DEVICE_WIDTH) {
+    if (size.w <= size.h) {
       charsLines = 4;
     }
 
     let startY = 0;
-    let index = 0;
+    let rowIndex = 0;
+    let lineIndex = 0;
 
-    this.hanziCollection.forEach((hz) => {
+    const containerLine = [];
+
+    containerLine[lineIndex] = BaseTrainingsDrawingService.createContainer();
+
+    this.hanziCollection.forEach((hz, index) => {
       const hzDrawing = new HanziDrawingService();
 
       hzDrawing.createHanzi(hz, BaseTrainingsDrawingService.LayoutSettings);
 
-      hzDrawing.x = index * (BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.width + BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.hzMargin);
-      hzDrawing.y = startY;
+      hzDrawing.x = rowIndex * (BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.width + BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.hzMargin);
+      hzDrawing.y = 0;
 
+      containerLine[lineIndex].addChild(hzDrawing);
 
-      this.containerHanzi.addChild(hzDrawing);
-      if ((index + 1) % charsLines === 0) {
-        index = 0;
-        startY += BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.width +
-          BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.hzMargin +
-          BaseTrainingsDrawingService.LayoutSettings.stylesSettings.pinyinOptions.lineDist * 3 +
-          BaseTrainingsDrawingService.LayoutSettings.stylesSettings.pinyinOptions.marginTop;
+      // this.containerHanzi.addChild(hzDrawing);
+      if ((rowIndex + 1) % charsLines === 0) {
+        containerLine[lineIndex].y = startY;
+        this.containerHanzi.addChild(containerLine[lineIndex]);
+
+        if (index < this.hanziCollection.length - 1) {
+          lineIndex ++;
+          containerLine[lineIndex] = BaseTrainingsDrawingService.createContainer();
+
+          rowIndex = 0;
+          startY += BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.width +
+            BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.hzMargin +
+            BaseTrainingsDrawingService.LayoutSettings.stylesSettings.pinyinOptions.lineDist * 3 +
+            BaseTrainingsDrawingService.LayoutSettings.stylesSettings.pinyinOptions.marginTop;
+        }
       } else {
-        index ++;
+        rowIndex ++;
       }
-
     });
+
+
+
+
+    // this.containerHanzi.scaleX = this.containerHanzi.scaleY = this.containerHanzi.scale = this.containerHanzi.scaleX / CanvasService.Stage.scale;
+
+
+    let marginLeft = 30;
+
+    if (size.w < BaseTrainingsDrawingService.EXTRA_SMALL_DEVICE_WIDTH) {
+      marginLeft = 5;
+    } else if (size.w < BaseTrainingsDrawingService.EXTRA_SMALL_DEVICE_WIDTH) {
+      marginLeft = 15;
+    }
+
+    const realWidth = size.w / CanvasService.Stage.scale - 2 * marginLeft - 10;
+    const bd = this.containerHanzi.getBounds();
+
+    this.containerHanzi.x = marginLeft;
+
+    const scale = realWidth / bd.width;
+    this.containerHanzi.scaleX = this.containerHanzi.scaleY = this.containerHanzi.scale = scale;
+
+    const restHeight = (CanvasService.CanvasSize.h / CanvasService.Stage.scale - bd.height) / (lineIndex + 3);
+
+    containerLine.forEach((cl, index) => {
+      cl.y = index * (containerLine[0].getBounds().height + restHeight);
+    });
+
+    this.containerHanzi.y = restHeight / 4;
 
     CanvasService.Stage.addChild(this.containerHanzi);
   }
 
+  destroy() {
+    this.subscription.unsubscribe();
+    this.subscription = null;
+  }
 
 }

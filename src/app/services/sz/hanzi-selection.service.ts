@@ -152,7 +152,10 @@ export class HanziSelectionService {
   init(): void {
     this._unique_hanzi_0 = [];
     for (let i = 0; i < this._hanzi.length; i++) {
-      this.searchAndAddUnique(this._hanzi[i]);
+      const a = this._hanzi[i];
+      if (this._hanzi[i].Spelling) {
+        this.searchAndAddUnique(this._hanzi[i]);
+      }
     }
   }
 

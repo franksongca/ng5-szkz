@@ -174,6 +174,9 @@ export class FillInTheColorComponent implements OnInit, OnChanges, AfterViewInit
 
   drawGameStage() {
     if (this.gameImagesInfo && this.gameSharedData) {
+
+      // CanvasService.Stage.removeAllChildren();
+
       this.tytsDrawGameService = new TytsDrawGameService({
         imageInfo: this.gameImagesInfo,
         scale: 1.1,

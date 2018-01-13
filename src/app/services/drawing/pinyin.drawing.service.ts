@@ -25,17 +25,27 @@ export class PinyinDrawingService extends createjs.Container {
 
     this.letters = pinyinInfo;
 
-    const margin = (pinyinConfig.size.w - this.letters.length * pinyinConfig.lineDist) / 2;
+    let accumlatedWidth = 0;
+
+    const lettersContainer = DrawingService.createContainer();
+
     this.letters.forEach((l, index) => {
       const py = DrawingService.createText(l.letter, {
         color: l.type === 's' ? pinyinConfig.shengMuColor : pinyinConfig.yunMuColor,
         fontSize: pinyinConfig.fontSize,
         fontFamily: pinyinConfig.fontFamily,
-        pos: {x: margin + index * pinyinConfig.lineDist, y: pinyinConfig.top}
+        pos: {x: accumlatedWidth, y: pinyinConfig.top}
       });
+
+
       l.letterObj  = py;
-      this.addChild(py);
+
+      accumlatedWidth += py.getMeasuredWidth() + pinyinConfig.letterDist;
+      lettersContainer.addChild(py);
     });
+
+    lettersContainer.x = (pinyinConfig.size.w - accumlatedWidth) / 2;
+    this.addChild(lettersContainer);
   }
 
   changeShengMuColor(color) {

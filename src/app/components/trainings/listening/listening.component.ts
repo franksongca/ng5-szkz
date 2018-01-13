@@ -35,6 +35,8 @@ export class ListeningComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+
+    this.listeningDrawingService.destroy();
   }
 
   getHanziSelection() {

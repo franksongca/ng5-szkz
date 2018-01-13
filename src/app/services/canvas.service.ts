@@ -74,7 +74,7 @@ export class CanvasService {
   }
 
   static get CanvasSize() {
-    return CanvasService._CanvasSize;
+    return CanvasService._RealCanvasSize;
   }
 
   static get Oritation() {
