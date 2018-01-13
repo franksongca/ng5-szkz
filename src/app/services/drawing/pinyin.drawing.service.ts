@@ -15,10 +15,15 @@ export class PinyinDrawingService extends createjs.Container {
   createPinyin(pinyinInfo, pinyinConfig) {
     // let lettersNum = pinyinInfo.length;
     this.pinyinConfig = pinyinConfig;
-    this.letters = pinyinInfo;
     this.lines = DrawingService.createPinyinLines(pinyinConfig);
 
     this.addChild(this.lines);
+
+    if (!pinyinInfo) {
+      return;
+    }
+
+    this.letters = pinyinInfo;
 
     const margin = (pinyinConfig.size.w - this.letters.length * pinyinConfig.lineDist) / 2;
     this.letters.forEach((l, index) => {

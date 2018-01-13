@@ -4,7 +4,8 @@ import * as createjs from 'createjs-module';
 
 @Injectable()
 export class DrawingService {
-  static PenObject;
+  static EXTRA_SMALL_DEVICE_WIDTH = 480;
+  static SMALL_DEVICE_WIDTH = 768;
 
   constructor() {
   }

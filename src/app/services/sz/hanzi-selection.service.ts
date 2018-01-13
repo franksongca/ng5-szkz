@@ -18,9 +18,9 @@ export class HanziSelectionService {
 
     pageContent.characters.forEach((c) => {
       const ch = new ZiService(c);
+      this._hanzi.push(ch);
       if (ch.Spelling !== '') {
         // _hanzi[i] = new ZI(this.ziXML.zi[i]);
-        this._hanzi.push(ch);
         this._hanzi_id.push(ch.ID);
       }
     });

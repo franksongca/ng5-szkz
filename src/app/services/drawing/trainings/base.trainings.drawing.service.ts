@@ -34,6 +34,7 @@ export class BaseTrainingsDrawingService extends DrawingService {
         'fontFamily': '楷体',
         'hzColor': 'blue',
         'hzPadding': 3,
+        'hzMargin': 5,
         'grid': {
           'thickness': 1,
           'hzBoxBorder': 'red',
@@ -73,20 +74,53 @@ export class BaseTrainingsDrawingService extends DrawingService {
   hanziDrawingService: HanziDrawingService;
 
   containerHanzi;
+  hanziCollection;
 
   constructor() {
     super();
 
-    this.containerHanzi = BaseTrainingsDrawingService.createContainer();
   }
 
-  drawHanzi(collection) {
-    collection.forEach((hz) => {
+
+
+  drawHanzi(collection?) {
+    if (collection) {
+      this.hanziCollection = collection;
+    }
+
+    CanvasService.Stage.removeAllChildren();
+    this.containerHanzi = BaseTrainingsDrawingService.createContainer();
+
+    const size = CanvasService.WindowSize;
+    let charsLines = 8;
+
+    if (size.w <= BaseTrainingsDrawingService.SMALL_DEVICE_WIDTH) {
+      charsLines = 4;
+    }
+
+    let startY = 0;
+    let index = 0;
+
+    this.hanziCollection.forEach((hz) => {
       const hzDrawing = new HanziDrawingService();
 
       hzDrawing.createHanzi(hz, BaseTrainingsDrawingService.LayoutSettings);
 
+      hzDrawing.x = index * (BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.width + BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.hzMargin);
+      hzDrawing.y = startY;
+
+
       this.containerHanzi.addChild(hzDrawing);
+      if ((index + 1) % charsLines === 0) {
+        index = 0;
+        startY += BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.width +
+          BaseTrainingsDrawingService.LayoutSettings.stylesSettings.zi.hzMargin +
+          BaseTrainingsDrawingService.LayoutSettings.stylesSettings.pinyinOptions.lineDist * 3 +
+          BaseTrainingsDrawingService.LayoutSettings.stylesSettings.pinyinOptions.marginTop;
+      } else {
+        index ++;
+      }
+
     });
 
     CanvasService.Stage.addChild(this.containerHanzi);
