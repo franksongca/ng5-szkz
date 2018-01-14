@@ -20,7 +20,7 @@ import { PinyinDrawingService } from './services/drawing/pinyin.drawing.service'
 import { HanziDrawingService } from './services/drawing/hanzi.drawing.service';
 import { TytsDrawingService } from './services/drawing/games/tyts-drawing.service';
 import { BaseTrainingsDrawingService } from './services/drawing/trainings/base.trainings.drawing.service';
-import { ListeningDrawingService } from './services/drawing/trainings/listening/listening-drawing.service';
+import { TrainingDrawingService } from './services/drawing/trainings/training-drawing.service';
 
 import { ArticleListService } from './services/sz/article-list.service';
 import { ArticleService } from './services/sz/article.service';
@@ -39,7 +39,7 @@ import { PageSelectorComponent } from './components/page-selector.component';
 import { CanvasTemplateComponent } from './components/canvas-template/canvas-template.component';
 import { HomeComponent } from './components/home/home/home.component';
 import { FeaturesComponent } from './components/features-template/features.component';
-import { ListeningComponent } from './components/trainings/listening/listening.component';
+import { TrainingComponent } from './components/trainings/training.component';
 
 
 // AoT requires an exported function for factories
@@ -80,7 +80,7 @@ export const ROUTES: Routes = [
     CanvasTemplateComponent,
     HomeComponent,
     FeaturesComponent,
-    ListeningComponent
+    TrainingComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -114,7 +114,7 @@ export const ROUTES: Routes = [
     ImageDataService,
     TytsDrawGameService,
     TytsDrawingService,
-    ListeningDrawingService,
+    TrainingDrawingService,
     BaseTrainingsDrawingService
   ],
   bootstrap: [AppComponent]

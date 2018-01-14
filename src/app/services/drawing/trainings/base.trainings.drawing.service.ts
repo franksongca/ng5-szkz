@@ -180,7 +180,9 @@ export class BaseTrainingsDrawingService extends DrawingService {
   }
 
   destroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     this.subscription = null;
   }
 

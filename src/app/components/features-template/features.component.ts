@@ -14,6 +14,7 @@ export class FeaturesComponent implements AfterContentInit, OnDestroy {
   _win;
   fullScreen = false;
   featureName;
+  urlPath;
 
   @HostListener('window:resize') onResize($event) {
     CanvasService.TriggerResizeEvent({w: window.innerWidth, h: window.innerHeight});
@@ -39,6 +40,7 @@ export class FeaturesComponent implements AfterContentInit, OnDestroy {
     if (!this.articleService.isLoaded()) {
       this.router.navigate(['/']);
     } else {
+      this.urlPath = this.route.url['value'][0].path;
       this.route.params.subscribe( params => {
         this.featureName = params.featureName;
       });

@@ -10,23 +10,23 @@ export class HomeComponent implements OnInit {
     {
       id: 'training',
       models: [
-        {id: 'listening', link: ''},
-        {id: 'listeningOneByOne', link: ''},
-        {id: 'listeningOneByOneRandomOrder', link: ''},
-        {id: 'clickAndRead', link: ''},
-        {id: 'clickAndReadRandomOrder', link: ''}
+        {id: 'listening', model:  ''},
+        {id: 'listeningOneByOne', model:  ''},
+        {id: 'listeningOneByOneRandomOrder', model:  ''},
+        {id: 'clickAndRead', model:  ''},
+        {id: 'clickAndReadRandomOrder', model:  ''}
       ]
     }, {
       id: 'gaming',
       models: [
-        {id: 'fillInTheColor', link: ''},
-        {id: 'matchingShape', link: ''}
+        {id: 'fillInTheColor', model:  ''},
+        {id: 'matchingShape', model:  ''}
       ]
     }, {
       id: 'testing',
       models: [
-        {id: 'listenAndRead', link: ''},
-        {id: 'listenAndReadRandomOrder', link: ''}
+        {id: 'listenAndRead', model:  ''},
+        {id: 'listenAndReadRandomOrder', model:  ''}
       ]
     }
   ];

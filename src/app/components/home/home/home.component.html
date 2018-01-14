@@ -10,7 +10,9 @@
       <div class="section-title"><img src="./assets/images/page/Learning-section.png" class="section-icon">{{ ff.id | translate }}</div>
       <ul class="list-group">
         <li *ngFor="let model of ff.models" class="list-group-item section-link-item">
-          <a [routerLink]="[ff.id, model.id]"><div class="section-link">{{ model.id | translate }}<span class="glyphicon glyphicon-chevron-right pull-right"></span></div></a>
+          <a [routerLink]="[ff.id, model.id]">
+            <div class="section-link">{{ model.id | translate }}<span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
+          </a>
         </li>
       </ul>
     </li>
